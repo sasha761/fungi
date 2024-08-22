@@ -1,0 +1,95 @@
+{% extends 'base.twig' %}
+
+{% block content %}
+  <main class="p-shop">
+    <div class="u-container">
+
+      {{breadcrumbs}}
+      
+      <h1 class="u-h2">{{title}}</h1>
+      <div class="p-shop__flex">
+        <div class="p-shop__catalog"> 
+          <section 
+            class="l-shop" 
+            data-categories="{{categories|join(', ')}}"
+            data-cat-id="{{query_object.term_id}}"
+            >
+            
+            {% if banner %}
+              <div class="l-shop__banner">
+                <img
+                  src="data:image/png;base64,TEVITGhbV0IyeWs4cHlvSmFkUiouN2tDTWRuag==" 
+                  data-src="{{banner}}" 
+                  class="l-shop__img lazy">
+              </div>
+            {% endif %}
+
+            {% if description %}
+              <div class="l-shop__text js-read-more">
+                <div class="js-read-more-text">
+                  {{ description }}
+                </div>
+                <a class="u-read-more js-read-more-btn">{{ 'Read completely' | translateString('buttons - Read completely') }}</a>
+              </div>
+            {% endif %}
+
+            <div class="l-shop__result">
+              <div class="l-shop__result-count">{{ function('woocommerce_result_count') }}</div>
+              <div class="c-sort js-filter-sort">
+                {{ function('woocommerce_catalog_ordering') }}
+              </div> 
+            </div>
+
+            <div class="l-shop__product">
+              {% if (products|length) %}
+                <div class="row js-load-more">
+                  {% for post in products %}
+                    <div class="col-lg-4 col-md-4 col-sm-6 col-6 u-col js-gallery-item">
+                      {% include 'templates/partial/product.twig' with {'data': post} %}
+                    </div>
+                  {% endfor %}
+                </div>  
+              {% else %}
+                <div class="p-shop__nofound">
+                  <h2 class="u-h3 is-center">{{ 'This page is temporarily unavailable' | translateString('Archive - page is unavailable') }}</h2>
+                </div>
+              {% endif %}
+              
+              {% if (products|length >= 16 and posts.pagination.pages|length >= 2) %}
+                <div class="c-load-icon js-load-more-icon">
+                  <span class="c-spinner">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                  </span>
+                </div>
+                <button 
+                  data-current-page="{{current_page}}"
+                  data-all-pages="{{posts.pagination.pages|length}}"
+                  data-slug="{{query_object.slug}}" 
+                  data-count="{{products|length}}" 
+                  data-all-posts="{{query_object.count}}"
+                  data-category="{{query_object.taxonomy}}"
+                  class="u-btn is-load-more is-medium is-black js-show-more-product"
+                >{{ 'Load more' | translateString('buttons - Load more') }}</button>
+              {% endif %}
+            </div>
+
+            {% include 'partial/pagination.twig' with { pagination: posts.pagination({show_all: false, mid_size: 4, end_size: 1}) } %}
+
+          </section>
+        </div> 
+        <div class="p-shop__sidebar">
+          {% include 'templates/partial/sidebar.twig' 
+            with {
+              'search': true, 
+              'product_tags': product_tags,
+              'popular_products': popular_posts
+            } 
+          %}        
+        </div>  
+      </div>
+    </div>
+  </main>
+
+{% endblock  %}

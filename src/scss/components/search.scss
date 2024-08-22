@@ -1,0 +1,51 @@
+.c-search {
+  position: relative;
+  color: #666;
+  font-family: 'Golos Text';
+  font-size: rem(15);
+  line-height: 180%;
+  max-width: rem(360);
+  width: 100%;
+  border-radius: rem(50);
+  border: 1px solid #E2E2E2;
+  background: #FFF;
+  padding: rem(10) rem(9) rem(10) rem(35);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  &__button {
+
+  }
+
+  &__submit {
+    position: absolute;
+    margin-left: auto;
+    background: #333;
+    border-radius: 3px;
+    // height: 30px;
+    padding: 7.5px 8px;
+    transition: opacity .3s;
+    top: 0px;
+    bottom: 0;
+    right: 0;
+    display: flex;
+    align-items: center;
+
+    svg {
+      fill: white;
+      display: inline-block;
+    }
+  }
+
+  input {
+    background-color: transparent;
+    padding: 0;
+    height: 100%;
+
+  }
+
+  svg {
+    stroke: #333;
+  }
+}

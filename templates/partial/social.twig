@@ -1,0 +1,69 @@
+{% if options.social and share == false %}
+  <div class="c-social">
+    {% if options.social.facebook %}
+      <a class="c-social__item" href="{{ options.social.facebook }}" rel="nofollow">
+        <svg width="14px" height="15px" class="is-facebook">
+          <use xlink:href="#icon-facebook"></use>
+        </svg>
+      </a>
+    {% endif %}
+    {% if options.social.instagram %}
+      <a class="c-social__item" href="{{ options.social.instagram }}" rel="nofollow">
+        <svg width="14px" height="15px" class="is-insta">
+          <use xlink:href="#icon-instagram"></use>
+        </svg>
+      </a>
+    {% endif %}
+    {% if options.social.youtube %}
+      <a class="c-social__item" href="{{ options.social.youtube }}" rel="nofollow">
+        <svg width="14px" height="15px" class="is-youtube">
+          <use xlink:href="#icon-youtube"></use>
+        </svg>
+      </a>
+    {% endif %}
+    {% if options.social.linkedin %}
+      <a class="c-social__item" href="{{ options.social.linkedin }}" rel="nofollow">
+        <svg width="14px" height="15px" class="is-linkedIn">
+          <use xlink:href="#icon-linkedIn"></use>
+        </svg>
+      </a>
+    {% endif %}
+    {% if options.social.telegram %}
+      <a class="c-social__item" href="{{ options.social.telegram }}" rel="nofollow">
+        <svg width="14px" height="15px" class="is-telegram">
+          <use xlink:href="#icon-telegram"></use>
+        </svg>
+      </a>
+    {% endif %}
+  </div>
+{% endif %}
+{% if share == true %}
+<div class="c-social">
+  <span class="c-social__title">Share :</span>
+  <a class="c-social__item" href="https://www.facebook.com/sharer/sharer.php?u={{ post.link|e('url') }}&t={{ post.title|e('url') }}" title="Share on Facebook" target="_blank" rel="nofollow">
+    <svg width="14px" height="15px" class="is-facebook">
+      <use xlink:href="#icon-facebook"></use>
+    </svg>
+  </a>
+  <a class="c-social__item" href="https://t.me/share/url?url={{ post.link|e('url') }}&text={{ post.title|e('url') }}" title="Share on Telegram" target="_blank" rel="nofollow">
+    <svg width="14px" height="15px" class="is-telegram">
+      <use xlink:href="#icon-telegram"></use>
+    </svg>
+  </a>
+  {# <a class="c-social__item" href="whatsapp://send?text={{ post.title|e('url') }}%20{{ post.link|e('url') }}" data-action="share/whatsapp/share" title="Share on WhatsApp" target="_blank" rel="nofollow">
+    <svg width="14px" height="15px" class="is-whatsapp">
+      <use xlink:href="#icon-whatsapp"></use>
+    </svg>
+  </a> #}
+  <a class="c-social__item" href="https://twitter.com/intent/tweet?text={{ post.title|e('url') }}&url={{ post.link|e('url') }}" target="_blank" title="Tweet" rel="nofollow">
+    <svg width="14px" height="15px" class="is-twitter">
+      <use xlink:href="#icon-twitter"></use>
+    </svg>
+  </a>
+  <a class="c-social__item" href="https://www.instagram.com/?url={{ post.link|e('url') }}" title="Share on Instagram" target="_blank" rel="nofollow">
+    <svg width="14px" height="15px" class="is-instagram">
+      <use xlink:href="#icon-instagram"></use>
+    </svg>
+  </a>
+</div>
+{% endif %}

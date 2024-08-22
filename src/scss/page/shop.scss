@@ -1,0 +1,95 @@
+.p-shop {
+	margin-bottom: rem(80);
+	margin-top: rem(24);
+	&__flex {
+		display: flex;
+		align-items: stretch;
+		justify-content: space-between;
+		// flex-wrap: wrap;
+		// margin-top: 80px;
+		// margin-bottom: 100px;
+	}
+	&__sidebar {
+    max-width: rem(410);
+		width: 100%;
+    // margin-right: 30px;
+	}
+
+	&__catalog {
+    width: 100%;
+		// max-width: rem(950);
+		margin-right: rem(32);
+	}
+
+	// &-filter-buttons {
+	// 	display: none;
+	// 	height: 42px;
+	// 	font-size: 16px;
+	// 	font-weight: 600;
+	// 	background-color: #3fbeeb;
+	// 	padding: 7px 0;
+	// 	margin: 29px -15px 59px;
+
+	// 	button {
+	// 		width: 50%;
+	// 		text-align: center;
+	// 		color: #ffffff;
+
+	// 		&:first-child {
+	// 			border-left: 1px solid #fff;
+	// 		}
+	// 	}
+	// }
+
+	@include mq('tablet-wide') {
+		&__flex {
+			flex-wrap: wrap;
+		}
+
+		&__sidebar {
+			display: none;
+		}
+
+		&__catalog {
+			max-width: 100%;
+			flex: 0 0 100%;
+		}
+
+		.l-sidebar {
+			display: none;
+		}
+	}
+
+	// @include mq('tablet') {
+	// 	.l-sidebar,
+	// 	.c-filter,
+	// 	.c-search {
+	// 		display: none;
+	// 	}
+
+	// 	&-filter-buttons {
+	// 		display: flex;
+	// 	}
+
+	// 	&__flex {
+	// 		margin-bottom: 400px;
+	// 	}
+	// }
+
+	// @include mq('phone-large') {
+	// 	.c-search {
+	// 		display: none;
+	// 	}
+	// 	.l-hero {
+	// 		display: none;
+	// 		min-height: auto;
+	// 		&__slide {
+	// 			min-height: auto;
+	// 		}
+	// 	}
+	// 	&__ordering {
+	// 		text-align: center;
+ //    	justify-content: center;
+	// 	}
+	// }
+}

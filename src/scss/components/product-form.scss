@@ -1,0 +1,101 @@
+.c-product-form {
+  margin-bottom: rem(30);
+
+  &__variation {
+    display: flex;
+    align-items: center;
+    // flex-wrap: wrap;
+
+    li {
+      display: flex;
+      width: rem(48);
+      height: rem(48);
+      box-sizing: border-box;
+      border-radius: 3px;
+      border: 1px solid #e5e5e5;
+      color: #333;
+      -webkit-box-align: center;
+      -ms-flex-align: center;
+      -webkit-box-pack: center;
+      -ms-flex-pack: center;
+      justify-content: center;
+      font-size: rem(12);
+      line-height: 1.2;
+      margin: 0 rem(8) rem(8) 0;
+      transition: .3s;
+      cursor: pointer;
+      position: relative;
+      text-align: center;
+      align-items: center;
+
+      &.is-active {
+        border-color: #333;
+      }
+    }
+  }
+
+  &__size {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    font-size: rem(14);
+    margin-bottom: rem(8);
+    color: #898686;
+
+    a {
+      text-decoration: underline;
+      cursor: pointer;
+    }
+  }
+
+  &__btn {
+    display: flex;
+    align-items: center;
+    // margin-top: rem(25);
+
+    .is-yellow {
+      margin-left: rem(4);
+    }
+
+    .c-quantity {
+      margin-right: rem(10);
+    }
+  }
+
+  .js-product-form-notification {
+    color: red;
+  }
+
+  @include mq('phone-large') {
+    margin-top: 30px;
+    margin-bottom: 30px;
+    // padding-bottom: 30px;
+
+    &__quantity {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 20px;
+    }
+
+    &__size {
+      margin-bottom: 15px;
+    }
+
+    &__btn {
+      display: block;
+      .is-black-border {
+        margin-left: 15px;
+      }
+      .u-btn.is-medium {
+        padding: 10px 10px;
+      }
+
+      .is-yellow {
+        margin-top: 10px;
+        margin-left: 0;
+      }
+    }
+  }
+}

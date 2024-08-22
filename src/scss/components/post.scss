@@ -1,0 +1,116 @@
+.c-post {
+	// padding: 0 rem(15);
+	&__img {
+		margin-bottom: rem(10);
+		img {
+			width: 100%;
+		}
+	}
+
+	&__title {
+		color: #000;
+		font-size: rem(22);
+		font-style: normal;
+		font-weight: 500;
+		line-height: 140%; 
+		padding-bottom: rem(15);
+		border-bottom: 1px solid #E2E2E2;
+		margin-bottom: rem(15);
+	}
+
+	&__category {
+		color: #F55B03;
+		font-size: rem(14);
+		font-weight: 400;
+		line-height: 1.7;
+		margin-bottom: rem(5);
+	}
+
+	&__text {
+		color: #666;
+		font-size: rem(15);
+		font-style: normal;
+		font-weight: 400;
+		line-height: 180%; 
+		
+		display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 4;
+    white-space: normal;
+    text-overflow: ellipsis;
+    overflow: hidden;
+	}
+
+	&__read-more {
+		
+	}
+
+	&__info {
+		display: flex;
+		align-items: center;
+		color: #666;
+		font-size: rem(14);
+		margin-bottom: rem(20);
+		font-style: normal;
+		font-weight: 400;
+		line-height: 1.6; 
+
+		&-date,
+		&-author {
+			padding-right: rem(11);
+			margin-right: rem(11);
+			border-right: 1px solid #E2E2E2;
+		}
+
+		&-author {
+
+		}
+	}
+
+	@include mq('tablet') {
+		border-radius: 5px;
+		border: 1px solid #E2E2E2;
+		background: #F5F5F5;
+		padding: 15px;
+
+		&__title {
+			font-size: 16px;
+			margin-bottom: 10px;
+			padding-bottom: 10px;
+		}
+
+		&__text {
+			font-size: 14px;
+		}
+		&__info {
+			font-size: 12px;
+			margin-bottom: 10px;
+			&-date,
+			&-author {
+				padding-right: 5px;
+				margin-right: 5px;;
+			}
+		}
+	}
+}
+
+
+.c-likes {
+	display: flex;
+	align-items: center;
+
+	&__item {
+		margin-right: rem(16);
+		cursor: pointer;
+
+		&:last-child {
+			margin-right: 0;
+		}
+	}
+
+	@include mq('phone-large') {
+		&__item {
+			margin-right: 5px;
+		}
+	}
+}

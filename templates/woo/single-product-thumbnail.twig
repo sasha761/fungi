@@ -1,0 +1,37 @@
+{% if is_mobile == true %}
+  {% set imgPlaceholder = 'data:image/gif;base64,R0lGODlhBAAFAIAAAP///wAAACH5BAEAAAEALAAAAAAEAAUAAAIEjI+ZBQA7' %}
+{% else %}
+  {% set imgPlaceholder = 'data:image/gif;base64,R0lGODlhBwAJAIAAAP///wAAACH5BAEAAAEALAAAAAAHAAkAAAIHjI+py+1cAAA7' %}
+{% endif %}
+
+<div class="{{ class ? class : '' }}">
+  {% if data.is_sale %}
+    <span class="l-product__sale is-red">-{{percent|round}}%</span>
+  {% endif %}
+  {% if video %}
+    <a href="{{video}}" class="js-lightbox">
+      <video class="lazy" src="{{video}}" muted playsinline autoplay loop width="550" poster="{{thumb|resize(550, height, center)|tojpg}}"></video>
+    </a>  
+  {% else %}
+    <a href="{{thumb}}" class="js-lightbox">
+      <picture>
+        <source
+          data-srcset="{{thumb_xl}}"
+          media="(min-width: 426px)"
+        >
+        <source
+          data-srcset="{{thumb_md}}"
+          media="(max-width: 425px)"
+        >
+        <img
+          src="{{imgPlaceholder}}"
+          alt="{{post.post_title|replace({'"':'\''})|raw}}"
+          title="{{post.post_title|replace({'"':'\''})|raw}}"
+          width="550"
+          height="560"
+          class="lazy"
+        >
+      </picture>
+    </a>
+  {% endif %}
+</div>

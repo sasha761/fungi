@@ -1,0 +1,21 @@
+{% extends "base.twig" %}
+
+{% block content %}
+  <main class="p-error">
+    <div class="u-container">
+      <h1 class="u-h3">{{ 'Page not found' | translateString('Page 404 - Page not found') }}</h1>
+      {% if current_lang == 'ru' %}
+        <p>Воспользуйтесь поиском по сайту или вернитесь на <a href="{{site.url}}">Главную</a></p>
+      {% elseif current_lang == 'uk' %}
+        <p>ВСкористайтеся пошуком по сайту або поверніться на <a href="{{site.url}}">Головну</a></p>
+      {% endif %}
+      <a href="{{site.url}}" class="u-btn is-black is-medium is-border-radius">{{ 'To main page' | translateString('buttons - to main page') }}</a>
+      <div class="p-error__search">
+        <p>{{ 'Use the search' | translateString('Page 404 - Use the search') }}:</p>
+        {% include 'templates/search-form.twig' %}
+      </div>
+    </div>
+  </main>
+
+
+{% endblock %}

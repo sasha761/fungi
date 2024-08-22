@@ -1,0 +1,61 @@
+<div class="l-mini-cart widget_shopping_cart_content">
+	<p class="u-h3">{{ 'Cart' | translateString('Cart - Cart') }}</p>
+	<span class="l-mini-cart__count">
+		<span class="js-mini-cart-counter">{{ minicart.count }}</span> 
+		товар
+	</span>
+	{# <div class="js-mini-cart-container"> #}
+		
+		<ul class="l-mini-cart__list">
+			{% if cart_products %}
+				{% for key, product in cart_products %}
+					<li class="l-mini-cart__item">
+						<div class="l-mini-cart__item-img">
+							<a href="{{ product.url }}">
+								{{product.thumbnail}}
+							</a>
+						</div>
+						<div class="l-mini-cart__item-info">
+							<span class="is-name">{{product.title}}</span>
+							{% if product.quantity >= 2 %}
+								<p class="is-quantity">{{ 'Quantity' | translateString('Cart - Quantity') }}: <b>{{product.quantity}}</b></p>
+							{% endif %}
+
+							<p class="c-price">
+								{{ product.price }}
+							</p>
+
+						</div>
+						<a href="{{product.delete_permalink}}" 
+							class="c-remove js-product-remove" 
+							data-product-id="{{ product.delete_productid }}" 
+							data-key="{{product.cart_item_key}}"
+							data-product-sku="{{ product.delete_sku }}">x</a>
+					</li>
+				{% endfor %}	
+			{% endif %}
+		</ul>
+		{# {% if cart_products %} #}
+			<div class="js-cart-info {% if not cart_products %} is-hide {% endif %}">
+				<div class="l-mini-cart__total">
+					<span>{{ 'Order amount' | translateString('Cart - Order amount') }}</span>
+					<span class="is-bold">{{total}}</span>
+				</div>
+
+				<div class="l-mini-cart__btn">
+					<a href="{{function('wc_get_checkout_url')}}" class="u-btn is-black" >{{ 'Place an order' | translateString('Cart - Place an order') }}</a>
+					<a href="{{function('wc_get_cart_url')}}" class="is-cart">{{ 'Go to cart' | translateString('Cart - Go to cart') }}</a>
+				</div>
+			</div>	
+		{# {% endif %} #}
+		{# {% if not cart_products %} #}
+			<p class="js-cart-empty {% if cart_products %} is-hide {% endif %}">{{ 'Cart is empty' | translateString('Cart - Cart is empty') }}</p>
+		{# {% endif %}	 #}
+	{# </div> #}
+
+	<span class="c-loader js-loader">
+		<svg aria-hidden="true" focusable="false" class="spinner" viewBox="0 0 66 66" xmlns="http://www.w3.org/2000/svg">
+			<circle class="path" fill="none" stroke-width="6" cx="33" cy="33" r="30"></circle>
+		</svg>
+	</span>
+</div>

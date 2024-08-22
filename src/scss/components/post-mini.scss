@@ -1,0 +1,38 @@
+.c-post-mini {
+	display: flex;
+	align-items: flex-start;
+	max-width: rem(300);
+
+	&__img {
+		margin-right: rem(18);
+	}
+
+	&__content {
+
+	}
+
+	&__title {
+		color: #FFF;
+		font-family: 'Golos Text';
+		font-size: rem(14);
+		font-style: normal;
+		font-weight: 400;
+		line-height: 1.7;
+	}
+
+	.c-date {
+		margin-bottom: rem(10);
+		display: flex;
+		align-items: center;
+		color: rgba(255, 255, 255, 0.80);
+		font-family: 'Golos Text';
+		font-size: rem(14);
+		font-style: normal;
+		font-weight: 400;
+		line-height: 1.7;
+
+		svg {
+			margin-right: rem(8)
+		}
+	}
+}

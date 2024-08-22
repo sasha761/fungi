@@ -1,0 +1,78 @@
+{% if is_mobile == true %}
+	{% set imgPlaceholder = 'data:image/gif;base64,R0lGODlhBQAGAIAAAP///wAAACH5BAEAAAEALAAAAAAFAAYAAAIFjI+pawUAOw==' %}
+{% else %}
+	{% set imgPlaceholder = 'data:image/gif;base64,R0lGODlhBAAFAIAAAP///wAAACH5BAEAAAEALAAAAAAEAAUAAAIEjI+ZBQA7' %}
+{% endif %}
+
+<div class="c-product js-product-item" data-id="{{data.ID}}">
+	{% if data.video %}
+		<a href="{{data.link}}" class="c-product__video">
+			<video class="js-lazy-load lazy" data-poster="{{data.thumb_xl}}" width="342" height="435" muted playsinline autoplay loop>
+		    <source data-src="{{data.video}}" type="video/mp4">
+			</video>
+
+			{% if data.is_sale %}
+				<span class="c-product__sale">-{{data.percent|round}}%</span>
+			{% endif %}	
+
+			{% if outStock == 'outofstock' %}
+				<span class="c-product__stock">{{ 'Out of stock' | translateString('Product - Out of stock') }}</span>
+			{% endif %}
+		</a>
+	{% else %}
+		<a href="{{data.link}}" class="c-product__img">
+			<picture>
+        <source
+          data-srcset="{{data.thumb_xl}}"
+          media="(min-width: 426px)"
+        >
+        <source
+          data-srcset="{{data.thumb_md}}"
+          media="(max-width: 425px)"
+        >
+        <img
+          src="{{imgPlaceholder}}"
+          alt="{{data.title|replace({'"':'\''})|raw}}"
+          width="342"
+          height="435"
+          class="lazy"
+        >
+			</picture>
+			{% if data.is_sale %}
+				<span class="c-product__sale">-{{data.percent|round}}%</span>
+			{% endif %}	
+
+			{% if outStock == 'outofstock' %}
+				<span class="c-product__stock">{{ 'Out of stock' | translateString('Product - Out of stock') }}</span>
+			{% endif %}
+		</a>
+	{% endif %}
+	<div class="c-product__body">
+		<h4 class="c-product__body-title">
+			<a href="{{data.link}}">{{data.title}}</a>
+		</h4>
+		<span class="c-price">
+			{{data.price}}
+		</span>
+	</div>
+	<div class="c-product__bottom">
+		<button 
+			type="button" 
+			class="js-add-to-cart"
+			data-product-id="{{data.ID}}"
+		>
+			<span class="c-product__bottom-text js-button-text is-show">{{ 'Add to cart' | translateString('buttons - Add to cart') }}</span>
+			<span class="c-loader js-loader is-hide">
+				<svg aria-hidden="true" focusable="false" class="spinner" viewBox="0 0 66 66" xmlns="http://www.w3.org/2000/svg">
+					<circle class="path" fill="none" stroke-width="6" cx="33" cy="33" r="30"></circle>
+				</svg>
+			</span>
+		</button>
+		{% if data.rating > 0 %}
+			<div class="star-rating" role="img">
+				<span style="width:{{(data.rating / 5) * 100}}%">
+				</span>
+			</div>
+		{% endif %}
+	</div>
+</div>

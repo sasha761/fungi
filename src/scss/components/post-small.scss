@@ -1,0 +1,49 @@
+.c-post-small {
+	display: flex;
+	align-items: stretch;
+	// max-width: rem(300);
+
+	&__img {
+		margin-right: rem(18);
+		max-width: rem(80);
+		width: 100%;
+
+		img {
+			
+		}
+	}
+
+	&__content {
+
+	}
+
+	&__date,
+	&__author {
+		display: inline-block;
+		color: #666;
+		font-size: rem(14);
+		line-height: 1.4;
+	}
+
+	&__text {
+		color: #666;
+		font-size: rem(14);
+		line-height: 1.4;
+	}
+
+	&__date {
+		padding-right: rem(10);
+		margin-right: rem(10);
+		border-right: 1px solid #E2E2E2;
+	}
+
+	&__title {
+		color: #000;
+		font-family: 'Golos Text';
+		font-size: rem(16);
+		font-weight: 500;
+		line-height: 140%;
+		margin-bottom: rem(8);
+		display: block;
+	}
+}

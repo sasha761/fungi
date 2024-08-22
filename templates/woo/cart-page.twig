@@ -1,0 +1,140 @@
+{% extends "templates/base.twig" %}
+
+{% block content %}
+
+    {# {% apply shortcodes %}
+        [woocommerce_cart]
+    {% endapply %} #}
+  <main class="p-cart">
+    <div class="u-container">
+      {# {{ post.content }} #}
+      {% do action( 'woocommerce_before_cart' ) %}
+
+      <form class="p-cart__flex woocommerce-cart-form" action="{{ action }}" method="post">
+        {% if products %}
+          <div class="l-cart">
+            <h1 class="u-h3">{{ 'Cart' | translateString('Cart - Cart') }}</h1>
+                
+            {% for product in products %}
+              {% set category  = function('wc_get_product_category_list', product.delete_productid) %}
+
+              <div class="c-product-cart">
+                <a href="{{ product.url }}" class="c-product-cart__img">
+                  <img src="{{product.thumbnail|resize(120, height, 'center')|tojpg}}">
+                </a>
+                <div class="c-product-cart__info">
+                  <div class="c-product-cart__name">
+                    {% for item in product.attr.brand %}
+                      {% set brandlink = function('get_category_link', item.term_id) %}
+                      <a href="{{brandlink}}" class="c-product-cart__name-brand">{{ 'Brand' | translateString('Cart - Brand') }}: {{item.name}}</a>
+                    {% endfor %}
+
+                    <a href="{{product.url}}" class="c-product-cart__name-title">{{product.title}}</a>
+
+                    <div class="c-price">{{product.price}}</div>
+
+                    {% if product.attr.size %}
+                      <div class="is-size mb-3">{{ 'Size' | translateString('Cart - Size') }}: {{product.attr.size}}</div>
+                    {% endif %}
+                    {% if product.attr.color %}
+                      <div class="is-color mb-3">{{ 'Color' | translateString('Cart - Color') }}: {{product.attr.color}}</div>
+                    {% endif %}
+
+                    <p class="c-product-cart__description">{{product.description|truncate(15, true, '...')}}</p>
+
+                    <div class="c-quantity">
+                      <button type="button" class="js-quantity-minus c-quantity__minus">－</button>
+                      <input type="number" step="1" min="1" max="9999" value="{{product.quantity}}" class="c-quantity__input">
+                      <button type="button" class="js-quantity-plus c-quantity__plus">＋</button>
+                    </div>
+
+                    <div class="d-block d-sm-none align-items-center">
+                      <div class="c-total js-product-total">{{product.total}}</div>
+                      <a href="{{product.delete_permalink}}" class="c-remove" data-product_id="{{ product.delete_productid }}" data-product_sku="{{ product.delete_sku }}">
+                        <svg width="20px" height="20px">
+                            <use xlink:href="#icon-close"></use>
+                        </svg>
+                        <span>{{ 'Remove' | translateString('Cart - Remove') }}</span>
+                      </a>
+                    </div>  
+                  </div>
+                    
+                  <div class="d-none d-sm-block">
+                    <div class="c-total">{{product.total}}</div>
+                      
+                    <a href="{{product.delete_permalink}}" class="c-remove" data-product_id="{{ product.delete_productid }}" data-product_sku="{{ product.delete_sku }}">
+                      <svg width="20px" height="20px">
+                        <use xlink:href="#icon-close"></use>
+                      </svg>
+                      <span>{{ 'Remove' | translateString('Cart - Remove') }}</span>
+                    </a>
+                  </div>
+                </div>
+              </div>
+            {% endfor %}
+
+            <button type="submit"
+              class="btn cart-action"
+              name="update_cart"
+              value="{{ __('Update cart', 'woocommerce') }}">
+            </button>              
+          </div>
+        {% else %}
+          <div class="l-cart l-cart-empty">
+            <h2>{{ 'Cart is empty' | translateString('Cart - Cart is empty') }}</h2>
+            <a href="{{ site.url }}/shop">{{ 'In store' | translateString('buttons - In store') }}</a>
+          </div>
+        {% endif %}
+              
+        <aside class="l-sidebar-cart actions">
+          {# <div class="l-sidebar-cart__cupons">
+            <h2 class="u-h3">{{ 'Coupons' | translateString('Cart - Coupons') }}</h2>
+
+            <div class="c-form-cupons">
+              <input type="text" name="coupon_code" id="coupon_code" value="" placeholder="{{ 'Promo code' | translateString('input - Promo code') }}">
+              <button type="submit" name="apply_coupon" value="Apply coupon" class="u-btn-submit">
+                <svg width="26px" height="14px" class="">
+                  <use xlink:href="#big-arrow"></use>
+                </svg>
+              </button>
+              {% do action('woocommerce_cart_coupon') %}
+            </div>  
+          </div> #}
+
+          <div class="l-sidebar-cart__total actions">
+            <h2 class="u-h3">{{ 'Your order' | translateString('Cart - Your order') }}</h2>
+            <ul class="l-sidebar-cart__list">
+              {{ nonce }}
+              <li class="l-sidebar-cart__item">
+                <span>{{ 'Order amount' | translateString('Cart - Order amount') }}</span>
+                <span class="c-price js-cart-amount">{{cart_total}}</span>
+              </li>
+              <li class="l-sidebar-cart__item">
+                <span>{{ 'Shipping' | translateString('Cart - Shipping') }}</span>
+                <span class="c-price js-cart-shiping">{{shipping}}</span>
+              </li>
+
+              {% if coupons %}
+                {% for item in coupons %}
+                  <li class="l-sidebar-cart__item is-red">
+                    <span>{{ 'Discount Coupon' | translateString('Cart - Discount Coupon') }}</span>
+                    <span>-{{item.amount}} {{currency}}</span>
+                  </li>
+                {% endfor %}
+              {% endif %}
+
+              <li class="l-sidebar-cart__item">
+                <span>{{ 'Total' | translateString('Cart - Total') }}</span>
+                <span class="js-cart-total">{{total}}</span>
+              </li>
+              
+              <a href="{{ site.url }}/checkout" class="u-btn is-black">
+                <span>{{ 'Place an order' | translateString('Cart - Place an order') }}</span>
+              </a>
+            </ul>
+          </div>
+        </aside>
+      </form> 
+    </div>
+  </main>
+{% endblock %}

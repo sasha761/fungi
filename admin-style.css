@@ -1,0 +1,15 @@
+.acf-relationship .list {
+	height: 320px;
+}
+.acf-relationship .list .acf-rel-item {
+	display: flex;
+	align-items: center;
+}
+.acf-relationship .list .acf-rel-item .thumbnail {
+	width: 80px;
+    height: 80px;
+}
+.acf-relationship .list .acf-rel-item .thumbnail img {
+    max-width: 80px;
+    max-height: 80px;
+}

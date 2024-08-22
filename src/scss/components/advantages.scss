@@ -1,0 +1,36 @@
+.c-advantages {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	font-size: rem(20);
+	font-weight: 500;
+	line-height: 1; 
+	&__item {
+		margin-right: rem(65);
+		display: flex;
+		align-items: center;
+		
+		svg {
+			margin-right: rem(18);
+			width: rem(27);
+			height: rem(27);
+		}
+	}
+
+	@include mq('tablet') {
+		flex-direction: column;
+		justify-content: flex-start;
+		align-items: flex-start;
+		font-size: 16px;
+		&__item {
+			margin-bottom: 10px;
+			margin-right: 0;
+
+			svg {
+				width: 20px;
+				height: 20px;
+				margin-right: 10px;
+			}
+		}
+	}
+}

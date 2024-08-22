@@ -1,0 +1,105 @@
+{# <pre>{{ dump(menu) }}</pre> #}
+{% if menu %}
+	<ul class="c-menu">
+		{% if sale %}
+			<li class="c-menu__item">
+				<a href="{{site.url}}/sales" class="d-flex align-items-center">
+					<svg width="18px" height="18px" style="margin-right: 6px;">
+			      <use xlink:href="#sales"></use>
+			    </svg>
+			    <span>Sales</span>
+				</a>
+			</li>
+		{% endif %}
+		{% for item in menu %}
+			
+			<li class="c-menu__item {{ item.current ? 'is-active' }}">
+				<a href="{{ item.link }}">
+	        <span>{{ item.title }}</span>
+	      </a>
+				{% if item.children %}
+					<svg width="11px" height="7px" class="c-menu__item-carret">
+            <use xlink:href="#icon-arrow-bottom"></use>
+          </svg>
+					<div class="c-menu__container js-sub-menu">
+						<ul class="c-sub-menu {% if item.children[0].children %} is-child-3 {% endif %}">
+
+							{% for item2 in item.children %}
+								<li class="c-sub-menu__item ">
+									{% if item2.children %}
+										<a href="{{ item2.link }}" class="c-sub-menu__item-subtitle ">
+											<span>{{ item2.title }}</span>
+										</a>
+									{% else %}
+										<a href="{{ item2.link }}">
+											<span>{{ item2.title }}</span>
+										</a>
+									{% endif %}
+
+
+									{% if item2.children %}
+										<ul class="c-sub-menu-3">
+                    {% for item3 in item2.children %}
+                      <li class="c-sub-menu__item-3">
+
+	                      {% if item3.children %}
+		                      <a>
+		                        <span>{{ item3.title }}</span>
+		                        <svg width="9px" height="6px" class="c-main-nav__caret">
+		                          <use xlink:href="#icon-caret"></use>
+		                        </svg>
+		                      </a>
+	                      	{% else %}
+		                      <a href="{{ item3.link }}">
+		                        <span>{{ item3.title }}</span>
+		                      </a>
+	                      {% endif %}
+
+                        {% if item3.children %}
+                          <div class="js-list">
+                            <ul class="c-sub-menu-4 u-sub-menu">
+                             {% for item4 in item3.children %}
+                                <li class="c-item-4">
+                                  <a href="{{ item4.link }}">
+                                    <span>{{ item4.title }}</span>
+                                  </a>
+                                </li>
+                            {% endfor %}
+                            </ul>
+                          </div>
+                        {% endif %}
+                      </li>
+                    {% endfor %}
+                  </ul>
+									{% endif %}
+								</li>
+							{% endfor %}
+							<li class="c-sub-menu__item ">
+								{% set image = item.meta('image') %}
+									{# <pre>{{dump(image)}}</pre> #}
+								{% if image %}
+									<div class="c-sub-menu__item-img">
+										<picture>
+											<source data-srcset="{{image.url|resize(200, 250)|towebp}}" type="image/webp">
+										  <source data-srcset="{{image.url|resize(200, 250)|tojpg}}" type="image/jpeg"> 
+										  <img 
+						            src="data:image/png;base64,TEVITGhbV0IyeWs4cHlvSmFkUiouN2tDTWRuag==" 
+						            title="{{image.title}}" 
+						            alt="{{image2.alt}}" 
+						            width="200" 
+						            height="250"
+                        class="lazy"
+						          >
+										</picture>
+										<p class="is-bold">{{image.title}}</p>
+										<p>{{image.caption}}</p>
+									</div>	
+								{% endif %}
+							</li>
+						</ul>
+					</div>
+				{% endif %}
+	    </li>
+		{% endfor %}
+	</ul>
+{% endif %}

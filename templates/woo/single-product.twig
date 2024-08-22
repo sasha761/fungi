@@ -1,0 +1,233 @@
+{% extends "templates/base.twig" %}
+
+{% block content %}
+	{% set stockStatus = data.stock_status == 'outofstock' ? 'Out of stock' : 'In stock' %}
+
+	{% if data.is_sale %}
+		{% set percent = (data.price_regular - data.price_sale) / data.price_regular * 100 %}
+	{% endif %}
+  
+	<main class="p-product" data-id="{{data.id}}" data-price="{{data.price_regular ? data.price_sale : data.price_regular}}" {# data-categories="{{cats|join(', ')}}" #}>
+		<div class="u-container">
+			<section class="l-product">
+				{{breadcrumbs}}
+
+				<div class="l-product__flex">
+					<div class="l-product__flex-content">
+						<div class="row">
+							<div class="col-lg-6 col-md-12 col-sm-12 u-col">
+								<div class="l-product__img">
+									<div class="swiper js-product-image">
+										<div class="swiper-wrapper">
+											{% include 'templates/woo/single-product-thumbnail.twig' 
+                        with {
+                          'video': video, 
+                          'zoom': true, 
+                          'class': 'swiper-slide',
+                          'thumb': data.thumb,
+                          'thumb_md': data.thumb_md,
+                          'thumb_xl': data.thumb_xl
+                        } 
+                      %}
+											{% include 'templates/woo/single-product-gallery.twig' 
+                        with {
+                          'video': video, 
+                          'zoom': true, 
+                          'class': 'swiper-slide', 
+                          'images': data.images
+                        } 
+                      %}
+										</div>
+									</div>
+									<div class="swiper-pagination"></div>
+								</div>
+							</div>
+							<div class="col-lg-6 col-md-12 col-sm-12 u-col">
+								<div class="l-product__content">
+									<h1 class="u-h2">{{data.product.get_name}}</h1>
+									{# {{ function('woocommerce_output_all_notices') }} #}
+									{{ function('woocommerce_template_single_rating') }}
+
+									<p class="c-price is-big">
+										<span>{{data.price_html}}</span>
+									</p>
+
+									<div class="l-product__text">
+										{{ data.product.get_short_description|wpautop }}
+									</div>
+
+									<form class="js-product-form cart c-product-form variations_form" action="{{data.permalink}}" method="post" enctype="multipart/form-data" data-product_id="{{data.id}}" data-product_variations="{{data.variation_attr}}">
+										{% if data.variations_attributes %}
+											<div class="variations woo-variation-items-wrapper">
+												{% for key, attr_type in data.variations_attributes %}
+													<div class="c-product-form__size">
+														<div class="label">
+															<label for="{{ function('sanitize_title', key) }}">
+																{{ function('wc_attribute_label', key) }}
+															</label>
+														</div>
+													</div>
+													<div class="value woo-variation-items-wrapper">
+														{{ function('wc_dropdown_variation_attribute_options', {'options': attr_type, 'attribute': key, 'product': data.product} ) }}
+													</div>
+												{% endfor %}
+
+												<div class="js-product-form-notification"></div>
+											</div>
+										{% endif %}
+
+										<div class="single_variation_wrap">
+											{{ function('woocommerce_single_variation') }}
+
+											<div class="woocommerce-variation-add-to-cart variations_button">
+
+												<input type="hidden" name="add-to-cart" value="{{data.id}}">
+												<input type="hidden" name="product_id" value="{{data.id}}">
+												<input type="hidden" name="variation_id" class="variation_id" value="0">
+
+												<div class="c-product-form__btn">
+													{% if data.outStock == 'outofstock' %}
+														<div class="l-product__manage-stock u-h3 is-red">{{ 'Out of stock' | translateString('Product - Out of stock') }}</div>
+													{% else %}
+
+														<div class="c-product-form__quantity">
+															<span class="d-block d-sm-none">{{ 'Quantity' | translateString('Product - Quantity') }}:</span>
+															<input type="number" class="c-quantity js-quantity-input" step="1" min="1" max="99" name="quantity" value="1" size="2" pattern="[0-9]*" inputmode="numeric">
+														</div>
+
+														<button type="submit" {% if data.outStock == 'outofstock' %} disabled {% endif %} 
+															class="u-btn is-small is-black js-add-to-cart {% if data.outStock == 'outofstock' %} disabled {% endif %}" 
+															name="add-to-cart" 
+															data-product-id="{{data.id}}" 
+															value="{{data.id}}"
+														>
+															<span class="js-button-text is-show">{{ 'Add to cart' | translateString('buttons - Add to cart') }}</span>
+															<span class="c-loader is-white js-loader is-hide">
+																<svg aria-hidden="true" focusable="false" class="spinner" viewBox="0 0 66 66" xmlns="http://www.w3.org/2000/svg">
+																	<circle class="path" fill="none" stroke-width="6" cx="33" cy="33" r="30"></circle>
+																</svg>
+															</span>
+														</button>
+
+														<button type="button" {% if data.outStock == 'outofstock' %} disabled {% endif %} class="u-btn is-small is-yellow js-quick-add-to-card is-disabled" data-modal="#quick-buy">
+															<span>{{ 'Buy Now' | translateString('buttons - Buy in 1 click') }}</span>
+														</button>
+													{% endif %}
+												</div>
+											</div>
+										</div>
+									</form>
+
+									{% if data.tags %}
+										<div class="is-tags">
+											<b>Health goal:</b>
+											{% for tag in data.tags %}
+												<a href="{{ function('get_term_link', tag) }}">{{ tag.name }}</a>
+												{% if not loop.last %},
+												{% endif %}
+											{% endfor %}
+										</div>
+									{% endif %}
+
+									{% if data.categories %}
+										<div class="is-categories">
+											<b>Category:</b>
+											{% for category in data.categories %}
+												<a href="{{ function('get_term_link', category) }}">{{ category.name }}</a>
+												{% if not loop.last %},
+												{% endif %}
+											{% endfor %}
+										</div>
+									{% endif %}
+
+								</div>
+							</div>
+						</div>
+
+						<div class="c-tab js-tab-product-additional-info">
+							{% set active_tab = 'how-to-use' %}
+							{% if not data.how_to_use %}
+								{% set active_tab = 'what-is-inside' %}
+								{% if not data.composition %}
+									{% set active_tab = 'sertificates' %}
+									{% if not data.sertificates %}
+										{% set active_tab = 'reviews' %}
+									{% endif %}
+								{% endif %}
+							{% endif %}
+
+							<div class="c-tab__nav">
+								{% if data.how_to_use %}
+									<span data-tab="#how-to-use" class="c-tab__item {% if active_tab == 'how-to-use' %}is-active{% endif %}">{{ 'How to use?' | translateString('Product - How to use') }}</span>
+								{% endif %}
+								{% if data.composition %}
+									<span data-tab="#what-is-inside" class="c-tab__item {% if active_tab == 'what-is-inside' %}is-active{% endif %}">{{ 'What’s Inside' | translateString('Product - What’s Inside') }}</span>
+								{% endif %}
+								{% if data.sertificates %}
+									<span data-tab="#sertificates" class="c-tab__item {% if active_tab == 'sertificates' %}is-active{% endif %}">{{ 'Sertificates' | translateString('Product - Sertificates') }}</span>
+								{% endif %}
+								<span data-tab="#reviews" class="c-tab__item {% if active_tab == 'reviews' %}is-active{% endif %}">{{ 'Reviews' | translateString('Product - Reviews') }}</span>
+							</div>
+							<div class="c-tab__container">
+								{% if data.how_to_use %}
+									<div
+										id="how-to-use" class="c-tab__content {% if active_tab == 'how-to-use' %}is-active{% endif %}">
+										{{ data.how_to_use|wpautop }}
+									</div>
+								{% endif %}
+								{% if data.composition %}
+									<div id="what-is-inside" class="c-tab__content {% if active_tab == 'what-is-inside' %}is-active{% endif %}">
+										{{ data.composition|wpautop }}
+									</div>
+								{% endif %}
+								{% if data.sertificates %}
+									<div id="sertificates" class="c-tab__content {% if active_tab == 'sertificates' %}is-active{% endif %}">
+										<div class="row">
+											{% for image in data.sertificates %}
+												<div class="col-lg-6 u-col">
+													<img src="{{image['url']}}" alt="{{image['title']}}">
+												</div>
+											{% endfor %}
+										</div>
+									</div>
+								{% endif %}
+								<div id="reviews" class="c-tab__content {% if active_tab == 'reviews' %}is-active{% endif %}">
+									{% include 'templates/partial/comments.twig' %}
+								</div>
+							</div>
+						</div>
+
+						{% if data.related_products %}
+							<section class="l-related js-slider-container">
+								<h2 class="u-h2">{{ 'Related products' | translateString('Product - Related products') }}</h2>
+
+								<div class="js-product-row swiper">
+									<div class="swiper-wrapper">
+										{% for item in data.related_products %}
+											<div class="u-col swiper-slide">
+												{% include 'templates/partial/product.twig' with {'data': item} %}
+											</div>
+										{% endfor %}
+									</div>
+								</div>
+								{% if data.related_products|length > 4 %}
+									{% include 'templates/partial/arrow.twig' %}
+								{% endif %}
+							</section>
+						{% endif %}
+					</div>
+					<div class="l-product__flex-sidebar">
+						{% include 'templates/partial/sidebar.twig' 
+              with {
+                'search': true, 
+                'tags': product_tags,
+                'popular_posts': popular_posts
+              } 
+            %}
+					</div>
+				</div>
+
+			</section>
+		</div>
+	</main>
+{% endblock  %}

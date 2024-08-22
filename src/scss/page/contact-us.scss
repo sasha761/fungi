@@ -1,0 +1,12 @@
+.p-contact-us {
+  background-color: #fbf8f8;
+  padding-top: 50px;
+
+  .c-input {
+    margin-bottom: 20px;
+  }
+
+  @include mq('tablet') {
+    padding-bottom: 50px;
+  }
+}

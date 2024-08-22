@@ -1,0 +1,57 @@
+{% if menu %}
+	{% for item in menu %}
+		{% set image = item.meta('image') %}
+		{% if item.children %}
+			<div class="c-mobile-menu__item">
+				<div class="c-mobile-menu__item-parent">
+					<span>{{ item.title }}</span>
+					{% if image %}
+						<picture>
+						  <img 
+								src="{{image.sizes.thumbnail}}"
+		            alt="{{item.title}}" 
+		            title="{{item.title}} - tooltip"
+		            width="95" 
+		            height="95"
+		          >
+						</picture>
+					{% endif %}
+				</div>
+				<div class="c-mobile-menu__item-sub">
+					{% for item2 in item.children %}
+						{% set image2 = item2.meta('image') %}
+						<a href="{{ item2.link }}" class="c-mobile-menu__item-sub__item">
+							<span>{{ item2.title }}</span>
+							{% if image2 %}
+								<picture>
+								  <img 
+										src="{{image2.sizes.thumbnail}}"
+				            alt="{{item2.title}}" 
+				            title="{{item2.title}} - tooltip"
+				            width="95" 
+				            height="95"
+				          >
+								</picture>
+							{% endif %}
+						</a>
+					{% endfor %}
+				</div>
+			</div>
+		{% else %}
+			<a href="{{ item.link }}" class="c-mobile-menu__item">
+				<span>{{ item.title }}</span>
+				{% if image %}
+					<picture>
+					  <img 
+							src="{{image.sizes.thumbnail}}"
+	            alt="{{item.title}}" 
+	            title="{{item.title}} - tooltip"
+	            width="95" 
+	            height="95"
+	          >
+					</picture>
+				{% endif %}
+			</a>
+		{% endif %}
+	{% endfor %}
+{% endif %}

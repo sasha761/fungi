@@ -1,0 +1,33 @@
+.c-quantity {
+  border-radius: 5px;
+  border: 1px solid #E2E2E2;
+  background: #F5F5F5;
+  color: #666;
+  text-align: center;
+  font-family: 'Golos Text';
+  font-size: rem(14);
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  outline: none;
+  padding: rem(10) rem(5);
+  // width: rem(72);
+  // height: rem(42);
+  display: flex;
+  aling-items: center;
+  justify-content: space-between;
+  max-width: rem(120);
+
+  &__minus {
+
+  }
+
+  &__plus {
+
+  }
+
+  &__input {
+    text-align: center;
+    max-width: rem(40);
+  }
+}

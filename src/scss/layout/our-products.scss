@@ -1,0 +1,45 @@
+.l-our-products {
+	background-color: #1F1F1F;
+	background-blend-mode: plus-lighter, normal;
+	margin: 0 0 rem(80);
+	padding: 0 0 rem(50);
+
+	&__box {
+		background-color: white;
+		padding: rem(72) rem(60) rem(42);
+		// margin-top: rem(-145);
+		position: relative;
+		top: rem(-100);
+	}
+
+	.c-advantages {
+		position: relative;
+		top: rem(-20);
+		color: white;
+	}
+
+	.js-product-row {
+		margin: 0 -15px;
+	}
+
+	// @include mq('tablet-medium') {
+	// 	.swiper-slide {
+	// 		// width: auto;
+	// 		// max-width: 300px;
+	// 	}
+	// }
+	@include mq('tablet') {
+		margin: 80px 0;
+		background-color: white;
+		&__box {
+			top: 0;
+			padding: 0;
+		}
+
+		.c-advantages {
+			position: relative;
+			top: 0;
+			color: black;
+		}
+	}
+}

@@ -1,0 +1,36 @@
+{% set rating = function('get_comment_meta', comment.comment_ID, 'rating', true ) %}
+{% set rating = (rating is not empty) ? rating : 5 %}
+
+<div class="c-comments__user is-{{comment.comment_type}}">
+  <div class="c-comments__user-rating">
+    <div class="star-rating" role="img">
+      <span style="width:{{(rating / 5) * 100}}%">
+      </span>
+    </div>
+  </div>
+  <div class="c-comments__user-content">
+    <div class="c-comments__name">
+      <span class="c-name">{{comment.comment_author}}</span>
+      <span class="c-time">
+        {{ comment.comment_date|date("m/d/Y") }}
+      </span>
+    </div>
+    <div class="c-comments__text">{{comment.comment_content|wpautop}}</div>
+
+    {# {% if comment.children %}
+      {% for child_comment in comment.children %}
+      <div class="c-comments__user {{comment.comment_type}}">
+        <div class="c-comments__name"> 
+          <span class="c-time">
+            {{ comment.comment_date|date("m/d/Y") }}
+          </span>
+          <span class="c-name">{{comment.comment_author}}</span>
+          <div class="c-comments__text">{{comment.comment_content|wpautop}}</div>  
+            {# {% include 'comment.twig' with { comment:child_comment } %} #}
+        {# </div>
+      </div>  #}
+      {# {% endfor %}
+    {% endif %}  #}
+  </div>
+</div>
+

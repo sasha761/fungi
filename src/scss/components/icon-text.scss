@@ -1,0 +1,43 @@
+.c-icon-text {
+	display: flex;
+	align-items: flex-start;
+	&__img {
+		margin-right: rem(25);
+
+		img {
+			max-width: rem(55);
+		}
+	}
+
+	&__content {
+
+	}
+
+	&__text {
+		color: #000;
+		font-size: rem(15);
+		line-height: 1.6;
+	}
+
+	&__title {
+		color: #000;
+		font-size: rem(22);
+		font-weight: 500;
+		line-height: 1.3;
+		margin-bottom: rem(10);
+	}
+
+	.u-read-more {
+		margin-top: rem(24);
+	}
+
+	@include mq('phone-large') {
+		&__img {
+			margin-right: 15px;
+		}
+
+		.u-read-more {
+			margin-top: 10px;
+		}
+	}
+}

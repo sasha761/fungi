@@ -1,0 +1,16 @@
+{% if menu %}
+	{# <div class="row c-footer-menu"> #}
+		{% for item in menu %}
+			<div class="col-lg-3 col-md-6 col-6 u-col">
+				<h3 class="c-footer-menu__title">{{ item.title }}</h3>
+				<ul>
+		      {% if item.children %}
+		        {% for listItem in item.children %}
+		          <li class="c-footer-menu__items"><a href="{{ listItem.url }}">{{ listItem }}</a></li>
+		        {% endfor %}
+		      {% endif %}
+		    </ul>
+			</div>
+		{% endfor %}
+	{# </div> #}
+{% endif %}

@@ -1,0 +1,31 @@
+.l-banners {
+  &__col {
+
+  }
+
+  .c-banner {
+    margin-bottom: 30px;
+    width: 100%;
+  }
+
+  .slick-dots {
+    bottom: 30px;
+    li {
+      border: 1px solid #000;
+      margin: 0 10px;
+
+      &.slick-active {
+        background-color: #333;
+      }
+    }
+  }
+
+  @include mq('tablet') {
+    margin-bottom: 25px;
+    .slick-dots {
+      bottom: -10px;
+    }
+  }
+
+  
+}

@@ -1,0 +1,30 @@
+.c-category {
+	padding: rem(14) rem(14) rem(14) rem(28);
+	border-radius: rem(50);
+	border: 1px solid #E2E2E2;
+	background: #FFF;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+
+	color: #000;
+	font-size: rem(15);
+	font-weight: 500;
+	line-height: 1.6;
+
+	&__count {
+		color: #666;
+		text-align: center;
+		font-size: rem(14);
+		font-weight: 500;
+		line-height: 1.6;
+		border-radius: 50%;
+		border: 1px solid #E2E2E2;
+		margin-left: rem(16);
+		width: rem(30);
+		height: rem(30);
+		display: flex;
+		align-items: center;
+		justify-content: center;
+	}
+}

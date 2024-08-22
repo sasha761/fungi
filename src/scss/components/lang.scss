@@ -1,0 +1,80 @@
+.c-lang {
+  position: relative;
+  margin-left: rem(25);
+  padding: rem(13) 0;
+  text-transform: uppercase;
+  font-size: rem(16);
+  font-weight: 500;
+  color: #4F4F4F;
+  line-height: 1;
+
+  &__arrow {
+    margin-left: rem(10);
+    transition: all 0.3s ease;
+
+    svg {
+      width: rem(10);
+      height: rem(10);
+    }
+  }
+
+  &__current {
+    display: flex;
+    align-items: center;
+  }
+
+  &__item {
+    padding: rem(9) rem(10);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    // color: $black;
+
+    &:hover {
+      background-color: #F2F2F2;
+    }
+  }
+
+  &__sub {
+    width: rem(70);
+    position: absolute;
+    z-index: 5;
+    top: 120%;
+    left: 50%;
+    transform: translateX(-50%);
+    opacity: 0;
+    padding: rem(7) 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+    background: white;
+    box-shadow: 3px 9px 22px 1px rgba(0, 0, 0, 0.1);
+    border-radius: 4px;
+
+    // span {
+    //   display: block;
+    // }
+  }
+
+  &:hover {
+    .c-lang__sub {
+      visibility: visible;
+      opacity: 1;
+      top: 100%;
+    }
+
+    .c-lang__arrow {
+      transform: rotate(180deg);
+    }
+  }
+
+  @include mq('phone-large') {
+    &__sub {
+      width: 70px;
+    }
+
+    &__item {
+      padding: 8px;
+      font-size: 15px;
+    }
+  }
+}

@@ -1,0 +1,28 @@
+$primary: #F59D19;
+$grey: #898686;
+$light-grey: #e8e8e8;
+$green: #45CD7C;
+$black: #202020;
+$red: #EA0000;
+$white: #fff;
+$orange: #CD835C;
+
+
+// ----------------------------
+// Media Breakpoints
+// ----------------------------
+$breakpoints: (
+  'iphone5': 320px,
+  'phone': 370px,
+  'phone-medium': 420px,
+  'phone-wide': 480px,
+  'phablet': 560px,
+  'phone-large': 576px,
+  'tablet-small': 640px,
+  'tablet': 768px,
+  'tablet-medium': 992px,
+  'tablet-wide': 1024px,
+  'desktop': 1200px,
+  'desktop-wide': 1440px,
+  'desktop-large': 1600px
+);

@@ -1,0 +1,17 @@
+{% if posts.pagination.pages is not empty %}
+  <div class="c-pagination">
+    <ul>
+      {% for page in pagination.pages %}
+        {% if page.link %}
+          <li>
+            <a href="{{ page.link }}" class="{{ page.class }}">{{ page.title }}</a>
+          </li>
+        {% else %}
+          <li class="is-active">
+            <span class="{{ page.class }}">{{ page.title }}</span>
+          </li>
+        {% endif %}
+      {% endfor %}
+    </ul>
+  </div>
+{% endif %}

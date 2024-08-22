@@ -1,0 +1,123 @@
+.c-tab {
+	&__nav {
+		overflow: auto;
+		// border-bottom: 1px solid rgba(14,14,14,.2);
+		display: flex;
+		// margin: 15px 0;
+	}
+
+	// &__list {
+ //    max-height: 125px;
+ //    display: flex;
+ //    flex-wrap: wrap;
+ //    flex-direction: column;
+	// 	li {
+	// 		display: inline-block;
+	// 	}
+	// }
+
+	&__item {
+		cursor: pointer;
+		padding: rem(13) rem(24);
+		display: inline-block;
+    border: 1px solid #333;
+    background: #F7F7F7;
+    color: #000;
+		font-family: 'Golos Text';
+		font-size: rem(15);
+		font-weight: 500;
+		line-height: 1.4;
+		margin-right: rem(12);
+		white-space: nowrap;
+
+		&:last-child {
+			margin-right: 0;
+		}
+
+		&.is-active {
+	    border: 1px solid #EEE;
+			background: #FFF;
+		}
+	}
+
+	&__container {
+    // margin-top: 25px;
+    border: 1px solid #E8ECEF;
+    padding: rem(30);
+		background: #FFF;
+		position: relative;
+		overflow: hidden;
+	}
+
+	&__content {
+		position: absolute !important;
+		// top: 0;
+		// left: 0;
+		// right: 0;
+		transition: all 0.3s ease;
+		opacity: 0;
+		visibility: hidden;
+		//display: none !important;
+
+    color: #666;
+		font-family: 'Golos Text';
+		font-size: rem(15);
+		font-weight: 400;
+		line-height: 180%;
+
+    a {
+    	font-weight: 500;
+    	text-decoration: underline;
+    }
+
+    p {
+      text-align: left!important;
+      margin-bottom: rem(16); 
+    }
+
+    em {
+      font-style: normal;
+    }
+
+		&.is-active {
+			position: relative !important;
+			opacity: 1;
+			visibility: visible;
+			//display: block !important;
+		}
+
+		h1 {
+			letter-spacing: .02em;
+      margin-bottom: 15px;
+      font-size: 28px;
+      line-height: 1.2;
+      font-weight: 400;
+      text-transform: none;
+		}
+
+		h2 {
+      letter-spacing: .02em;
+      margin-bottom: 10px;
+      font-size: 28px;
+      line-height: 32px;
+      font-weight: 300;
+  	}
+  	h3 {
+  		font-size: 18px;
+  		letter-spacing: .02em;
+      margin-bottom: 10px;
+  	}
+  	h4 {
+  		font-size: 18px;
+  		letter-spacing: .02em;
+      margin-bottom: 10px;
+  	}
+
+	}
+
+	@include mq('phone-large') {
+		&__container {
+			padding: 15px;
+		}
+	}
+}

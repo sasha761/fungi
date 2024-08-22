@@ -1,0 +1,134 @@
+h1,.u-h1 {
+	font-family: 'Golos Text';
+	font-weight: 500;
+	font-size: rem(65);
+	line-height: 1.2;
+	// margin-bottom: 20px;
+	// color: $white;
+	
+	// &.is-underline {
+	// 	padding-bottom: 15px;
+	// 	&:after {
+	// 		content: '';
+	// 		position: absolute;
+	// 		display: inline-block;
+	// 		bottom: 0;
+	// 		width: 250px;
+	// 		height: 9px;
+	// 		background-color: $primary;
+	// 		left: 50%;
+	// 		transform: translateX(-50%);
+	// 	}
+
+	// 	@include mq('phone-large') {
+	// 		padding-bottom: 10px;
+			
+	// 		&:after {
+	// 			width: 200px;
+	// 			height: 6px;
+	// 		}
+	// 	}
+	// }
+
+	@include mq('phone-large') {
+		font-size: 28px;
+    line-height: 1;
+    margin-bottom: 12px;
+	}
+}
+
+
+h2,.u-h2 {
+	// margin-bottom: rem(20);
+	font-family: 'Golos Text';
+	font-style: normal;
+	font-weight: 500;
+	font-size: rem(48);
+	line-height: 1.2;
+	
+	@include mq('phone-large') {
+		font-size: 30px;
+		line-height: 1;
+	}
+}
+h3,.u-h3 {
+	font-family: 'Golos Text';
+	font-style: normal;
+	font-weight: normal;
+	font-size: rem(36);
+	line-height: 1;
+	// text-transform: uppercase;
+	// color: $white;
+	
+	@include mq('phone-large') {
+		font-size: 18px;
+		line-height: 1.3;
+	}
+}
+h4,.u-h4 {
+	font-family: 'Golos Text';
+	font-weight: bold;
+	font-size: rem(16);
+	line-height: 1.2;
+	// color: $white;
+}
+h5,.u-h5 {
+	font-family: 'Golos Text';
+	font-weight: bold;
+	font-size: rem(16);
+	line-height: 1.2;
+	// color: $white;
+
+	// @include mq('phone-large') {
+	// 	font-size: 12px;
+	// 	line-height: 1.45;
+	// 	font-weight: 300;
+	// }
+}
+h6,.u-h6 {
+	font-family: 'Golos Text';
+	font-weight: 300;
+	font-size: rem(14);
+	line-height: 1.5;
+	// color: $white;
+}
+
+p {
+	font-family: Montserrat;
+	font-style: normal;
+	font-weight: 600;
+	font-size: rem(16);
+	line-height: 1.3;
+	// color: $white;
+}
+
+.u-text {
+	font-family: Montserrat;
+	font-style: normal;
+	font-weight: normal;
+	font-size: rem(16);
+	line-height: 1.2;
+	text-transform: uppercase;
+	color: #2A2424;
+}
+
+.is-yellow {
+	color: #FFA819;
+}
+
+.is-blue {
+	color: #1E496C;
+}
+.is-orange {
+	color: #ED753C;
+}
+.is-bold {
+	font-weight: bold;
+}
+.is-red {
+	color: #FF0000;
+}
+
+p, h1, h2, h3, h4, h5, h6, span, div, a {
+	font-family: 'Golos Text', sans-serif;
+}

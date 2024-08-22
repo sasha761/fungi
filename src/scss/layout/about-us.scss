@@ -1,0 +1,77 @@
+.l-about-us {
+	background-image: url('../img/about-us-bg.jpg');
+	background-size: cover;
+	background-repeat: no-repeat;
+	padding: rem(70) 0 rem(110);
+
+	&__flex {
+		display: flex;
+		align-items: flex-start;
+	}
+
+	&__left {
+		.u-h2 {
+			margin-bottom: rem(15);
+		}
+
+		.u-subtitle {
+			color: #000;
+			font-family: "Playfair Display";
+			font-size: rem(22);
+			font-style: italic;
+			font-weight: 500;
+			line-height: 1.45;
+			margin-bottom: rem(25);
+		}
+
+		.u-link {
+			display: none;
+		}
+	}
+
+	&__right {
+		max-width: rem(790);
+
+		.u-col {
+			margin-bottom: rem(60);
+		}
+	}	
+
+	@include mq('tablet') {
+		padding: 20px 0;
+		&__flex {
+			flex-direction: column;
+		}
+
+		&__left {
+			margin-bottom: 40px;
+			text-align: center;
+			.u-h2 {
+				color: #000;
+				margin-bottom: 10px;
+			}
+
+			.u-subtitle {
+				margin-bottom: 0;
+			}
+
+			img {
+				margin: 0 auto;
+			}
+
+			.u-btn {
+				display: none;
+			}
+
+			.u-link {
+				display: block;
+				font-weight: 500;
+				font-size: 16px;
+				line-height: 120%;
+				text-decoration: underline;
+				text-align: center;
+				color: #000;
+			}
+		}
+	}
+}

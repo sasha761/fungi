@@ -1,0 +1,36 @@
+{
+  "name": "fungi-harmony",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "author": "",
+  "license": "ISC",
+  "scripts": {
+    "watch": "parcel watch",
+    "build": "parcel build"
+  },
+  "browserslist": "> 0.5%, last 3 versions, not dead",
+  "devDependencies": {
+    "@parcel/transformer-sass": "^2.9.2",
+    "parcel": "^2.12.0",
+    "path-browserify": "^1.0.1",
+    "process": "^0.11.10"
+  },
+  "dependencies": {
+    "imask": "^6.4.2",
+    "nice-select2": "^2.2.0",
+    "swiper": "^8.4.5",
+    "validator": "^13.7.0",
+    "vanilla-lazyload": "^17.8.5"
+  },
+  "targets": {
+    "css": {
+      "source": "src/scss/main.scss",
+      "distDir": "dist/css"
+    },
+    "js": {
+      "source": "src/js/index.js",
+      "distDir": "dist/js"
+    }
+  }
+}

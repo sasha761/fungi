@@ -1,0 +1,83 @@
+.l-checkout {
+  &__form {
+    // background-color: #fff;
+    // padding: 20px 50px;
+    display: flex;
+    flex-wrap: wrap;
+    
+    .u-h3 {
+      padding: 0 6px;
+    }
+
+    .c-input,
+    .c-select {
+      margin-bottom: 20px;
+      padding: 0 6px;
+
+      input {
+        background-color: transparent;
+        border: 1px solid #e5e4e2;
+        border-radius: 4px;
+      }
+    }
+
+    
+
+    .payment_methods {
+      margin-bottom: 40px;
+      li {
+        margin-bottom: 15px;
+        display: flex;
+        align-items: center;
+        flex-wrap: wrap;
+
+        &.payment_method_cod {
+          flex-wrap: nowrap;
+        }
+
+        input {
+          flex-shrink: 0;
+          margin-right: 7px;
+        }
+
+        label {
+          // line-height: 0.1;
+        }
+
+        .payment_box {
+          margin-top: 8px;
+          line-height: 1.2;
+          font-size: 14px;
+        }
+      }
+    }
+
+    button[type="submit"] {
+      padding: 14px 35px;
+      background-color: #333;
+      color: white;
+    }
+  }
+
+  &__coupon {
+    background-color: #fff;
+    padding: 20px 35px;
+  }
+
+  @include mq('tablet') {
+    &__form {
+      padding: 15px 15px;
+    }
+    &__coupon {
+      padding: 15px 15px;
+    }
+  }
+
+  @include mq('phone-large') {
+    &__form {
+      button[type="submit"] {
+        width: 100%;
+      }
+    }
+  }
+}

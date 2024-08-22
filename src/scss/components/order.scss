@@ -1,0 +1,121 @@
+.c-order {
+  text-align: right;
+  color: #1e496c;
+  font-size: 24px;
+
+  &__info {
+    font-weight: 700;
+    margin-bottom: 20px;
+
+    time {
+      &::after {
+        content: ' | ';
+      }
+    }
+
+    span {
+      color: #ed753c;
+      font-weight: 600;
+      margin-right: 10px;
+    }
+  }
+
+  &__list {
+    // max-height: 597px;
+    // overflow-y: auto;
+    padding: 22px 29px 57px 48px;
+    border-radius: 40px;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.25);
+    background-color: #fff;
+
+    li:not(:last-child) {
+      margin-bottom: 70px;
+    }
+  }
+
+  &-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    &__image {
+      width: 169px;
+      height: 126px;
+      max-height: 126px;
+      object-fit: cover;
+    }
+
+    &__title {
+      max-width: 240px;
+
+      h3 {
+        font-weight: 700;
+        color: inherit;
+      }
+
+      p {
+        font-weight: 300;
+      }
+    }
+
+    &__count {
+      margin-bottom: 0;
+    }
+
+    &__price {
+      font-weight: 700;
+    }
+  }
+
+  @include mq('tablet') {
+    &__info {
+      font-size: 18px;
+    }
+
+    &__list {
+      padding: 34px 11px 34px 22px;
+    }
+
+    &-item {
+      &__image {
+        width: 70px;
+        height: 61px;
+      }
+
+      &__title {
+        h3,
+        p {
+          font-size: 14px;
+        }
+      }
+
+      &__price {
+        font-size: 16px;
+      }
+    }
+  }
+
+  @include mq('phone-large') {
+    &__info {
+      time {
+        display: block;
+
+        &::after {
+          content: '';
+        }
+      }
+    }
+
+    &__list {
+      li:not(:last-child) {
+        margin-bottom: 28px;
+      }
+    }
+
+    &-item {
+      &__title {
+        max-width: 88px;
+      }
+    }
+  }
+}

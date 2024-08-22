@@ -1,0 +1,42 @@
+.p-thank {
+  background-color: #fbf8f8;
+  padding-top: 50px;
+  padding-bottom: 50px;
+
+  &__list {
+    margin-top: 20px;
+    font-size: 16px;
+    line-height: 1.2;
+    li {
+      margin-bottom: 15px;
+    }
+    p {
+      margin-bottom: 10px;
+    }
+  }
+
+  &__payment {
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: 1px solid #ddd;
+
+    h2 {
+      font-size: 24px;
+      letter-spacing: .26px;
+      margin-bottom: 20px;
+      font-weight: 400;
+    }
+    h3 {
+      margin-bottom: 15px;
+      font-size: 20px;
+    }
+
+    li {
+      margin-bottom: 15px;
+    }
+
+    strong {
+      font-weight: bolder;
+    }
+  }
+}

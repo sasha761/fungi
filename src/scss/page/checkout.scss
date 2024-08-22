@@ -1,0 +1,80 @@
+.p-checkout {
+  // background-color: #fbf8f8;
+  // padding-top: 50px;
+  // padding-bottom: 50px;
+
+  .l-sidebar-cart {
+    max-width: 100%;
+    margin-left: 0;
+  }
+
+  .l-checkout {
+
+  }
+
+  .l-cart {
+    padding: 20px 30px;
+
+    .c-product-cart {
+      align-items: center;
+      &__info {
+        margin-right: 0;
+      }
+      &__name {
+        width: 100%;
+
+        &-title {
+          margin-bottom: 0;
+          font-size: rem(16);
+          font-weight: 400;
+          max-width: rem(280);
+        }
+      }
+
+      &__img {
+        max-width: rem(70);
+        max-height: rem(70);
+      }
+
+      .c-total {
+        font-weight: 400;
+      }
+    }
+  }
+
+  .col-lg-6 {
+    padding-top: 50px;
+    padding-bottom: 50px;
+    &:first-child {
+      padding-right: 30px;
+      border-right: 1px solid #e5e4e2;
+    }
+  }
+
+  .u-h3 {
+    font-size: rem(22);
+    margin-bottom: rem(20);
+  }
+
+  h1 {
+    // text-transform: inherit;
+    // margin-bottom: 25px;
+    border-width: 0;
+    clip: rect(0, 0, 0, 0);
+    height: 1px;
+    margin: -1px;
+    overflow: hidden;
+    padding: 0;
+    position: absolute;
+    white-space: nowrap;
+    width: 1px;
+  }
+
+  @include mq('tablet') {
+    padding-top: 35px;
+
+    .l-cart {
+      padding: 15px 15px;
+    }
+  }
+}

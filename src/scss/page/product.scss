@@ -1,0 +1,99 @@
+.p-product {
+  margin-top: rem(48);
+
+  .l-related {
+    background: none;
+  }
+
+  .c-tab {
+    &__container {
+      h2 {
+        color: #000;
+        font-size: rem(28);
+        font-weight: 500;
+        line-height: 1.35;
+        margin-bottom: rem(16);
+      }
+
+      p, ul, ol {
+        color: #666;
+        font-size: rem(15);
+        font-style: normal;
+        font-weight: 400;
+        line-height: 180%;
+        margin-bottom: rem(16);
+      }
+
+      img {
+        margin-bottom: rem(20);
+      }
+
+      h3 {
+        color: #000;
+        font-size: rem(22);
+        font-weight: 500;
+        line-height: 1.35;
+        margin-bottom: rem(16);
+      }
+
+      blockquote {
+        border-radius: 5px;
+        border: 1px solid #E2E2E2;
+        background: #FFF;
+        padding: rem(40) rem(32) rem(40) rem(132);
+        position: relative;
+        margin-bottom: rem(24);
+
+        p {
+          color: #000;
+          font-size: rem(22);
+          font-style: normal;
+          font-weight: 500;
+          line-height: 140%; 
+          margin-bottom: rem(22);
+        }
+
+        cite {
+          color: #000;
+          font-family: "Playfair Display";
+          font-size: rem(22);
+          font-style: italic;
+          font-weight: 500;
+          line-height: 1.45;
+        }
+
+        &:before {
+          content: url('../img/blockquote.svg');
+          display: inline-block;
+          position: absolute;
+          left: rem(32);
+          top: rem(40);
+        }
+      }
+
+      li {
+        margin-bottom: rem(5);
+        line-height: 1.3;
+      }
+
+      ul {
+        list-style: disc;
+        list-style-position: inside;
+      }
+
+      ol {
+        list-style: decimal;
+        list-style-position: inside;
+      }
+
+      a {
+        text-decoration: underline;
+        color: #FFA819;
+      }
+    }
+  }
+
+  @include mq('phone-large') {
+    margin-top: 20px;
+  }
+}

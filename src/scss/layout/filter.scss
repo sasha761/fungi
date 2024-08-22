@@ -1,0 +1,46 @@
+.l-filter {
+	display: flex;
+	align-items: center;
+	margin-bottom: 40px;
+
+	.widget {
+		// position: relative;
+		// background: #FFFFFF;
+		display: inline-block;
+		max-width: 240px;
+		width: 100%;
+		margin-right: 20px;
+
+		// &:last-child {
+		// 	margin-right: auto;
+		// }
+
+		.woocommerce-widget-layered-nav-dropdown__submit {
+			display: none;
+		}
+
+		.nice-select {
+			width: 100%;
+		}
+	}
+
+	// .c-dropdown {
+	// 	position: relative;
+	// 	// background: #FFFFFF;
+	// 	border: 1px solid #E6E6E6;
+	// 	border-radius: 2px;
+	// 	padding: 15px;
+	// 	max-width: 240px;
+	// 	width: 100%;
+	// 	margin-right: 20px;
+
+	// 	
+
+	// 	.u-arrow {
+	// 		position: absolute;
+	// 		right: 15px;
+	// 		top: 50%;
+	// 		transform: translateY(-50%);
+	// 	}
+	// }
+}

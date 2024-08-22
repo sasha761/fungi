@@ -1,0 +1,70 @@
+.c-sticky-menu {
+  display: none;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: rem(50);
+  background-color: white;
+  box-shadow: 0px -1px 20px 0 rgba(0, 0, 0, 0.15);
+  z-index: 19;
+
+  &__row {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    height: 100%;
+
+    li {
+      height: 100%;
+      width: 25%;
+    }
+  }
+
+  &__item {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+    height: 100%;
+    position: relative;
+
+
+    a {
+      line-height: 1;
+      // display: block;
+    }
+
+    // &.is-burger {
+    //   span {
+    //     font-size: 25px;
+    //   }
+    // }
+
+    span {
+      font-size: rem(14);
+      font-weight: 300;
+      line-height: 1;
+      // &:first-child {
+      //   margin-bottom: 6px;
+      // }
+    }
+
+    .c-service__count {
+      top: 0;
+      left: auto;
+      right: rem(23);
+    }
+  }
+
+  .search-box {
+    padding-right: 0;
+    line-height: 1;
+    height: auto;
+    width: auto;
+  }
+
+  @include mq('tablet-medium') {
+    display: block;
+  }
+}

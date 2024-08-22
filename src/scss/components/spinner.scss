@@ -1,0 +1,48 @@
+.c-spinner {
+  display: inline-block;
+  position: relative;
+  border-radius: 100%;
+  background-color: transparent;
+  width: 42px;
+  height: 22px;
+
+  &:before,
+  &:after {
+    position: absolute;
+    content: '';
+  }
+
+  & > span {
+    display: inline-block;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    animation: up 1.2s ease-in-out infinite;
+    border-radius: 100%;
+    background-color: #ccc;
+    width: 12px;
+    height: 12px;
+
+    &:nth-child(2) {
+      left: 15px;
+      animation-delay: 0.33s;
+    }
+
+    &:nth-child(3) {
+      left: 30px;
+      animation-delay: 0.66s;
+    }
+  }
+}
+
+@keyframes up {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-10px);
+    background-color: #36b621;
+  }
+}

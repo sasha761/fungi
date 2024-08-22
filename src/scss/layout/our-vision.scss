@@ -1,0 +1,30 @@
+.l-our-vision {
+	margin: rem(80) 0 rem(60);
+
+	.c-section-title {
+		max-width: rem(720);
+		margin-left: auto;
+		margin-right: auto;
+		margin-bottom: rem(70);
+	}
+
+	.c-info {
+		margin-bottom: rem(48);
+
+		&:last-child {
+			margin-bottom: 0;
+		}
+	}
+
+	@include mq('tablet-medium') {
+		.c-quote {
+			margin-top: 45px;
+		}
+	}
+
+	@include mq('phone-large') {
+		.c-info {
+			margin-bottom: 30px;
+		}
+	}
+}

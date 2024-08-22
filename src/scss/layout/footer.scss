@@ -1,0 +1,231 @@
+.l-footer {
+	// margin-top: 100px;
+	// background-color: $black;
+	padding: rem(56) 0 rem(24);
+	background-image: url(../img/Footer.png);
+	background-size: cover;
+	background-repeat: no-repeat;
+
+	&__top {
+		color: #FFF;
+		font-family: 'Golos Text';
+		font-size: rem(28);
+		font-style: normal;
+		font-weight: 500;
+		line-height: 1.35;
+		margin-bottom: rem(24);
+		max-width: rem(850);
+		padding: 0 0 0 rem(20);
+	}
+
+	&__center {
+		display: flex;
+		align-items: stretch;
+		border-top: 1px solid rgba(255, 255, 255, 0.20);
+		border-bottom: 1px solid rgba(255, 255, 255, 0.20);
+
+		p {
+			color: rgba(255, 255, 255, 0.70);
+			font-family: 'Golos Text';
+			font-size: rem(14);
+			font-style: normal;
+			font-weight: 400;
+			line-height: 1.5;
+			margin-bottom: rem(25);
+		}
+
+		.u-col {
+			padding: rem(40) rem(20);
+			border-right: 1px solid rgba(255, 255, 255, 0.20);
+			width: fit-content;
+			margin-bottom: 0;
+			width: 100%;
+			&.is-first {
+				// max-width: rem(330);
+				.u-btn {
+					margin-top: rem(25);
+					padding: rem(18) rem(33);
+				}
+			}
+
+			&.is-second {
+
+			}
+
+			&.is-third {
+
+			}
+
+			&.is-fourth {
+				border-right: 0;
+			}
+		}
+	}
+
+	&__bottom {
+		padding-top: rem(24);
+		padding-left: rem(15);
+
+		.c-copyright {
+			color: rgba(255, 255, 255, 0.70);
+			font-family: 'Golos Text';
+			font-size: rem(14);
+			font-style: normal;
+			font-weight: 400;
+			line-height: 1.6;	
+
+			.is-yellow {
+				color: #FFA819;
+			}
+		}
+	}
+
+	.c-subscribe {
+		margin-bottom: rem(15);
+	}
+
+
+	.c-post-mini {
+		margin-bottom: rem(22);
+
+		&:last-child {
+			margin-bottom: 0;
+		}
+	}
+
+	.c-menu {
+		flex-direction: column;
+    align-items: flex-start;
+
+		&__item {
+			text-align: left;
+			padding: 0;
+			margin-bottom: rem(10);
+			margin-right: 0;
+			color: rgba(255, 255, 255, 0.70);
+			font-family: 'Golos Text';
+			font-size: rem(15);
+			font-style: normal;
+			font-weight: 400;
+			line-height: 180%;
+		}
+	}
+
+	.c-social {
+		&__item {
+			svg {
+				fill: white;
+			}	
+		}
+	}
+
+	.u-h4 {
+		color: #FFF;
+		margin-bottom: rem(25);
+		font-family: 'Golos Text';
+		font-size: rem(22);
+		font-style: normal;
+		font-weight: 500;
+		line-height: 140%; 
+		text-transform: capitalize;
+	}
+
+	.is-phone {
+		display: inline-block;
+		margin-bottom: 10px;
+	}
+
+	.is-mail {
+		color: #FFF;
+		font-family: 'Golos Text';
+		font-size: rem(15);
+		font-style: normal;
+		font-weight: 400;
+		line-height: 180%;
+		word-wrap: break-word;
+		display: block;
+	}
+
+	@include mq('tablet-wide') {
+		padding: rem(56) 0 rem(74);
+		&__center {
+			flex-wrap: wrap;
+			.u-col {
+				&.is-first {
+					max-width: 50%;
+					width: 100%;
+				}
+
+				&.is-second {
+					max-width: 50%;
+					width: 100%;
+					border-right: 0;
+				}
+
+				&.is-third {
+					display: none;
+				}
+
+				&.is-fourth {
+					width: 100%;
+					border-top: 1px solid rgba(255, 255, 255, 0.20);
+				}
+			}
+		}
+	}
+
+	@include mq('phone-large') {
+		padding: 20px 0 70px;
+		&__top {
+			padding-left: 0;
+			font-size: 16px;
+		}
+
+		&__center {
+			p {
+				margin-bottom: 10px;
+			}
+			.u-col {
+				padding: 20px 10px 20px 0px;
+
+				&.is-first {
+					.u-btn {
+						margin-top: 10px;
+						padding: 10px 17px;
+						font-size: 14px;
+					}
+				}
+
+				&.is-second {
+					padding: 20px 0px 20px 10px;
+				}
+			}
+		}
+
+		.u-h4 {
+			margin-bottom: 15px;
+			font-size: 16px;
+		}
+
+		.c-social {
+			justify-content: center;
+			margin-top: 20px;
+
+			&__item {
+				width: 36px;
+				height: 36px;
+			}
+		}
+
+		.c-menu {
+			&__item {
+				font-size: 13px;
+				line-height: 140%;
+			}
+		}
+
+		.c-subscribe {
+			margin-bottom: 10px;
+		}
+	}
+}

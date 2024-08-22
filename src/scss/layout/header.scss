@@ -1,0 +1,189 @@
+.l-header {
+	position: relative;
+	border-bottom: 1px solid #E5E4E2;
+	// margin-bottom: 20px;
+
+
+	z-index: 2;
+	background-color: rgba(255, 255, 255, 0.8);
+	backdrop-filter: blur(18px);
+
+	&__top {
+		background: #1F1F1F;
+    padding: rem(12) rem(20);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid #000;
+    color: #808080;
+    font-family: Helvetica;
+
+    .u-btn {
+    	font-family: Helvetica;
+    }
+	}
+
+	&__bottom {
+		// padding: 40px 0;
+
+
+		&-right {
+	    width: 100%;
+	    display: flex;
+	    align-items: center;
+	    justify-content: flex-end;
+	    max-width: rem(115);
+		}
+
+		.c-logo {
+	    margin-right: rem(50);
+	    max-width: rem(115);
+	    width: 100%;
+		}
+
+		.u-container {
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+		}
+
+		.c-search {
+			margin-right: 70px;
+		}
+
+		.c-service {
+			margin-right: 70px;
+		}
+	}
+
+	&__mobile {
+		display: none;
+
+		// @media(min-width: 992px) {
+		// 	display: none!important;
+		// }
+		.c-mobile-menu {
+			left: auto;
+			padding: 0;
+			position: relative;
+		}
+
+		.c-menu {
+			flex-direction: column;
+			&__item {
+				margin-right: 0;
+				padding: 10px 0;
+				margin-bottom: 10px;
+			}
+		}
+	}
+
+	@include mq('desktop-wide') {
+		.c-logo {
+	    margin-right: 20px;
+		}
+
+		&__bottom {
+			.c-search,
+			.c-service {
+				margin-right: 20px;
+			}
+		}
+	}
+
+	@include mq('desktop') {
+		&__bottom {
+			.c-search,
+			.c-service {
+				margin-right: 20px;
+			}
+
+			.c-search {
+				display: none;
+			}
+		}
+	}
+
+	@include mq('tablet-medium') {
+		position: fixed;
+		top: 0;
+		left: 0;
+		right: 0;
+
+		& ~ .wrapper {
+			padding-top: 140px;
+		}
+
+		&__bottom {
+			padding: 15px 0;
+
+			.c-menu {
+				display: none;
+			}
+		}
+
+		&__mobile {
+			height: calc(100vh - 77px);
+			width: 100%;
+			overflow: auto;
+	    // padding-top: 45px;
+		}
+	}
+
+	@include mq('tablet') {
+
+		& ~ .wrapper {
+			padding-top: 73px;
+		}
+
+		&__top {
+			display: none;
+		}
+
+		&__bottom {
+			&-right {
+				// justify-content: flex-start;
+				// flex-direction: row-reverse;
+			}
+
+			
+		}
+	}
+
+	@include mq('phone-large') {
+		.c-logo {
+			margin-right: 15px;
+		}
+
+		&__bottom {
+			&-left {
+				max-width: 130px;
+			}
+		}
+
+		.c-lang {
+			margin-left: 15px;
+    	font-size: 13px;
+		}
+
+		.c-dropdown {
+			font-size: 14px;
+		}
+
+		.c-burger {
+			margin-left: 20px;
+		}
+
+		.c-service {
+			margin-right: 5px;
+			margin-left: 10px;
+
+			&.cart {
+				svg {
+					width: 18px;
+					height: 18px;
+				}
+			}
+		}
+	}
+}

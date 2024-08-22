@@ -1,0 +1,35 @@
+.c-footer-menu {
+  color: #b8b8b8;
+  &__items {
+    margin-bottom: 9px;
+    line-height: 1.4;
+    font-size: 15px;
+  }
+
+  &__title {
+    margin-bottom: 30px;
+    padding-left: 8px;
+    position: relative;
+    font-weight: 600;
+    font-size: 14px;
+    text-transform: uppercase;
+    color: $white;
+
+    &:after {
+      background: #f94942;
+      content: "";
+      display: block;
+      height: 8px;
+      left: 0;
+      position: absolute;
+      top: 2px;
+      width: 2px;
+    }
+  }
+
+  p {
+    // font-family: Raleway;
+    font-size: 14px;
+    line-height: 1.6;
+  }
+}

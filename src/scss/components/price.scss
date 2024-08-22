@@ -1,0 +1,49 @@
+.c-price {
+  display: flex;
+  &.is-sale {
+    display: block;
+    font-weight: bold;
+    font-size: rem(18);
+    line-height: 1.3;
+    color: #ed753c;
+  }
+
+  &.is-big {
+    color: #FFA819;
+    font-size: rem(22);
+    font-style: normal;
+    font-weight: 500;
+    line-height: 140%;
+    text-transform: capitalize;
+  }
+
+  &__wrong {
+    text-decoration-line: line-through;
+    color: $grey;
+    margin-left: 8px;
+  }
+  &__sale {
+    font-weight: bold;
+    font-size: rem(18);
+    line-height: 1.3;
+    color: $red;
+  }
+
+  &__current {
+
+  }
+
+  .screen-reader-text {
+    display: none;
+  }
+
+  ins {
+    margin-left: rem(10);
+    color: #F93C00;
+    text-decoration: auto;
+  }
+
+  del {
+    display: block;
+  }
+}

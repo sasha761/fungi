@@ -1,0 +1,74 @@
+.c-service {
+	position: relative;
+  display: inline-block;
+
+	&__count {
+		position: absolute;
+    height: rem(18);
+    top: rem(-6);
+    min-width: rem(18);
+    background: #ffd8cc;
+    color: #000;
+    font-size: rem(10);
+    left: rem(14);
+    text-align: center;
+    border-radius: 50%;
+    border: 1px solid #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;		
+	}
+
+  &.cart {
+    margin-left: rem(32);
+
+    & > div:not(.c-service__dropdown) {
+      line-height: 0;
+    }
+
+    svg {
+      width: rem(24);
+      height: rem(24);
+    }
+  }
+
+  
+  svg {
+    fill: #7F7873;
+  }
+  
+
+  &:hover,
+  &.hovered {
+    .c-service__dropdown {
+      opacity: 1;
+      visibility: visible;
+      top: 90%;
+    }
+  }
+
+  &__dropdown {
+    position: absolute;
+    box-shadow: 0 10px 20px rgba(50,50,50,.1);
+    top: 120%;
+    opacity: 0;
+    visibility: hidden;
+    padding: rem(15);
+    min-width: rem(350);
+    background-color: #fff;
+    border: 1px solid #fbf8f8;
+    border-radius: 3px;
+    z-index: 50;
+    right: rem(-15);
+    transition: .3s;
+    line-height: 1.6;
+  }
+
+  @include mq('phone-large') {
+    &__dropdown {
+      max-width: 260px;
+
+      right: -50px;
+    }
+  }
+}

@@ -1,0 +1,38 @@
+.c-social {
+	margin-tom: rem(35);
+	display: flex;
+	align-items: center;
+
+	&__item {
+		width: rem(36);
+		height: rem(36);
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		border-radius: 50%;
+		border: 1px solid rgba(255, 255, 255, 0.20);
+		margin-right: rem(8);
+
+		svg {
+			width: rem(14);
+			height: auto;
+		}
+
+		&:last-child {
+			margin-right: 0;
+		}
+
+		.is-telegram {
+		  transform: scale(1.7);
+		}
+	}
+
+	&__title {
+		color: #000;
+		font-size: rem(18);
+		font-style: normal;
+		font-weight: 500;
+		line-height: 1.4; 
+		margin-right: rem(13);
+	}
+}

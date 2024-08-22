@@ -1,0 +1,107 @@
+{% extends "base.twig" %}
+
+{% block content %}
+  <main class="p-shop p-search">
+    <div class="u-container">
+
+      {{breadcrumbs}}
+      
+      <h1 class="u-h2">{{ 'You searched' | translateString('Search - You searched') }}: {{title}}</h1>
+      <div class="p-shop__flex">
+        <div class="p-shop__catalog"> 
+          <section 
+            class="l-shop" 
+            data-categories="{{categories|join(', ')}}"
+            data-cat-id="{{query_object.term_id}}"
+            >
+            
+            {% if banner %}
+              <div class="l-shop__banner">
+                <img
+                  src="data:image/png;base64,TEVITGhbV0IyeWs4cHlvSmFkUiouN2tDTWRuag==" 
+                  data-src="{{banner}}" 
+                  class="l-shop__img lazy">
+              </div>
+            {% endif %}
+
+            {% if description %}
+              <div class="l-shop__text js-read-more">
+                <div class="js-read-more-text">
+                  {{ description }}
+                </div>
+                <a class="u-read-more js-read-more-btn">{{ 'Read completely' | translateString('buttons - Read completely') }}</a>
+              </div>
+            {% endif %}
+
+            <div class="l-shop__result">
+              <div class="l-shop__result-count">{{ function('woocommerce_result_count') }}</div>
+              <div class="c-sort js-filter-sort">
+                {{ function('woocommerce_catalog_ordering') }}
+              </div> 
+            </div>
+          
+            <div class="l-shop__product">
+              {% if posts|length or products|length %}
+                <div class="row js-load-more">
+                  {% for post in posts %}
+                    <div class="col-lg-4 col-md-4 col-sm-6 col-6 u-col js-gallery-item">
+                      {% include 'templates/partial/post.twig' 
+                        with {
+                          'data': post,
+                          'show_category': false,
+                          'excerpt': false,
+                          'info': false,
+                          'readMore': false,
+                          'likes': 'bottom'
+                        } 
+                      %}
+                    </div>
+                  {% endfor %}
+                  {% for product in products %}
+                    <div class="col-lg-4 col-md-4 col-sm-6 col-6 u-col js-gallery-item">
+                      {% include 'templates/partial/product.twig' with {'data': product} %}
+                    </div>
+                  {% endfor %}
+                </div>  
+              {% else %}
+                <div class="p-shop__nofound">
+                  <h2 class="u-h2 is-center">{{ 'Sorry, your query did not find anything' | translateString('Search - empty') }}К сожалению по вашему запросу ничего не найдено</h2>
+                </div>
+              {% endif %}
+            </div>
+
+            {% include 'partial/pagination.twig' with { pagination: posts.pagination({show_all: false, mid_size: 4, end_size: 1}) } %}
+          </section>
+        </div> 
+        <div class="p-shop__sidebar">
+          {% include 'templates/partial/sidebar.twig' 
+            with {
+              'search': true, 
+              'product_tags': product_tags,
+              'popular_products': popular_posts
+            } 
+          %}        
+        </div>  
+      </div>
+    </div>
+  </main>
+
+  <script>
+    // const products = document.querySelectorAll('[data-id]');
+
+    // if (products.length) {
+    //   let productsIds = [];
+    //   products.forEach((item, index) => {
+    //     productsIds[index] = {
+    //       'id': item.getAttribute('data-id'),
+    //       'google_business_vertical': 'retail'
+    //     }
+    //   });
+    //   window.dataLayer = window.dataLayer || []; 
+    //   dataLayer.push({
+    //     'event': 'view_search_results',
+    //     'items': productsIds
+    //   });
+    // }
+  </script>
+{% endblock %}

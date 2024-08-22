@@ -1,0 +1,60 @@
+/*!
+Theme Name: News
+Theme URI: http://underscores.me/
+Author: Alex Kulachinsky
+Author URI: https://www.linkedin.com/in/alexander-kulachinsky-0b1b96217/
+Description: Description
+Version: 1.0.0
+Tested up to: 5.4
+Requires PHP: 7.4
+License: GNU General Public License v2 or later
+License URI: LICENSE
+Text Domain: news
+*/
+
+// @import '../../node_modules/jquery-nice-select/css/nice-select.css';
+// @import 'vendor/nice-select.css';
+// @import 'vendor/swiper-bundle.css';
+// @import "../../node_modules/nice-select2/src/scss/nice-select2.scss";
+@import "~nice-select2/src/scss/nice-select2.scss";
+
+@import 'utility/style.scss';
+@import 'vendor/style.scss';
+@import 'base/style.scss';
+@import 'components/style.scss';
+@import 'layout/style.scss';
+@import 'page/style.scss';
+
+html {
+	font-size: calc-between-width(1440, 16, 1800, 20);
+
+	@include mq('tablet-wide') {
+		font-size: 16px;
+	}
+
+	@media (min-width: 2400px) {
+		font-size: 20px;
+	}
+}
+
+img.lazy {
+	position: relative;
+	transition: all 0.2s ease;
+	opacity: 0;
+	
+	&.loaded {
+		opacity: 1;
+	}
+}
+
+
+
+.otgs-development-site-front-end {
+	display: none!important;
+}
+
+.c-load-icon {
+  text-align: center;
+  margin-bottom: rem(10);
+  display: none;
+}

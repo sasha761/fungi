@@ -1,0 +1,50 @@
+.c-subscribe {
+	padding: rem(6) rem(8) rem(6) rem(16);
+	border-radius: rem(50);
+	border: 1px solid rgba(255, 255, 255, 0.20);
+	color: rgba(255, 255, 255, 0.70);
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	font-family: 'Golos Text';
+	font-size: rem(14);
+	font-style: normal;
+	font-weight: 400;
+	line-height: 1.7;
+
+	input {
+		color: #fff;
+		font-size: rem(14);
+		width: 100%;
+
+		&::placeholder {
+			color: rgba(255, 255, 255, 0.70);
+		}
+	}
+
+	.u-btn {
+		flex-shrink: 0;
+	}
+
+	@include mq('phone-medium') {
+		display: block;
+		padding: 0;
+		border: 0;
+		border-radius: 0;
+
+		input {
+			padding: 13.5px 25px;
+			border-radius: rem(50);
+			border: 1px solid rgba(255, 255, 255, 0.20);
+			color: rgba(255, 255, 255, 0.70);
+			display: block;
+			width: 100%;
+			margin-bottom: 5px;
+		}
+
+		.u-btn {
+			display: block;
+			width: 100%;
+		}
+	}
+}

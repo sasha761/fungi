@@ -1,0 +1,46 @@
+.l-subs {
+	padding: 130px 120px;
+    z-index: -1;
+	position: relative;
+	overflow: hidden;
+	background-color: $black;
+	// background-image: url('../img/subs.jpg');
+	// background-size: cover;
+	// background-position: center;
+	border: 20px solid $black;
+
+	.is-img {
+		position: absolute;
+		top: 0;
+		left: 50%;
+		transform: translateX(-50%);
+		bottom: 0;
+		max-width: none;
+		min-width: 100%;
+	}
+
+	.c-form {
+		position: relative;
+		margin-left: 20%;
+	}
+
+	@include mq('tablet-medium') {
+    padding: 80px 50px;
+		// background-position: right;
+		.is-img {
+			left: auto;
+			transform: none;
+			right: 0;
+		}
+
+		.c-form {
+			margin-left: 0;
+			left: 50%;
+			transform: translateX(-50%);
+		}
+	}
+
+	@include mq('phone-large') {
+		border: 0;
+	}
+}

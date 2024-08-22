@@ -1,0 +1,109 @@
+<header class="l-header">
+	<div class="l-header__top">
+		<span>{{ 'FREE SHIPPING ON ORDERS OVER $125' | translateString('Header - free shipping') }}</span>
+		<a href="#" class="u-btn is-small is-white-border">In Europe?</a>
+	</div>
+	<div class="l-header__bottom u-relative">
+		<div class="u-container">
+			<div  class="c-logo">
+				<a href="{{site.url}}">
+					<img src="{{theme.link}}/src/img/main_logo_blue.png" alt="">
+					{# <svg width="100%" height="52px">
+		        <use xlink:href="#logo"></use>
+		      </svg> #}
+				</a>
+			</div>
+
+			{% include 'templates/menu.twig' with {'menu': menu.get_items} %}
+			
+			<div class="l-header__bottom-right">
+				<div class="c-lang js-lang">
+          <div class="c-lang__current">
+            {{current_lang}}
+            <svg width="11px" height="7px" class="c-lang__arrow">
+              <use xlink:href="#icon-arrow-bottom"></use>
+            </svg>
+          </div>
+          <div class="c-lang__sub">
+
+            {% for lang in language_code %}
+              <a 
+              	href="{{ lang.url }}" 
+              	class="c-lang__item {% if current_lang == lang.code %}is-active {% endif %}"
+              	data-lang="{{lang.code}}"
+            	>
+                {{ lang.code }}
+              </a>
+            {% endfor %}
+          </div>
+        </div>
+
+				<div class="c-service cart">
+					<div>
+						<span class="c-service__count">{{ minicart.count }}</span>
+						<svg width="20px" height="20px">
+			        <use xlink:href="#cart"></use>
+			      </svg>
+					</div>
+
+		      <div class="c-service__dropdown">
+		      	{{ function('woocommerce_mini_cart') }}
+		      </div>
+				</div>
+
+        <div class="c-burger js-burger d-block d-lg-none">
+					<span></span>
+		      <span></span>
+		      <span></span>
+				</div>
+
+			</div>
+		</div>
+	</div>
+	<div class="l-header__mobile">
+		{# {% include 'templates/menu.twig' with {'menu': menu.get_items} %} #}
+		<div class="u-container">
+			<div class="c-mobile-menu">
+				<ul>
+					<li class="c-mobile-menu__link">
+						<svg width="20px" height="20px">
+							<use xlink:href="#shipping-store"></use>
+						</svg>
+						<a href="{{site.url}}">{{ 'Main page' | translateString('Modals - Main page') }}</a>
+					</li>
+					<li class="c-mobile-menu__link" data-modal="#mobile-menu">
+						<svg width="22px" height="20px">
+							<use xlink:href="#catalog"></use>
+						</svg>
+						<span>{{ 'Catalog' | translateString('Header - catalog') }}</span>
+					</li>
+					<li class="c-mobile-menu__link">
+						<svg width="20px" height="25px">
+							<use xlink:href="#open-box-checked"></use>
+						</svg>
+						<a href="{{site.url}}/shipping-and-payment">{{ 'Delivery and payment' | translateString('Modals - Delivery and payment') }}</a>
+					</li>
+					<li class="c-mobile-menu__link">
+						<svg width="20px" height="25px">
+							<use xlink:href="#open-box"></use>
+						</svg>
+						<a href="{{site.url}}/refund_returns">{{ 'Returns and exchanges' | translateString('Modals - Returns and exchanges') }}</a>
+					</li>
+					<li class="c-mobile-menu__link">
+						<svg width="21px" height="20px" class="is-phone">
+							<use xlink:href="#icon-phone"></use>
+						</svg>
+						<a href="tel:{{ options.social.phone }}">{{ 'Call us' | translateString('Modals - Call us') }}</a>
+					</li>
+					<li class="c-mobile-menu__link">
+						<svg width="17px" height="20px">
+							<use xlink:href="#coment"></use>
+						</svg>
+						<a href="{{site.url}}/reviews">{{ 'Reviews' | translateString('Modals - Reviews') }}</a>
+					</li>
+				</ul>
+				{% include 'templates/search-form.twig' %}
+			</div>
+		</div>
+	</div>
+</header>

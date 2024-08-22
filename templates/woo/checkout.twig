@@ -1,0 +1,308 @@
+{% extends 'templates/base.twig' %}
+{% block content %}
+	{% if order %}
+		<main class="p-thank" transaction-id="{{order_data.order_number}}">
+			<div class="u-container">
+				<div class="row">
+					<div class="col-lg-6">
+						<div class="l-checkout__form">
+							<h1 class="u-h3">{{ 'Thank you. Your order has been accepted.' | translateString('Checkout - Thank you') }}</h1>
+							<ul class="p-thank__list">
+								<li>{{ 'Order number' | translateString('Checkout - Order number') }}:
+									<b>{{order_data.order_number}}</b>
+								</li>
+								<li>{{ 'Date' | translateString('Checkout - Date') }}:
+									<b>{{order_data.order_date|date("m.d.Y")}}</b>
+								</li>
+								<li>Email:
+									<b>{{order_data.billing_email}}</b>
+								</li>
+								<li>{{ 'City' | translateString('Checkout - City') }}:
+									<b>{{order_data.billing_city}}</b>
+								</li>
+								<li>{{ 'Post Office' | translateString('Checkout - Post Office') }}:
+									<b>{{order_data.billing_address_1}}</b>
+								</li>
+								<li>{{ 'Payment method' | translateString('Checkout - Payment method') }}:
+									<b>{{order_data.payment_method_title}}</b>
+								</li>
+								<li>{{ 'Full name' | translateString('Checkout - Full name') }}:
+									<b>{{order_data.billing_first_name}}
+										{{order_data.billing_last_name}}</b>
+								</li>
+								<li>{{ 'Phone' | translateString('Checkout - Phone') }}:
+									<b>{{order_data.billing_phone}}</b>
+								</li>
+							</ul>
+							<div class="p-thank__payment">
+								{% do action("woocommerce_thankyou_" ~ order_data.payment_method, order_data.order_id) %}
+							</div>
+						</div>
+					</div>
+
+					<div class="col-lg-6">
+						<div class="l-checkout__form">
+							<h2 class="u-h3">{{ 'Ordering information' | translateString('Checkout - Ordering information') }}</h2>
+							<ul class="p-thank__list">
+								{% for product in products %}
+									<li class="p-thank__list-product js-order-item" data-name="{{product.name}}" data-id="{{ product.id }}" data-quantity="{{product.qty}}" data-price="{{product.total}}" data-brand="{{product.brand[0].name}}" data-categories="{{product.cats|join(', ')}}">
+										<p>
+											<b>{{product.name}}</b>
+										</p>
+										<p>{{ 'Quantity' | translateString('Cart - Quantity') }}:
+											<b>{{product.qty}}</b>
+										</p>
+										<p>{{ 'Price' | translateString('Checkout - Price') }}:
+											<b>{{product.total}}
+												{{currency}}</b>
+										</p>
+									</li>
+								{% endfor %}
+								<li data-total="{{order_data.order_total}}">{{ 'Total' | translateString('Cart - Total') }}:
+									<b>{{order_data.order_total}}
+										{{currency}}</li>
+								</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+		</main>
+	{% else %}
+
+		<main class="p-checkout">
+			<div class="u-container">
+				{% do action( 'woocommerce_cart_has_errors' ) %}
+				{{ function('woocommerce_output_all_notices') }}
+
+				<h1>Fungi-harmony.com checkout</h1>
+				<div class="row">
+					<div class="col-lg-6">
+						<form name="checkout" method="post" class="l-checkout" action="{{checkout_url}}" enctype="multipart/form-data">
+							<div class="l-checkout__form">
+								<h2 class="u-h3">{{ 'Contact' | translateString('Checkout - Contact') }}</h2>
+								<div class="c-input">
+									<input required type="email" name="email" value="" placeholder="{{ 'Email' | translateString('Input - Email') }}">
+								</div>
+
+								<h2 class="u-h3">{{ 'Delivery' | translateString('Checkout - Delivery') }}</h2>
+								<div class="c-select">
+									<select 
+										name="billing_country" 
+										id="country-select" 
+										required="" 
+										autocomplete="shipping country"
+										class="c-select js-select">
+
+										<option value="US">United States</option>
+										<option value="UA">Ukraine</option>
+										<option value="IN">India</option>
+										<option value="CA">Canada</option>
+										<option value="AU">Australia</option>
+										<option value="AT">Austria</option>
+										<option value="BE">Belgium</option>
+										<option value="BR">Brazil</option>
+										<option value="BG">Bulgaria</option>
+										<option value="CN">China</option>
+										<option value="HR">Croatia</option>
+										<option value="CY">Cyprus</option>
+										<option value="CZ">Czechia</option>
+										<option value="DK">Denmark</option>
+										<option value="EG">Egypt</option>
+										<option value="EE">Estonia</option>
+										<option value="FI">Finland</option>
+										<option value="FR">France</option>
+										<option value="DE">Germany</option>
+										<option value="GR">Greece</option>
+										<option value="HK">Hong Kong SAR</option>
+										<option value="HU">Hungary</option>
+										<option value="IS">Iceland</option>
+										<option value="ID">Indonesia</option>
+										<option value="IE">Ireland</option>
+										<option value="IL">Israel</option>
+										<option value="IT">Italy</option>
+										<option value="JP">Japan</option>
+										<option value="LV">Latvia</option>
+										<option value="LT">Lithuania</option>
+										<option value="LU">Luxembourg</option>
+										<option value="MY">Malaysia</option>
+										<option value="MX">Mexico</option>
+										<option value="MC">Monaco</option>
+										<option value="NL">Netherlands</option>
+										<option value="NZ">New Zealand</option>
+										<option value="NO">Norway</option>
+										<option value="PL">Poland</option>
+										<option value="PT">Portugal</option>
+										<option value="QA">Qatar</option>
+										<option value="RO">Romania</option>
+										<option value="SA">Saudi Arabia</option>
+										<option value="RS">Serbia</option>
+										<option value="SG">Singapore</option>
+										<option value="SK">Slovakia</option>
+										<option value="SI">Slovenia</option>
+										<option value="ZA">South Africa</option>
+										<option value="KR">South Korea</option>
+										<option value="ES">Spain</option>
+										<option value="SE">Sweden</option>
+										<option value="CH">Switzerland</option>
+										<option value="TW">Taiwan</option>
+										<option value="TH">Thailand</option>
+										<option value="TR">Türkiye</option>
+										<option value="AE">United Arab Emirates</option>
+										<option value="GB">United Kingdom</option>
+										<option value="UY">Uruguay</option>
+										<option value="VN">Vietnam</option>
+										<option value="YE">Yemen</option>
+										<option value="ZM">Zambia</option>
+										<option value="ZW">Zimbabwe</option>
+									</select>
+
+									{# <input required type="text" name="billing_country" value="" placeholder="{{ 'Country / Region' | translateString('Input - Country') }}"> #}
+								</div>
+								<div class="c-input is-half">
+									<input required type="text" name="billing_first_name" value="" placeholder="{{ 'First name' | translateString('Input - First name') }}">
+								</div>
+								<div class="c-input is-half">
+									<input required type="text" name="billing_last_name" value="" placeholder="{{ 'Last name' | translateString('Input - Last name') }}">
+								</div>
+								<div class="c-input">
+									<input required type="text" name="billing_address_1" value="" placeholder="{{ 'Address' | translateString('Input - Address') }}">
+								</div>
+								<div class="c-input">
+									<input required type="text" name="email" value="" placeholder="{{ 'Apartment, suite, etc.' | translateString('Input - Apartment') }}">
+								</div>
+								<div class="c-input">
+									<input required type="text" name="billing_phone" value="" placeholder="{{ 'Phone' | translateString('Input - Phone') }}">
+								</div>
+								<div class="c-input is-half">
+									<input required type="text" name="billing_postcode" value="" placeholder="{{ 'Postcode / ZIP' | translateString('Input - Postcode') }}">
+								</div>
+								<div class="c-input is-half">
+									<input required type="text" name="billing_city" value="" placeholder="{{ 'City' | translateString('Input - City') }}">
+								</div>
+								<h2 class="u-h3">{{ 'Payment' | translateString('Checkout - Payment') }}</h2>
+								<p>All transactions are secure and encrypted.</p>
+
+								{# <div class="c-payment">
+									<div class="c-payment__item">
+										<div>
+											<input type="radio" class="input-radio" name="payment_method" value="bacs" checked="checked">
+											Credit card
+										</div>
+										<div class="c-payment__item-icons">
+											<img alt="VISA" src="https://cdn.shopify.com/shopifycloud/checkout-web/assets/0169695890db3db16bfe.svg" role="img" width="38" height="24" class="_1fragemwa _1fragemw5 _1fragemwj _1fragemrn _1tgdqw66">
+											<img alt="MASTERCARD" src="https://cdn.shopify.com/shopifycloud/checkout-web/assets/ae9ceec48b1dc489596c.svg" role="img" width="38" height="24" class="_1fragemwa _1fragemw5 _1fragemwj _1fragemrn _1tgdqw66">
+											<img alt="AMEX" src="https://cdn.shopify.com/shopifycloud/checkout-web/assets/f11b90c2972f3811f2d5.svg" role="img" width="38" height="24" class="_1fragemwa _1fragemw5 _1fragemwj _1fragemrn _1tgdqw66">
+										</div>
+									</div>
+								</div> #}
+
+								{# {{function('woocommerce_checkout_payment')}} #}
+
+
+								{# <select name="" id=""></select> #}
+								{# <h1 class="u-h3">{{ 'Ordering' | translateString('Checkout - Ordering') }}</h1>
+								
+																{% for key, field in checkout_billing %}
+																	<div class="c-input">
+																		<span>{{field.label}}</span>
+																		{% if user %}
+																			<input 
+																				{{field.required ? "required" : ""}} 
+																				type="{{field.type ? field.type : "text"}}"
+																				name="{{key}}" 
+																				value="{{checkout_key[loop.index0] ? checkout_key[loop.index0] : ""}}" 
+																			>
+																		{% else %}
+																			<input 
+																				{{field.required ? "required" : ""}} 
+																				type="{{field.type ? field.type : "text"}}"
+																				name="{{key}}" 
+																			>
+																		{% endif %}
+																	</div>
+																{% endfor %}
+								
+																{% for key, field in checkout_order %}
+																	<div class="c-input ">
+																		<span>{{field.label}}</span>
+																		<textarea name="{{key}}" id="{{key}}" rows="4" placeholder="{{field.placeholder}}"></textarea>
+																	</div>
+																{% endfor %}
+								
+														  	{{function('woocommerce_checkout_payment')}} #}
+							</div>
+						</form>
+					</div>
+					<div class="col-lg-6">
+						<div class="l-cart">
+							{% for product in products %}
+								{% set category  = function('wc_get_product_category_list', product.delete_productid) %}
+								<div class="c-product-cart">
+									<a href="{{ product.url }}" class="c-product-cart__img">
+										<img src="{{product.thumbnail | resize(100, height) }}">
+										<div class="c-product-cart__quantity">{{ product.quantity }}</div>
+									</a>
+									<div class="c-product-cart__info">
+										<div class="c-product-cart__name">
+											<div class="d-flex justify-content-between">
+												<a href="{{product.url}}" class="c-product-cart__name-title">{{product.title}}</a>
+												<div class="c-total">{{product.total}}</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							{% endfor %}
+						</div>
+
+						<div
+							class="l-sidebar-cart">
+							{# <form class="l-checkout__coupon l-sidebar-cart__cupons actions" method="post">
+															<h2 class="u-h3">{{ 'Coupons' | translateString('Cart - Coupons') }}</h2>
+															<div class="c-form-cupons">
+																<input type="text" name="coupon_code" id="coupon_code" value="" placeholder="{{ 'Promo code' | translateString('input - Promo code') }}">
+																<button type="submit" name="apply_coupon" value="Apply coupon" class="u-btn-submit">
+											            <svg width="26px" height="14px" class="">
+											              <use xlink:href="#big-arrow"></use>
+											            </svg>
+											          </button>
+											          {% do action('woocommerce_cart_coupon') %}
+											        </div> 
+														</form> #}
+
+							<div class="l-sidebar-cart__total actions">
+								<h2 class="u-h3">{{ 'Your order' | translateString('Cart - Your order') }}</h2>
+								<ul class="l-sidebar-cart__list">
+									{{ nonce }}
+									<li class="l-sidebar-cart__item">
+										<span>{{ 'Order amount' | translateString('Cart - Order amount') }}</span>
+										<span class="c-price">{{cart_total}}</span>
+									</li>
+									<li class="l-sidebar-cart__item">
+										<span>{{ 'Shipping' | translateString('Cart - Shipping') }}</span>
+										<span class="c-price">{{shipping}}</span>
+									</li>
+
+									{% if coupons %}
+										{% for item in coupons %}
+											<li class="l-sidebar-cart__item is-red">
+												<span>{{ 'Discount Coupon' | translateString('Cart - Discount Coupon') }}</span>
+												<span>-{{item.amount}}
+													{{currency}}</span>
+											</li>
+										{% endfor %}
+									{% endif %}
+
+									<li class="l-sidebar-cart__item">
+										<span>{{ 'Total' | translateString('Cart - Total') }}</span>
+										<span>{{total}}</span>
+									</li>
+								</ul>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</main>
+	{% endif %}
+{% endblock %}

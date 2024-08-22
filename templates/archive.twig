@@ -1,0 +1,61 @@
+{% extends 'templates/base.twig' %}
+
+{% block content %}
+ 	<main class="p-archive">  
+ 		<div class="u-container">
+      {{ breadcrumbs }}
+      <h1 class="u-h1">{{ title }}</h1>    
+
+      <section class="l-our-blog">
+	 			<div class="l-our-blog__flex">
+	 				<div class="l-our-blog__content">
+	 					<div class="l-our-blog__content-first-post">
+						 	{% include 'templates/partial/post.twig' 
+						 		with {
+						 			'data': posts[0],
+						 			'show_category': false,
+	 								'excerpt': true,
+	 								'info': true,
+	 								'readMore': true,
+	 								'likes': 'top'
+					 			} 
+				 			%}
+	 					</div>
+	 					<div class="l-our-blog__content-posts">
+							{% if posts|length > 1 %}
+								<div class="row">
+									{% for post in posts|slice(1) %}
+										<div class="col-lg-6 col-sm-6 u-col">
+											{% include 'templates/partial/post.twig' 
+												with {
+													'data': post,
+													'show_category': true,
+													'excerpt': false,
+													'info': false,
+													'readMore': false,
+													'likes': 'bottom'
+												} 
+											%}
+										</div>
+									{% endfor %}
+								</div>
+							{% else %}
+								<div class="l-content__nofound">
+									<h2>{{ 'Posts not found' | translateString('Archive - Posts not found') }}</h2>
+								</div>
+							{% endif %}
+	 					</div>
+	 				</div>
+	 				{% include 'templates/partial/sidebar.twig' 
+            with {
+              'category': categories, 
+              'popular_posts': most_popular
+            } 
+          %}
+ 				</div>
+        {% include 'partial/pagination.twig' with { pagination: posts.pagination({show_all: false, mid_size: 2, end_size: 1}) } %}
+			
+	 		</section>
+		</div>
+  </main>
+{% endblock %}

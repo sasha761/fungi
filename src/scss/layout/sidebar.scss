@@ -1,0 +1,33 @@
+.l-sidebar {
+  &__block {
+    border-radius: 5px;
+    border: 1px solid #E5E4E2;
+    padding: rem(40) rem(32);
+    background: #F5F5F5;
+  	margin-bottom: rem(32);
+  	&:last-child {
+  		margin-bottom: 0;
+  	}
+
+    &-title {
+      margin-bottom: rem(24);
+      color: #000;
+      font-family: 'Golos Text';
+      font-size: rem(22);
+      font-style: normal;
+      font-weight: 500;
+      line-height: 140%;
+    }
+
+    .c-tag,
+    .c-product-small,
+    .c-post-small,
+    .c-category {
+      margin-bottom: rem(10);
+
+      &:last-child {
+        margin-bottom: 0;
+      }
+    }
+  }
+}

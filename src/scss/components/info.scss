@@ -1,0 +1,53 @@
+.c-info {
+	display: flex;
+	align-items: flex-start;
+
+	&__title {
+		color: #000;
+		font-size: rem(22);
+		font-weight: 500;
+		line-height: 140%; 
+		width: rem(160);
+		flex-shrink: 0;
+	}
+
+	&__text {
+		color: #666;
+		font-size: rem(15);
+		font-weight: 400;
+		line-height: 180%;
+		margin-left: rem(80);
+
+		&-subtitle {
+			color: #000;
+			font-size: rem(22);
+			font-weight: 500;
+			line-height: 140%;
+			margin-bottom: rem(7); 
+		}
+	}
+
+	@include mq('tablet') {
+		&__title {
+			width: 120px;
+		}
+	}
+
+	@include mq('phone-large') {
+		flex-direction: column;
+
+		&__title {
+			margin-bottom: 10px;
+			line-height: 1.2;
+			width: 100%;
+		}
+		&__text {
+			margin-left: 0;
+
+			&-subtitle {
+				font-size: 18px;
+				margin-bottom: 10px;
+			}
+		}
+	}
+}

@@ -1,0 +1,62 @@
+{% set excerptWords = 300 %}
+
+<div class="c-post">
+	<a href="{{data.permalink}}" class="c-post__img">
+		<img src="{{data.thumb_xl}}" alt="">
+	</a>
+
+	{% if show_category %}
+		<div class="c-post__category">
+			{% for cat in category %}
+				{% set catLink = function('get_tag_link', cat.term_id) %}
+				<a href="{{catLink}}">{{cat.name}}</a>{% if not loop.last %}, {% endif %}
+			{% endfor %}
+		</div>
+	{% endif %}
+
+	{% if info %}
+		<div class="c-post__info">
+			<div class="c-post__info-date">{{data.date}}</div>
+			<a href="{{data.author_link}}" class="c-post__info-author">{{data.author_name}}</a>
+			{% if likes == 'top' and data.post_likes %}
+				<div class="c-likes">
+					<div class="c-likes__item c-likes__like">👍 {{ data.post_likes.like | default(0) }}</div>
+					<div class="c-likes__item c-likes__fire">🔥 {{ data.post_likes.fire | default(0) }}</div>
+					<div class="c-likes__item c-likes__hart">❤️ {{ data.post_likes.heart | default(0) }}</div>
+				</div>
+			{% endif %}
+		</div>
+	{% endif %}
+
+	<h4 class="c-post__title">
+		<a href="{{data.permalink}}">{{data.title|length > 65 ? data.title|slice(0, 65) ~ '...' : data.title}}</a>
+	</h4>
+
+	{% if likes == 'bottom' and data.post_likes %}
+		<div class="c-likes">
+			<div class="c-likes__item c-likes__like">👍 {{ data.post_likes.like | default(0) }}</div>
+			<div class="c-likes__item c-likes__fire">🔥 {{ data.post_likes.fire | default(0) }}</div>
+			<div class="c-likes__item c-likes__hart">❤️ {{ data.post_likes.heart | default(0) }}</div>
+		</div>
+	{% endif %}
+
+	{% if excerpt %}
+		{% if data.post_excerpt %}
+	    <p class="c-post__text">{{ data.post_excerpt|striptags|length > excerptWords ? data.post_excerpt|striptags|slice(0, excerptWords) ~ '...' : data.post_excerpt|striptags}}</p>
+	  {% else %}
+	    <p class="c-post__text">{{ data.post_content|striptags|length > excerptWords ? data.post_content|striptags|slice(0, excerptWords) ~ '...' : data.post_content|striptags}}</p>
+	  {% endif %}
+	{% endif %}
+
+  {% if readMore %}
+		<a href="{{data.permalink}}" class="u-read-more">
+			<span class="u-read-more__icon">
+				<svg width="16px" height="16px">
+			    <use xlink:href="#icon-arrow-right"></use>
+			  </svg>
+			</span>
+			
+			{{ 'Read More' | translateString('buttons - Read More') }}
+		</a>
+	{% endif %}
+</div>

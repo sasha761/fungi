@@ -1,0 +1,15 @@
+.l-return-product {
+  color: #1e496c;
+  font-size: 18px;
+  text-align: right;
+  max-width: 598px;
+
+  &__description {
+    margin-bottom: 30px;
+  }
+
+  @include mq('tablet') {
+    max-width: 100%;
+    font-size: 16px;
+  }
+}

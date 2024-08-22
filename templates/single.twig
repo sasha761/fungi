@@ -1,0 +1,86 @@
+{% extends "base.twig" %}
+
+{% block content %}
+
+  <main class="p-single">
+    <div class="u-container">
+      {{ breadcrumbs }}
+      <h1 class="u-h1">{{ post.title }}</h1>
+
+      <div class="p-single__flex">
+        <div class="p-single__box">
+          {% if thumbnail %}
+            <div class="p-single__image">
+              <img src="{{ thumbnail }}"/>
+            </div>
+          {% endif %}
+
+          <div class="p-single__info">
+            <div class="p-single__info-left">
+              <span class="c-date">{{ post.date }}</span>
+              <a href="{{author_link}}" class="c-author">{{author_name}}</a>
+            </div>
+            
+            <div class="c-likes" data-post-id="{{ post.ID }}">
+              <div class="c-likes__item c-likes__like" data-like-type="like">👍 <span>{{ post_likes.like | default(0) }}</span></div>
+              <div class="c-likes__item c-likes__fire" data-like-type="fire">🔥 <span>{{ post_likes.fire | default(0) }}</span></div>
+              <div class="c-likes__item c-likes__hart" data-like-type="heart">❤️ <span>{{ post_likes.heart | default(0) }}</span></div>
+            </div>
+          </div>
+
+          <div class="p-single__content">
+            {{ post.content }}
+          </div>
+
+          <div class="p-single__bottom">
+            {% if post.terms('tags') %}
+              <ul class="c-tags">
+                <li class="c-tags__title">{{ 'Tags' | translateString('Strings - tags') }}: </li>
+                {% for term in post.terms('tags') %}
+                  <li class="c-tags__item"><a href="{{term.link}}">{{term.name}}</a></li>
+                {% endfor %}
+              </ul>
+            {% endif %}
+
+            {% include 'templates/partial/social.twig' with {'share': true} %}
+          </div>
+        </div>
+        {% include 'templates/partial/sidebar.twig' 
+          with {
+            'category': product_categories, 
+            'popular_posts': popular_posts
+          } 
+        %}
+      </div>
+    </div>
+
+    <section class="l-related js-slider-container">
+      <div class="u-container">
+        <h2 class="u-h2">{{ 'Related Posts' | translateString('Strings - related Posts') }}</h2>
+        <div class="js-product-row swiper">
+          <div class="swiper-wrapper">
+            {% if related %}
+              {% for post in related|slice(0, 6) %}
+                <div class="u-col swiper-slide">
+                  {% include 'templates/partial/post.twig' 
+                    with {
+                      'data': post,
+                      'show_category': false,
+                      'excerpt': false,
+                      'info': false,
+                      'readMore': false,
+                      'likes': 'bottom'
+                    } 
+                  %}
+                </div>
+              {% endfor %}
+            {% endif %}
+          </div>
+        </div> 
+        {% if related|length > 3 %}
+          {% include 'templates/partial/arrow.twig' %}
+        {% endif %} 
+      </div>
+    </section>
+  </main>
+{% endblock %}

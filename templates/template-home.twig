@@ -1,0 +1,190 @@
+{% extends 'templates/base.twig' %}
+{% block content %}
+	<main class="p-main">
+
+		{% if blog %}
+			<section class="l-our-blog">
+				<div class="u-container">
+					{% include 'templates/partial/section-title.twig' 
+						with {
+							'italic': true,
+							'title': blog_section.title,
+							'subtitle': blog_section.subtitle
+						} 
+					%}
+
+					{% if product_categories %}
+						<div class="d-md-none d-block">
+							<div class="swiper js-blog-category">
+								<div class="swiper-wrapper">
+									{% for cat in product_categories %}
+										<a href="{{cat.link}}" class="c-category swiper-slide">
+											<span>{{cat.name}}</span>
+											<span class="c-category__count">{{cat.count}}</span>
+										</a>
+									{% endfor %}
+								</div>
+							</div>
+						</div>
+					{% endif %}
+
+					<div class="l-our-blog__flex">
+						<div class="l-our-blog__content">
+							<div class="l-our-blog__content-first-post">
+								{% include 'templates/partial/post.twig' 
+									with {
+										'data': blog[0],
+										'show_category': false,
+										'excerpt': true,
+										'info': true,
+										'readMore': true,
+										'likes': 'top'
+									} 
+								%}
+							</div>
+							<div class="l-our-blog__content-posts">
+								<div class="row">
+									{% for post in blog|slice(1) %}
+										<div class="col-lg-6 col-sm-6 u-col">
+											{% include 'templates/partial/post.twig' 
+												with {
+													'data': post,
+													'show_category': true,
+													'excerpt': false,
+													'info': false,
+													'readMore': false,
+													'likes': 'bottom'
+												} 
+											%}
+										</div>
+									{% endfor %}
+								</div>
+							</div>
+						</div>
+						{% include 'templates/partial/sidebar.twig' 
+							with {
+								'category': product_categories, 
+								'popular_posts': popular_posts
+							} 
+						%}
+					</div>
+				</div>
+			</section>
+		{% endif %}
+
+		{% if about_us_section %}
+			<section class="l-about-us">
+				<div class="u-container">
+					<div class="l-about-us__flex">
+						<div class="l-about-us__left">
+							<h2 class="u-h2">{{about_us_section.title}}</h2>
+							<p class="u-subtitle">{{about_us_section.subtitle}}</p>
+							{% if about_us_section.button %}
+								<a href="{{about_us_section.button.url}}" class="u-btn is-black">{{about_us_section.button.title}}</a>
+							{% endif %}
+							{# <img src="{{theme.link}}/src/img/Frame 396.png" class="d-block d-md-none">#}
+							<img src="{{about_us_section.image|resize(394, 466)}}">
+							{% if about_us_section.button %}
+								<a href="{{about_us_section.button.url}}" class="u-link">{{about_us_section.button.title}}</a>
+							{% endif %}
+						</div>
+						<div class="l-about-us__right">
+							<div class="row">
+								{% for post in about_us_section.posts %}
+									<div class="col-lg-6 u-col">
+										{% include 'templates/partial/icon-text.twig' 
+											with {
+												'img': post.icon,
+												'title': post.title,
+												'text': post.text,
+												'link': post.link
+											}
+										%}
+									</div>
+								{% endfor %}
+							</div>
+						</div>
+					</div>
+				</div>
+			</section>
+		{% endif %}
+
+		{% if products %}
+			<section class="l-our-products js-slider-container">
+				<div class="u-container">
+					<div class="l-our-products__box">
+						{% include 'templates/partial/section-title.twig' 
+							with {
+								'italic': true,
+								'title': our_products.title,
+								'subtitle': our_products.subtitle
+							} 
+						%}
+						<div class="js-product-row swiper">
+							<div class="swiper-wrapper">
+								{% for product in products %}
+									<div class="col-lg-3 u-col swiper-slide">
+										{% include 'templates/partial/product.twig' with {'data': product} %}
+									</div>
+								{% endfor %}
+							</div>
+						</div>
+					</div>
+					{% if our_products.benefits %}
+						<div class="c-advantages">
+							{% for benefit in our_products.benefits %}
+								<div class="c-advantages__item">
+									<svg width="27px" height="27px">
+										<use xlink:href="#icon-check"></use>
+									</svg>
+									<span>{{benefit.text}}</span>
+								</div>
+							{% endfor %}
+						</div>
+					{% endif %}
+				</div>
+			</section>
+		{% endif %}
+
+		{% if our_vision %}
+			<section class="l-our-vision">
+				<div class="u-container">
+					{% include 'templates/partial/section-title.twig' 
+						with {
+							'italic': true,
+							'title': our_vision.title,
+							'subtitle': our_vision.subtitle
+						} 
+					%}
+					<div class="row">
+						{% if our_vision.quote %}
+							<div class="col-lg-7 u-col">
+							{% for item in our_vision.info %}
+								<div class="c-info">
+									<h3 class="c-info__title">{{item.title}}</h3>
+									<div class="c-info__text">
+										<div class="c-info__text-subtitle">{{item.subtitle}}</div>
+										<p>{{item.text}}</p>
+									</div>
+								</div>
+							{% endfor %}
+							</div>
+						{% endif %}
+						{% if our_vision.quote %}
+							<div class="col-lg-5 u-col">
+								<blockquote >
+									<p>{{our_vision.quote.text}}</p>
+									<cite>—&nbsp;{{our_vision.quote.author}}</cite>
+								</blockquote>
+
+								<div class="c-quote__img">
+									<img src="{{our_vision.quote.image}}" alt="">
+								</div>
+							</div>
+						{% endif %}
+					</div>
+				</div>
+			</section>
+		{% endif %}
+	</main>
+{% endblock %}
