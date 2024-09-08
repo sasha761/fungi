@@ -81,6 +81,62 @@ if( is_wc_endpoint_url( 'order-received' ) ) {
     $context['products'][] = $products_array;
   }
 } else {
+  // $stripe = new \Stripe\StripeClient(STRIPE_SECRET_KEY);
+  // var_dump($stripe);
+  // require_once(__DIR__ . '/vendor/autoload.php');// подключите autoload.php, если используете Composer
+
+// \Stripe\Stripe::setApiKey(STRIPE_SECRET_KEY);
+
+// if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+//     $paymentMethodId = $_POST['paymentMethodId'];
+
+//     try {
+//         // Создание платежа
+//         $paymentIntent = \Stripe\PaymentIntent::create([
+//             'amount' => 1099, // сумма в центах
+//             'currency' => 'usd',
+//             'payment_method' => $paymentMethodId,
+//             'confirmation_method' => 'manual',
+//             'confirm' => true,
+//         ]);
+
+//         // Обработка успешного платежа
+//         if ($paymentIntent->status === 'succeeded') {
+//             // Обновление заказа в WooCommerce
+//             $order_id = $_POST['order_id'];
+//             $order = wc_get_order($order_id);
+//             $order->payment_complete($paymentIntent->id);
+
+//             // Перенаправление на страницу успешного заказа
+//             wp_redirect($order->get_checkout_order_received_url());
+//             exit;
+//         }
+//     } catch (\Stripe\Exception\ApiErrorException $e) {
+//         // Обработка ошибки
+//         wc_add_notice('Ошибка при обработке платежа: ' . $e->getMessage(), 'error');
+//     }
+// }
+  // \Stripe\Striper::setApiKey(STRIPE_SECRET_KEY);
+
+  $checkout_session = \Stripe\Checkout\Session::create([
+    'mode' => 'payment',
+    'success_url' => '/success-page.php',
+    'cancel_url' => '/some',
+    // 'locale' => 'ua',
+    'line_items' => [
+      [
+        'quamtity' => 1,
+        'price_data' => [
+          'currency' => 'usd',
+          'unit_amount' => 20 * 100, //  convert from cents
+          'product_data' => [
+            'name' => 'T-shirt',
+          ]
+        ]
+      ],
+    ]
+  ]);
+
   $context['products'] = [];
 
 	$context['checkout_url'] = wc_get_checkout_url();
@@ -98,7 +154,6 @@ if( is_wc_endpoint_url( 'order-received' ) ) {
 	$context['checkout_key'] = $arr;
 
 
-
 	foreach ( WC()->cart->get_cart() as $cart_item_key => $cart_item ) {
 		$products_array = [];
 
@@ -108,43 +163,21 @@ if( is_wc_endpoint_url( 'order-received' ) ) {
 
 		if ( $_product && $_product->exists() && $cart_item['quantity'] > 0 && apply_filters( 'woocommerce_checkout_cart_item_visible', true, $cart_item, $cart_item_key ) ) {
 
-			// URL
-	    $product_permalink = apply_filters('woocommerce_cart_item_permalink', $_product->is_visible() ? $_product->get_permalink($cart_item) : '', $cart_item, $cart_item_key);
-	    $products_array['url'] = get_permalink($product_id);
+			// price, title, image, url
+			$products_array['title']     = apply_filters( 'woocommerce_cart_item_name', $_product->get_name(), $cart_item, $cart_item_key );
+      $products_array['price']     = $_product->get_price_html();
+      $products_array['url']       = apply_filters( 'woocommerce_cart_item_permalink', $_product->get_permalink( $cart_item ) , $cart_item, $cart_item_key );
+			$products_array['thumbnail'] = apply_filters( 'woocommerce_cart_item_thumbnail', $_product->get_image(), $cart_item, $cart_item_key );
 
-	    // Thumbnail
-	    $thumbnail = get_the_post_thumbnail_url($product_id);
+			// Delete button
+      $products_array['delete_permalink'] = wc_get_cart_remove_url( $cart_item_key );
+      $products_array['delete_productid'] = esc_attr($product_id);
+      $products_array['delete_sku'] = esc_attr($_product->get_sku());
+      $products_array['cart_item_key'] = $cart_item_key;
 
-	    if (! $product_permalink) {
-	        $products_array['thumbnail'] = $thumbnail;
-	    } else {
-	        $products_array['thumbnail'] = $thumbnail;
-	    }
-
-	    // Title
-	    if (! $product_permalink) {
-	      $products_array['title'] = apply_filters('woocommerce_cart_item_name', $_product->get_name(), $cart_item, $cart_item_key);
-	    } else {
-	      $products_array['title'] = apply_filters('woocommerce_cart_item_name', $_product->get_name(), $cart_item, $cart_item_key);
-	    }
-
-	    // Attributes
-	    $brand = wc_get_product_terms( $product_id, 'pa_brand', array() ); 
-	    $size = $_product->get_attribute('size'); 
-	    $color = $_product->get_attribute('color'); 
-
-	    $products_array['attr'] = [
-	      'brand' => $brand,
-	      'size' => $size,
-	      'color' => $color,
-	    ];
-
-	    // Price
-	    $products_array['price'] = apply_filters('woocommerce_cart_item_price', WC()->cart->get_product_price($_product), $cart_item, $cart_item_key);
-
+      $products_array['quantity'] = $cart_item['quantity'];
 	    // Total
-	    $products_array['total'] = apply_filters('woocommerce_cart_item_subtotal', WC()->cart->get_product_subtotal($_product, $cart_item['quantity']), $cart_item, $cart_item_key);
-			$products_array['quantity'] = apply_filters( 'woocommerce_checkout_cart_item_quantity', $cart_item['quantity'], $cart_item, $cart_item_key ); 
+	    // $products_array['total'] = apply_filters('woocommerce_cart_item_subtotal', WC()->cart->get_product_subtotal($_product, $cart_item['quantity']), $cart_item, $cart_item_key);
 
 	    $context['products'][] = $products_array;
 		}

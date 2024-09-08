@@ -86,7 +86,7 @@
 								</div>
 
 								<h2 class="u-h3">{{ 'Delivery' | translateString('Checkout - Delivery') }}</h2>
-								<div class="c-select">
+								<div class="c-input">
 									<select 
 										name="billing_country" 
 										id="country-select" 
@@ -181,21 +181,44 @@
 									<input required type="text" name="billing_city" value="" placeholder="{{ 'City' | translateString('Input - City') }}">
 								</div>
 								<h2 class="u-h3">{{ 'Payment' | translateString('Checkout - Payment') }}</h2>
-								<p>All transactions are secure and encrypted.</p>
+								<p class="l-checkout__form-text">All transactions are secure and encrypted.</p>
 
-								{# <div class="c-payment">
-									<div class="c-payment__item">
-										<div>
-											<input type="radio" class="input-radio" name="payment_method" value="bacs" checked="checked">
-											Credit card
+								<div class="c-payment js-accordion">
+									<div class="c-payment__item js-accordion__item js-payment-item is-active">
+										<div for="basic-creditCards" class="c-payment__item-title js-accordion__heading">
+											<div>
+												<input type="radio" class="input-radio" name="payment_method" value="bacs" checked="checked">
+												Credit card
+											</div>
+											<div class="c-payment__item-title__icons">
+												<img alt="VISA" src="https://cdn.shopify.com/shopifycloud/checkout-web/assets/0169695890db3db16bfe.svg" role="img" width="38" height="24" class="_1fragemwa _1fragemw5 _1fragemwj _1fragemrn _1tgdqw66">
+												<img alt="MASTERCARD" src="https://cdn.shopify.com/shopifycloud/checkout-web/assets/ae9ceec48b1dc489596c.svg" role="img" width="38" height="24" class="_1fragemwa _1fragemw5 _1fragemwj _1fragemrn _1tgdqw66">
+												<img alt="AMEX" src="https://cdn.shopify.com/shopifycloud/checkout-web/assets/f11b90c2972f3811f2d5.svg" role="img" width="38" height="24" class="_1fragemwa _1fragemw5 _1fragemwj _1fragemrn _1tgdqw66">
+											</div>
 										</div>
-										<div class="c-payment__item-icons">
-											<img alt="VISA" src="https://cdn.shopify.com/shopifycloud/checkout-web/assets/0169695890db3db16bfe.svg" role="img" width="38" height="24" class="_1fragemwa _1fragemw5 _1fragemwj _1fragemrn _1tgdqw66">
-											<img alt="MASTERCARD" src="https://cdn.shopify.com/shopifycloud/checkout-web/assets/ae9ceec48b1dc489596c.svg" role="img" width="38" height="24" class="_1fragemwa _1fragemw5 _1fragemwj _1fragemrn _1tgdqw66">
-											<img alt="AMEX" src="https://cdn.shopify.com/shopifycloud/checkout-web/assets/f11b90c2972f3811f2d5.svg" role="img" width="38" height="24" class="_1fragemwa _1fragemw5 _1fragemwj _1fragemrn _1tgdqw66">
+
+										<div class="c-payment__item-content js-accordion__list">
+											<div id="card-element"></div>
+											<p>After clicking "Pay with PayPal", you will be redirected to PayPal to complete your purchase securely.</p>
 										</div>
 									</div>
-								</div> #}
+
+									<div class="c-payment__item js-accordion__item js-payment-item">
+										<div for="basic-PAYPAL_EXPRESS" class="c-payment__item-title js-accordion__heading">
+											<div>
+												<input type="radio" class="input-radio" name="payment_method" value="PayPal">
+												PayPal
+											</div>
+
+											<div class="c-payment__item-icons">
+												<img width="70px" src="{{theme.link}}/src/img/paypal-color.svg" />
+											</div>
+										</div>
+										<div class="c-payment__item-content js-accordion__list">
+											<p>After clicking "Pay with PayPal", you will be redirected to PayPal to complete your purchase securely.</p>
+										</div>
+									</div>
+								</div>
 
 								{# {{function('woocommerce_checkout_payment')}} #}
 
@@ -237,10 +260,9 @@
 					<div class="col-lg-6">
 						<div class="l-cart">
 							{% for product in products %}
-								{% set category  = function('wc_get_product_category_list', product.delete_productid) %}
 								<div class="c-product-cart">
 									<a href="{{ product.url }}" class="c-product-cart__img">
-										<img src="{{product.thumbnail | resize(100, height) }}">
+										{{product.thumbnail}}
 										<div class="c-product-cart__quantity">{{ product.quantity }}</div>
 									</a>
 									<div class="c-product-cart__info">
@@ -304,5 +326,30 @@
 				</div>
 			</div>
 		</main>
+
+		{# <script src="https://js.stripe.com/v3/"></script> #}
+		<script>
+		// const stripe = Stripe('pk_test_51Pjly9FNRFXqQdpfC9SsqGXPA3xAhsBkk2Zp64oc5qFNJP7k3O837H458zgmQguWD90ZeNjy61IQzTXwUhX2hlAq00oQDXqT0Z'); // Добавьте ваш публичный ключ
+		// const elements = stripe.elements();
+		// const cardElement = elements.create('card');
+		// cardElement.mount('#card-element');
+
+		// const form = document.getElementById('payment-form');
+		// form.addEventListener('submit', async (event) => {
+		// 		event.preventDefault();
+
+		// 		const {paymentMethod, error} = await stripe.createPaymentMethod({
+		// 				type: 'card',
+		// 				card: cardElement,
+		// 		});
+
+		// 		if (error) {
+		// 				console.error(error);
+		// 		} else {
+		// 				// отправить paymentMethod.id на сервер для обработки
+		// 				form.submit();
+		// 		}
+		// });
+		</script>
 	{% endif %}
 {% endblock %}

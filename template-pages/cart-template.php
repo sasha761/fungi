@@ -18,34 +18,16 @@ foreach (WC()->cart->get_cart() as $cart_item_key => $cart_item) {
   if ($_product && $_product->exists() && $cart_item['quantity'] > 0 && apply_filters('woocommerce_cart_item_visible', true, $cart_item, $cart_item_key)) {
 
     // price, title, image, url
-    $products_array['title']     = apply_filters('woocommerce_cart_item_name', $_product->get_name(), $cart_item, $cart_item_key);
+    $products_array['title']       = apply_filters('woocommerce_cart_item_name', $_product->get_name(), $cart_item, $cart_item_key);
     $products_array['description'] = $_product->get_short_description() ? $_product->get_short_description() : $_product->get_description();
-    $products_array['price']     = $_product->get_price_html();
-    $products_array['url']       = apply_filters('woocommerce_cart_item_permalink', $_product->get_permalink($cart_item), $cart_item, $cart_item_key);
-    $products_array['thumbnail'] = get_the_post_thumbnail_url($product_id);
+    $products_array['price']       = $_product->get_price_html();
+    $products_array['url']         = apply_filters('woocommerce_cart_item_permalink', $_product->get_permalink($cart_item), $cart_item, $cart_item_key);
+    $products_array['thumbnail']   = get_the_post_thumbnail_url($product_id);
 
     // Delete button
     $products_array['delete_permalink'] = wc_get_cart_remove_url( $cart_item_key );
     $products_array['delete_productid'] = esc_attr($product_id);
-    $products_array['delete_sku'] = esc_attr($_product->get_sku());
-
-    // Attributes
-    $size = $_product->get_attribute('size') ? $_product->get_attribute('size') : false; 
-    $color = $_product->get_attribute('color') ? $_product->get_attribute('color') : false;
-    // $brand = $_product->get_attribute('brand') ? $_product->get_attribute('brand') : false;
-    $brand = wc_get_product_terms( $product_id, 'pa_brand', array() ); 
-
-    $products_array['attr'] = [
-      'size' => $size,
-      'color' => $color,
-      'brand' => $brand,
-    ];
-
-
-    // Backorder notification
-    if ($_product->backorders_require_notification() && $_product->is_on_backorder($cart_item['quantity'])) {
-        $products_array['backorder'] = true;
-    }
+    $products_array['delete_sku']       = esc_attr($_product->get_sku());
 
     // Quantity
     $products_array['quantity'] = $cart_item['quantity'];

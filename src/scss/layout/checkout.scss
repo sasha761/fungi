@@ -6,19 +6,25 @@
     flex-wrap: wrap;
     
     .u-h3 {
-      padding: 0 6px;
+      padding: 0 rem(6);
+      display: block;
+      width: 100%;
     }
 
-    .c-input,
-    .c-select {
-      margin-bottom: 20px;
-      padding: 0 6px;
+    .c-input {
+      margin-bottom: rem(20);
+      padding: 0 rem(6);
 
       input {
         background-color: transparent;
         border: 1px solid #e5e4e2;
         border-radius: 4px;
       }
+    }
+
+    &-text {
+      margin-bottom: rem(20);
+      padding: 0 rem(6);
     }
 
     

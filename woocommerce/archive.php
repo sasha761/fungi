@@ -77,7 +77,7 @@ $context['current_page'] = get_query_var('paged') ? get_query_var('paged') : 1;
 // if ($context['acf_title']) {
 //   $title = $context['acf_title'];
 // } else {
-  $title = woocommerce_page_title($echo = false);
+$title = woocommerce_page_title($echo = false);
 // }
 
 

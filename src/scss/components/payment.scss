@@ -1,0 +1,43 @@
+.c-payment {
+  margin: rem(10) 0;
+  width: 100%;
+  border: 1px solid #dedede;
+  &__item {
+    padding: rem(10) rem(20);
+    border-bottom: 1px solid #dedede;
+
+    &:last-child {
+      border-bottom: 0;
+    }
+    
+    &-title {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      & > div {
+        display: flex;
+        align-items: center;
+
+        input {
+          margin: 0 rem(10) 0 0;
+        }
+      }
+
+      &__icons {
+        img, svg {
+          margin-right: rem(8);
+          display: inline-block;
+
+          &:last-child {
+            margin-right: 0;
+          }
+        }
+      }
+    }
+
+    &-content {
+      display: none;
+    }
+  }
+}
