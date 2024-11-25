@@ -10,10 +10,7 @@
     ],
     "license": "GPL-2.0-or-later",
     "require": {
-      "php": "8.0.19",
-      "twig/twig": "^3.0",
-      "timber/timber": "2.0.0",
-        "stripe/stripe-php": "^15.7"
+      "timber/timber": "^2.3"
     },
     "config": {
       "allow-plugins": {

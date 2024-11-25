@@ -1,68 +1,177 @@
 <?php
-function ajax_quickBuy(){
-  $context = Timber::context();
+add_action( 'wp_ajax_contactForm', 'contactForm' );
+add_action( 'wp_ajax_nopriv_contactForm', 'contactForm' );
 
-  $email      = $_POST['email'];
-  $name       = $_POST['name'];
-  $surname    = $_POST['surname'];
-  $phone      = $_POST['phone'];
-  $city       = $_POST['city'];
-  $address    = $_POST['address'];
-  $product_id = $_POST['variation_id'] != '0' ? $_POST['variation_id'] : $_POST['product_id'];
+function contactForm() {
+  $name = !empty($_POST['name']) ? sanitize_text_field($_POST['name']) : '';
+  $email = !empty($_POST['email']) ? sanitize_email($_POST['email']) : '';
+  $contactInfo = !empty($_POST['contactInfo']) ? sanitize_text_field($_POST['contactInfo']) : '';
+  $text = !empty($_POST['text']) ? sanitize_text_field($_POST['text']) : '';
+  $products = !empty($_POST['products']) ? $_POST['products'] : [];
 
-  $args = array(
-    'status'        => null,
-    'customer_id'   => null,
-    'customer_note' => null,
-    'parent'        => null,
-    'created_via'   => null,
-    'cart_hash'     => null,
-    'order_id'      => 0,
-  );
+  $user_mail_body = '';
 
-  $order = wc_create_order( $args );
-  $order->add_product(get_product($product_id), 1);
-
-  $billing_address = array(
-    'first_name' => $name,
-    'last_name'  => $surname,
-    'email'      => $email,
-    'phone'      => $phone,
-    'city'       => $city,
-    'address_1'  => $address,
-  );
-  $address = array(
-    'first_name' => $name,
-    'last_name'  => $surname,
-    'email'      => $email,
-    'phone'      => $phone,
-    'city'       => $city,
-    'address_1'  => $address,
-  );
-
-  $order->set_address($billing_address, 'billing');
-  $order->set_address($address, 'shipping');
-  $order->set_payment_method_title('Оплата при доставке | быстрый заказ');
-  $order->calculate_totals();
-  $order->update_status('on-hold');
-
-  $order->save();
-
-  $order_id = $order->get_id();
-  $thank_you_url = $order->get_checkout_order_received_url();
-
-  header('Content-Type: application/json');
-
-  if (!empty($order_id)) {
-    $response = $thank_you_url;
-  } else {
-    $response = false;
+  if (empty($name) && empty($email) && !is_email($email)) {
+    wp_send_json_error(['message' => 'Пожалуйста, заполните обязательные поля или неправильный формат email']);
+    wp_die();
   }
-  
-  echo (json_encode($response));
-  telegram_notification($order_id);
+
+  $user_mail_body = [
+      'Имя: ' . esc_html($name),
+      'Email: ' . esc_html($email),
+  ];
+
+  if (!empty($contactInfo)) {
+      $user_mail_body[] = 'contact info: ' . esc_html($contactInfo);
+  }
+
+  if (!empty($text)) {
+      $user_mail_body[] = 'Текст: ' . esc_html($text);
+  }
+
+  if (!empty($products)) {
+    foreach ($products as $product) {
+      $user_mail_body[] = 'Продукт: ' . esc_html($product['name']) . ' (ID: ' . esc_html($product['id']) . ', Количество: ' . esc_html($product['quantity']) . ')';
+    }
+  }
+
+  $user_mail_body = implode("\n", $user_mail_body);
+
+  $subject = 'Contact form | order';
+  $to_admin = get_option('admin_email');
+  $headers = [
+    'Content-Type: text/html; charset=UTF-8;',
+    'From: ' . get_bloginfo('name') . ' <' . $to_admin . '>',
+  ];
+
+  // Отправка письма
+  $mailResult = wp_mail($to_admin, $subject, $user_mail_body, $headers);
+
+  if ($mailResult) {
+    $order_result = create_order($name, $email, $contactInfo, $products);
+
+    if ($order_result['success']) {
+
+      WC()->cart->empty_cart();
+      
+      wp_send_json_success(['message' => 'Сообщение успешно отправлено!']);
+    } else {
+      wp_send_json_error(['message' => $order_result['message']]);
+    }
+  } else {
+    wp_send_json_error(['message' => 'Ошибка при отправке сообщения. Попробуйте позже.']);
+  }
+
   wp_die();
 }
 
-add_action( 'wp_ajax_quickBuy', 'ajax_quickBuy' );
-add_action( 'wp_ajax_nopriv_quickBuy', 'ajax_quickBuy' );
+
+function create_order($name, $email, $contactInfo, $products) {
+  if (empty($email) || empty($contactInfo) || empty($name) || empty($products)) {
+    return ['success' => false, 'message' => 'Некорректные данные для создания заказа.'];
+  }
+
+  try {
+    $order = wc_create_order();
+
+    foreach ($products as $product) {
+      $product_id = intval($product['id']);
+      $quantity = intval($product['quantity']);
+      
+      $order->add_product(get_product($product_id), $quantity);
+    }
+
+    $billing_address = [
+      'first_name' => $name,
+      'last_name'  => '',
+      'email'      => $email,
+      'phone'      => '',
+    ];
+
+    $order->set_address($billing_address, 'billing');
+    $order->set_address($billing_address, 'shipping');
+    $order->set_payment_method_title('Оплата при доставке | быстрый заказ');
+    $order->calculate_totals();
+    $order->update_status('processing');
+
+    $order_id = $order->get_id();
+    telegram_notification($order_id);
+
+    return [
+      'success' => true,
+      'message' => 'Заказ успешно создан.',
+      'order_id' => $order_id,
+      'thank_you_url' => $order->get_checkout_order_received_url(),
+    ];
+  } catch (Exception $e) {
+    return ['success' => false, 'message' => 'Ошибка при создании заказа: ' . $e->getMessage()];
+  }
+}
+
+// function ajax_quickBuy(){
+//   $context = Timber::context();
+
+//   $email      = $_POST['email'];
+//   $name       = $_POST['name'];
+//   $surname    = $_POST['surname'];
+//   $phone      = $_POST['phone'];
+//   $city       = $_POST['city'];
+//   $address    = $_POST['address'];
+//   $product_id = $_POST['variation_id'] != '0' ? $_POST['variation_id'] : $_POST['product_id'];
+
+//   $args = array(
+//     'status'        => null,
+//     'customer_id'   => null,
+//     'customer_note' => null,
+//     'parent'        => null,
+//     'created_via'   => null,
+//     'cart_hash'     => null,
+//     'order_id'      => 0,
+//   );
+
+//   $order = wc_create_order( $args );
+//   $order->add_product(get_product($product_id), 1);
+
+//   $billing_address = array(
+//     'first_name' => $name,
+//     'last_name'  => $surname,
+//     'email'      => $email,
+//     'phone'      => $phone,
+//     'city'       => $city,
+//     'address_1'  => $address,
+//   );
+//   $address = array(
+//     'first_name' => $name,
+//     'last_name'  => $surname,
+//     'email'      => $email,
+//     'phone'      => $phone,
+//     'city'       => $city,
+//     'address_1'  => $address,
+//   );
+
+//   $order->set_address($billing_address, 'billing');
+//   $order->set_address($address, 'shipping');
+//   $order->set_payment_method_title('Оплата при доставке | быстрый заказ');
+//   $order->calculate_totals();
+//   $order->update_status('on-hold');
+
+//   $order->save();
+
+//   $order_id = $order->get_id();
+//   $thank_you_url = $order->get_checkout_order_received_url();
+
+//   header('Content-Type: application/json');
+
+//   if (!empty($order_id)) {
+//     $response = $thank_you_url;
+//   } else {
+//     $response = false;
+//   }
+  
+//   echo (json_encode($response));
+//   telegram_notification($order_id);
+//   wp_die();
+// }
+
+// add_action( 'wp_ajax_quickBuy', 'ajax_quickBuy' );
+// add_action( 'wp_ajax_nopriv_quickBuy', 'ajax_quickBuy' );

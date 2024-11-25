@@ -2,76 +2,6 @@
 {% block content %}
 	<main class="p-main">
 
-		{% if blog %}
-			<section class="l-our-blog">
-				<div class="u-container">
-					{% include 'templates/partial/section-title.twig' 
-						with {
-							'italic': true,
-							'title': blog_section.title,
-							'subtitle': blog_section.subtitle
-						} 
-					%}
-
-					{% if product_categories %}
-						<div class="d-md-none d-block">
-							<div class="swiper js-blog-category">
-								<div class="swiper-wrapper">
-									{% for cat in product_categories %}
-										<a href="{{cat.link}}" class="c-category swiper-slide">
-											<span>{{cat.name}}</span>
-											<span class="c-category__count">{{cat.count}}</span>
-										</a>
-									{% endfor %}
-								</div>
-							</div>
-						</div>
-					{% endif %}
-
-					<div class="l-our-blog__flex">
-						<div class="l-our-blog__content">
-							<div class="l-our-blog__content-first-post">
-								{% include 'templates/partial/post.twig' 
-									with {
-										'data': blog[0],
-										'show_category': false,
-										'excerpt': true,
-										'info': true,
-										'readMore': true,
-										'likes': 'top'
-									} 
-								%}
-							</div>
-							<div class="l-our-blog__content-posts">
-								<div class="row">
-									{% for post in blog|slice(1) %}
-										<div class="col-lg-6 col-sm-6 u-col">
-											{% include 'templates/partial/post.twig' 
-												with {
-													'data': post,
-													'show_category': true,
-													'excerpt': false,
-													'info': false,
-													'readMore': false,
-													'likes': 'bottom'
-												} 
-											%}
-										</div>
-									{% endfor %}
-								</div>
-							</div>
-						</div>
-						{% include 'templates/partial/sidebar.twig' 
-							with {
-								'category': product_categories, 
-								'popular_posts': popular_posts
-							} 
-						%}
-					</div>
-				</div>
-			</section>
-		{% endif %}
-
 		{% if about_us_section %}
 			<section class="l-about-us">
 				<div class="u-container">
@@ -182,6 +112,76 @@
 								</div>
 							</div>
 						{% endif %}
+					</div>
+				</div>
+			</section>
+		{% endif %}
+
+		{% if blog %}
+			<section class="l-our-blog">
+				<div class="u-container">
+					{% include 'templates/partial/section-title.twig' 
+						with {
+							'italic': true,
+							'title': blog_section.title,
+							'subtitle': blog_section.subtitle
+						} 
+					%}
+
+					{% if product_categories %}
+						<div class="d-md-none d-block">
+							<div class="swiper js-blog-category">
+								<div class="swiper-wrapper">
+									{% for cat in product_categories %}
+										<a href="{{cat.link}}" class="c-category swiper-slide">
+											<span>{{cat.name}}</span>
+											<span class="c-category__count">{{cat.count}}</span>
+										</a>
+									{% endfor %}
+								</div>
+							</div>
+						</div>
+					{% endif %}
+
+					<div class="l-our-blog__flex">
+						<div class="l-our-blog__content">
+							<div class="l-our-blog__content-first-post">
+								{% include 'templates/partial/post.twig' 
+									with {
+										'data': blog[0],
+										'show_category': false,
+										'excerpt': true,
+										'info': true,
+										'readMore': true,
+										'likes': 'top'
+									} 
+								%}
+							</div>
+							<div class="l-our-blog__content-posts">
+								<div class="row">
+									{% for post in blog|slice(1) %}
+										<div class="col-lg-6 col-sm-6 u-col">
+											{% include 'templates/partial/post.twig' 
+												with {
+													'data': post,
+													'show_category': true,
+													'excerpt': false,
+													'info': false,
+													'readMore': false,
+													'likes': 'bottom'
+												} 
+											%}
+										</div>
+									{% endfor %}
+								</div>
+							</div>
+						</div>
+						{% include 'templates/partial/sidebar.twig' 
+							with {
+								'category': product_categories, 
+								'popular_posts': popular_posts
+							} 
+						%}
 					</div>
 				</div>
 			</section>

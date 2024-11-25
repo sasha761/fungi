@@ -40,14 +40,20 @@
 
 				<div class="c-service cart">
 					<div>
-						<span class="c-service__count">{{ minicart.count }}</span>
+						<span class="c-service__count js-mini-cart-counter">{{ minicart.count }}</span>
 						<svg width="20px" height="20px">
 			        <use xlink:href="#cart"></use>
 			      </svg>
 					</div>
 
 		      <div class="c-service__dropdown">
-		      	{{ function('woocommerce_mini_cart') }}
+						{% include 'templates/woo/mini-cart.twig' 
+							with {
+								'minicart': minicart,
+								'cart_title': 'Cart'|translateString('Cart - Cart'),
+								'count_label': 'товар',
+							}
+						%}
 		      </div>
 				</div>
 
@@ -60,6 +66,8 @@
 			</div>
 		</div>
 	</div>
+	{# {{minicart}} #}
+	{# <pre>{{minicart|json_encode(constant('JSON_PRETTY_PRINT'))}}</pre> #}
 	<div class="l-header__mobile">
 		{# {% include 'templates/menu.twig' with {'menu': menu.get_items} %} #}
 		<div class="u-container">

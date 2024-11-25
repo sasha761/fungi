@@ -1,8 +1,8 @@
-export default class MiniCart {
+export default class Cart {
   constructor(options) {
     this.addToCartBtn = options.addToCartBtn;
     this.removeFromCartBtn = options.removeFromCartBtn;
-    this.miniCart = options.miniCart;
+    this.cartContainer = options.cartContainer;
   }
 
   #fetchData(action, args) {
@@ -95,65 +95,68 @@ export default class MiniCart {
   }
 
   #updateMiniCart(data) {
-    const miniCartCounter = document.querySelector('.js-mini-cart-counter');
-    const headerCartCounter = document.querySelector('.c-service__count');
-    const miniCartList = document.querySelector('.l-mini-cart__list');
-    const miniCartTotal = document.querySelector('.l-mini-cart__total .is-bold');
-    const miniCartEmpty = document.querySelector('.js-cart-empty');
-    const miniCartInfo = document.querySelector('.js-cart-info');
+    const cartContainer = document.querySelectorAll(`${this.cartContainer}`);
 
-    if (miniCartCounter) {
-        miniCartCounter.textContent = data.data?.count;
-        headerCartCounter.textContent = data.data?.count;
-    }
+    cartContainer.forEach(cart => {
+      let cartList = cart.querySelector('.js-mini-cart-list');
+      const cartTotal = cart.querySelector('.js-cart-total');
+      const cartEmpty = cart.querySelector('.js-cart-empty');
+      const cartInfo = cart.querySelector('.js-cart-info');
 
-    if (miniCartList) {
-        miniCartList.innerHTML = '';  
-    } 
+      cartList.innerHTML = '';  
 
-    if (data.data?.html?.cart_products && data.data?.html?.cart_products.length > 0) {
-      miniCartEmpty.classList.add('is-hide');
-      miniCartInfo.classList.remove('is-hide');
+      if (data.data?.html?.cart_products && data.data?.html?.cart_products.length > 0) {
+        cartEmpty?.classList.add('is-hide');
+        cartInfo?.classList.remove('is-hide');
 
-      data.data?.html?.cart_products.forEach(product => {
-        const listItem = document.createElement('li');
-        listItem.classList.add('l-mini-cart__item');
+        data.data?.html?.cart_products.forEach(product => {
+          const listItem = document.createElement('li');
+          listItem.classList.add('c-mini-cart-product');
 
-        let quantityHtml = '';
-        if (product.quantity >= 2) {
-          quantityHtml = `
-            <p class="is-quantity">Quantity: <b>${product.quantity}</b></p>
-          `;
-        }
-        listItem.innerHTML = `
-          <div class="l-mini-cart__item-img">
-            <a href="${product.url}">
-              ${product.thumbnail}
-            </a>
-          </div>
-          <div class="l-mini-cart__item-info">
-          <span class="is-name">${product.title}</span>
-          ${quantityHtml}
-          <p class="c-price">${product.price}</p>  
-          </div>
-          <a href="${product.delete_permalink}" 
+          listItem.setAttribute('data-id', product.id); 
+          listItem.setAttribute('data-quantity', product.quantity); 
+          listItem.setAttribute('data-name', product.title); 
+          listItem.setAttribute('data-link', product.url);
+
+          let quantityHtml = '';
+          if (product.quantity >= 2) quantityHtml = `<p class="is-quantity">Quantity: <b>${product.quantity}</b></p>`;
+          
+          listItem.innerHTML = `
+            <div class="c-mini-cart-product__img">
+              <a href="${product.url}">
+                ${product.thumbnail}
+              </a>
+            </div>
+            <div class="c-mini-cart-product__info">
+              <span class="is-name">${product.title}</span>
+              ${quantityHtml}
+              <p class="c-price">${product.price}</p>  
+            </div>
+            <a href="${product.delete_permalink}" 
               class="c-remove js-product-remove" 
               data-product-id="${product.delete_productid}" 
               data-key="${product.cart_item_key}"
-              data-product-sku="${product.delete_sku}">x</a>                
-        `;
-        // document.querySelector('.l-mini-cart__list').appendChild(listItem);
-        miniCartList.appendChild(listItem);
-      });
-    } else {
-      miniCartInfo.classList.add('is-hide');
-      miniCartEmpty.classList.remove('is-hide');
-    }
+              data-product-sku="${product.delete_sku}">
+              <svg width="24" height="25" viewBox="0 0 24 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <rect y="0.5" width="24" height="24" rx="12"/>
+                <path fill-rule="evenodd" clip-rule="evenodd" d="M8.02323 7.81637C7.82797 7.62111 7.51139 7.62111 7.31612 7.81637C7.12086 8.01163 7.12086 8.32821 7.31612 8.52348L11.2928 12.5001L7.31639 16.4765C7.12113 16.6718 7.12113 16.9884 7.31639 17.1836C7.51166 17.3789 7.82824 17.3789 8.0235 17.1836L11.9999 13.2072L15.9763 17.1836C16.1715 17.3789 16.4881 17.3789 16.6834 17.1836C16.8786 16.9884 16.8786 16.6718 16.6834 16.4765L12.707 12.5001L16.6836 8.52348C16.8789 8.32821 16.8789 8.01163 16.6836 7.81637C16.4884 7.62111 16.1718 7.62111 15.9765 7.81637L11.9999 11.793L8.02323 7.81637Z" fill="white"/>
+              </svg>
+            </a>                
+          `;
 
-    if (miniCartTotal) {
-      miniCartTotal.innerHTML = data.data?.html?.total;
-    }  
-    
+          cartList.appendChild(listItem);
+        });
+      } else {
+        cartInfo?.classList.add('is-hide');
+        cartEmpty?.classList.remove('is-hide');
+      }
+
+      if (cartTotal) cartTotal.innerHTML = data.data?.html?.total;
+    });
+
+    const cartCounter = document.querySelectorAll('.js-mini-cart-counter');
+    if (cartCounter) cartCounter.forEach(item => item.textContent = data.data?.count)
+
     this.removeFromCartHandler();
   }
 
@@ -163,8 +166,8 @@ export default class MiniCart {
   }
 
   #cartChangeStatus() {
-    const miniCart = document.querySelector(this.miniCart);
-    miniCart?.classList.toggle('is-loading'); 
+    const cartContainer = document.querySelectorAll(this.cartContainer);
+    cartContainer.forEach(container => container.classList.toggle('is-loading'));
   }
 
   #buttonChangeStatus(button) {

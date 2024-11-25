@@ -62,11 +62,7 @@
 			data-product-id="{{data.ID}}"
 		>
 			<span class="c-product__bottom-text js-button-text is-show">{{ 'Add to cart' | translateString('buttons - Add to cart') }}</span>
-			<span class="c-loader js-loader is-hide">
-				<svg aria-hidden="true" focusable="false" class="spinner" viewBox="0 0 66 66" xmlns="http://www.w3.org/2000/svg">
-					<circle class="path" fill="none" stroke-width="6" cx="33" cy="33" r="30"></circle>
-				</svg>
-			</span>
+			{% include 'templates/partial/loader.twig' with {'class': 'is-hide'} %}
 		</button>
 		{% if data.rating > 0 %}
 			<div class="star-rating" role="img">

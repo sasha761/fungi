@@ -71,22 +71,6 @@ function count_post_visits() {
 }
 add_action( 'wp_head', 'count_post_visits' );
 
-add_filter( 'woocommerce_checkout_fields' , 'custom_remove_woo_checkout_fields' );
-function custom_remove_woo_checkout_fields( $fields ) {
-  unset($fields['shipping']['shipping_first_name']);    
-  unset($fields['shipping']['shipping_last_name']);  
-  unset($fields['shipping']['shipping_company']);
-  unset($fields['shipping']['shipping_address_1']);
-  unset($fields['shipping']['shipping_address_2']);
-  unset($fields['shipping']['shipping_city']);
-
-  unset($fields['shipping']['shipping_postcode']);
-  unset($fields['shipping']['shipping_country']);
-  unset($fields['shipping']['shipping_state']);
-
-  return $fields;
-}
-
 
 remove_action( 'wp_head', 'feed_links_extra', 3 ); // Display the links to the extra feeds such as category feeds
 remove_action( 'wp_head', 'feed_links', 2 ); // Display the links to the general feeds: Post and Comment Feed

@@ -1,0 +1,89 @@
+.c-mini-cart-product {
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: 10px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #efeded;
+  text-align: left;
+
+  &__img {
+    max-width: 70px;
+    margin: 0 15px 0 0;
+    flex-shrink: 0;
+  }
+
+  &__info {
+    font-size: 13px;
+    line-height: 1.2;
+    display: block;
+    font-weight: 400;
+    font-style: normal;
+    color: #333333;
+    padding-right: 10px;
+
+    .is-name {
+      display: block;
+      font-size: 15px;
+      font-weight: 500;
+      line-height: 15px;
+      margin-bottom: 5px;
+    }
+  }
+
+  .c-price {
+    font-size: 12px;
+    line-height: 15px;
+
+    &__sale,
+    &__wrong {
+      font-size: 12px;
+      line-height: 15px;
+      font-weight: 600;
+    }
+
+    &__current {
+
+    }
+  }
+
+  .is-bold {
+    font-weight: 500;
+  }
+
+  .c-remove {
+    margin-left: auto;
+    // position: absolute;
+    // right: 0px;
+    // top: -2px;
+    // left: auto;
+    // font-size: 18px;
+    line-height: 1;
+    // opacity: 1;
+    cursor: pointer;
+
+    svg {
+      width: rem(24);
+      height: rem(24);
+      rect {
+        transition: fill 0.3s ease;
+        fill: black;
+      }
+      path {
+        transition: fill 0.3s ease;
+        fill: white;
+      }
+    }
+
+    &:hover {
+      svg {
+        rect {
+          fill: #f5e2d1;
+        }
+        path {
+          fill: black;
+        }
+      }
+    }
+  }
+}

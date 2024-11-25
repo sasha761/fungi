@@ -128,9 +128,12 @@
                 <span class="js-cart-total">{{total}}</span>
               </li>
               
-              <a href="{{ site.url }}/checkout" class="u-btn is-black">
+              <button type="button" class="u-btn is-black" data-modal="#quick-buy">
+                <span>{{ 'Place an order' | translateString('Button - Place an order') }}</span>
+              </button>
+              {# <a href="{{ site.url }}/checkout" class="u-btn is-black">
                 <span>{{ 'Place an order' | translateString('Cart - Place an order') }}</span>
-              </a>
+              </a> #}
             </ul>
           </div>
         </aside>

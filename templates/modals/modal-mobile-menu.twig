@@ -1,0 +1,11 @@
+<div class="c-modal c-mobile-menu" id="mobile-menu">
+  <div class="c-modal__title">
+    <p class="u-h3">{{ 'Catalog' | translateString('Modals - Catalog') }}</p>
+    <svg width="20px" height="20px" data-modal="close">
+      <use xlink:href="#icon-close"></use>
+    </svg>
+  </div>
+  <div class="c-mobile-menu__cat">
+    {% include 'templates/menu-mobile.twig' with {'menu': mobile_menu.get_items} %}
+  </div>
+</div>

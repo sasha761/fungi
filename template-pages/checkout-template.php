@@ -118,24 +118,24 @@ if( is_wc_endpoint_url( 'order-received' ) ) {
 // }
   // \Stripe\Striper::setApiKey(STRIPE_SECRET_KEY);
 
-  $checkout_session = \Stripe\Checkout\Session::create([
-    'mode' => 'payment',
-    'success_url' => '/success-page.php',
-    'cancel_url' => '/some',
-    // 'locale' => 'ua',
-    'line_items' => [
-      [
-        'quamtity' => 1,
-        'price_data' => [
-          'currency' => 'usd',
-          'unit_amount' => 20 * 100, //  convert from cents
-          'product_data' => [
-            'name' => 'T-shirt',
-          ]
-        ]
-      ],
-    ]
-  ]);
+  // $checkout_session = \Stripe\Checkout\Session::create([
+  //   'mode' => 'payment',
+  //   'success_url' => '/success-page.php',
+  //   'cancel_url' => '/some',
+  //   // 'locale' => 'ua',
+  //   'line_items' => [
+  //     [
+  //       'quamtity' => 1,
+  //       'price_data' => [
+  //         'currency' => 'usd',
+  //         'unit_amount' => 20 * 100, //  convert from cents
+  //         'product_data' => [
+  //           'name' => 'T-shirt',
+  //         ]
+  //       ]
+  //     ],
+  //   ]
+  // ]);
 
   $context['products'] = [];
 

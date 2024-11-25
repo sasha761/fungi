@@ -1,0 +1,7 @@
+<ul class="l-mini-cart-list js-mini-cart-list">
+  {% if cart_products %}
+    {% for key, product in cart_products %}
+      {% include 'templates/woo/mini-cart-product.twig' with {'data': product} %}
+    {% endfor %}	
+  {% endif %}
+</ul>

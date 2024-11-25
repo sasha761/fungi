@@ -13,6 +13,7 @@ function update_mini_cart_handler() {
     if ($_product && $_product->exists() && $cart_item['quantity'] > 0 && apply_filters('woocommerce_widget_cart_item_visible', true, $cart_item, $cart_item_key)) {
       $products_array['title'] = apply_filters('woocommerce_cart_item_name', $_product->get_name(), $cart_item, $cart_item_key);
       $products_array['price'] = $_product->get_price_html();
+      $products_array['id']    = $product_id;
       $products_array['url'] = apply_filters('woocommerce_cart_item_permalink', $_product->get_permalink($cart_item), $cart_item, $cart_item_key);
       $products_array['thumbnail'] = apply_filters('woocommerce_cart_item_thumbnail', $_product->get_image(), $cart_item, $cart_item_key);
       $products_array['delete_permalink'] = wc_get_cart_remove_url($cart_item_key);

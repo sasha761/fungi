@@ -1,4 +1,4 @@
-import IMask from 'imask';
+// import IMask from 'imask';
 import validator from 'validator';
 
 
@@ -15,14 +15,10 @@ export default class validation {
         switch (type) {
             case 'firstName':
             case 'lastName':
-            case 'billingCity':
                 this.firstName(selector)
                 break
-            case 'post':
-                this.post(selector)
-                break
-            case 'phone':
-                this.phone(selector)
+            case 'text':
+                this.text(selector)
                 break
             case 'email':
                 this.email(selector)
@@ -31,6 +27,34 @@ export default class validation {
                 this.submit(selector)
 
         }
+    }
+
+    strError(errorText)  {
+        const lang = document.documentElement.getAttribute('lang');
+        const str = {
+            'ua-UA': {
+                'This field is required': 'Поле не повинно бути порожнім',
+                'Invalid input format': 'Неправильний формат введення',
+                'Password must be at least 6 characters long': 'Пароль має бути не менше 6 символів',
+            },
+            'ru-RU': {
+                'This field is required': 'Поле не должно быть пустым',
+                'Invalid input format': 'Неверный формат ввода',
+                'Password must be at least 6 characters long': 'Пароль должен содержать не менее 6 знаков',
+            },
+            'en-GB': {
+                'This field is required': 'This field is required',
+                'Invalid input format': 'Invalid input format',
+                'Password must be at least 6 characters long': 'Password must be at least 6 characters long',
+            },
+            'en-US': {
+                'This field is required': 'This field is required',
+                'Invalid input format': 'Invalid input format',
+                'Password must be at least 6 characters long': 'Password must be at least 6 characters long',
+            }
+        }
+        console.log(str[lang][errorText]);
+        return str[lang][errorText];
     }
 
     /**
@@ -54,7 +78,7 @@ export default class validation {
 
         for (let i = 0; i < from.length; i++) {
             if(from[i].hasAttribute('required') && from[i].value === "") {
-                this.isValid(false, from[i], 'Поле не должно быть пустым')
+                this.isValid(false, from[i], this.strError('This field is required'))
             }
         }
 
@@ -84,41 +108,41 @@ export default class validation {
     }
 
     firstNameStringValidator(e, field) {
-        let ignore = {
-            ignore: '\-'
-        }
-        if (field.name === 'name') {
-            ignore = {
-                ignore: '[\\s-]+'
-            }
-        }
-        let _isValid = validator.isAlpha(e.target.value, 'uk-UA', {ignore: '-'}) || validator.isAlpha(e.target.value, 'ru-RU', ignore)
-        let error_msg = e.target.value === '' ? 'Поле не должно быть пустым' : 'Неверный формат ввода'
-        this.isValid(_isValid, field, error_msg)
+    
+        // Проверка на валидность введённых данных
+        let value = e.target.value;
+        let isValid = /^[a-zA-Z\u0400-\u04FF\s-]+$/.test(value); // Регулярное выражение для проверки всех букв кириллицы и латиницы, а также пробелов и дефисов
+    
+        // Формирование сообщения об ошибке
+        let error_msg = value === '' ? this.strError('This field is required') : this.strError('Invalid input format');
+        this.isValid(isValid, field, error_msg);
     }
 
-    /**
-     * Phone number masking and validation
-     * @param selector
-     */
-    phone(selector) {
+    text(selector) {
         let field = document.querySelector(selector)
-        let maskOptions = {
-            mask: '+{38}(000)000-00-00'
+        this.boundTextValidator = e => this.textStringValidator(e, field)
+        field.addEventListener('keyup', this.boundTextValidator);
+    }
+  
+    textStringValidator(e, field) {
+        const value = e.target.value;
+        // Регулярное выражение для запрещенных символов
+        const forbiddenChars = /[<>\/{}%&)(]/;
+    
+        // Регулярное выражение для проверки, что строка содержит только спецсимволы длиной более 4
+        const specialCharsOnly = /^[^a-zA-Z\u0400-\u04FF0-9]{5,}$/;
+    
+        // Проверка запрещенных символов
+        let _isValid = !forbiddenChars.test(value);
+    
+        if (_isValid) {
+            _isValid = !specialCharsOnly.test(value);
         }
-
-        IMask(field, maskOptions);
-        field.setAttribute("placeholder", "+38(000)000-00-00")
-        this.boundPhoneStringValidator = e => this.phoneStringValidator(e, field)
-        field.addEventListener('keyup', this.boundPhoneStringValidator);
+    
+        let error_msg = value === '' ? this.strError('This field is required') : this.strError('Invalid input format');
+        this.isValid(_isValid, field, error_msg);
     }
 
-    phoneStringValidator(e, field) {
-        let _value = e.target.value.replace(/[()-]/g,"")
-        let _isValid = validator.isMobilePhone(_value, ['uk-UA'], { strict: true})
-        let error_msg = e.target.value === '' ? 'Поле не должно быть пустым' : 'Неверный формат ввода'
-        this.isValid(_isValid, field, error_msg)
-    }
 
     /**
      * Email validation
@@ -131,29 +155,7 @@ export default class validation {
 
     emailStringValidation(e, field) {
         let _isValid = validator.isEmail(e.target.value)
-        let error_msg = e.target.value === '' ? 'Поле не должно быть пустым' : 'Неверный формат ввода'
-        this.isValid(_isValid, field, error_msg)
-    }
-
-    /**
-     * The delivery filial ID
-     * @param selector
-     */
-    post(selector) {
-        let field = document.querySelector(selector)
-
-        field.setAttribute("maxlength", "4")
-        field.setAttribute("required", "")
-        field.oninput = function (e){
-            e.target.value = e.target.value.replace(/[^0-9]/gi, "")
-        }
-        this.boundPostStringValidator = e => this.postStringValidator(e, field)
-        field.addEventListener('keyup', this.boundPostStringValidator);
-    }
-
-    postStringValidator(e, field) {
-        let _isValid = validator.isNumeric(e.target.value)
-        let error_msg = e.target.value === '' ? 'Поле не должно быть пустым' : 'Неверный формат ввода'
+        let error_msg = e.target.value === '' ? this.strError('This field is required') : this.strError('Invalid input format')
         this.isValid(_isValid, field, error_msg)
     }
 

@@ -1,74 +1,14 @@
 <div class="l-modal-container">
-		<div class="c-modal c-mobile-menu " id="mobile-menu">
-			<div class="c-modal__title">
-				<p class="u-h3">{{ 'Catalog' | translateString('Modals - Catalog') }}</p>
-				<svg width="20px" height="20px" data-modal="close">
-	        <use xlink:href="#icon-close"></use>
-	      </svg>
-			</div>
-			<div class="c-mobile-menu__cat">
-				{% include 'templates/menu-mobile.twig' with {'menu': mobile_menu.get_items} %}
-			</div>
-		</div>
+	{% include 'templates/modals/modal-mobile-menu.twig' %}
+
+	{% include 'templates/modals/modal-success.twig' %}
+
+  {% include 'templates/modals/modal-error.twig' %}
+
+	{% include 'templates/modals/modal-quick-buy.twig' %}
 
 	{% if fn('is_product') %}
-		<div class="c-modal is-lightbox js-lightbox-modal" id="lightbox">
-			<p class="d-block d-sm-none is-lightbox-notification">{{ 'Scale a photo with a pinch and spread gesture' | translateString('Modals - Scale a photo') }}</p>
-			<div class="c-load-icon js-load-more-icon">
-				<svg width="30px" height="30px" class="c-load">
-	        <use xlink:href="#icon-load"></use>
-	      </svg>
-			</div>
-			
-			<div data-modal="close" class="c-modal__close">
-				<svg width="20px" height="20px" >
-		      <use xlink:href="#icon-close"></use>
-		    </svg>
-	    </div>
-		</div>
-		<span data-modal="#lightbox" class="d-none"></span>	
-
-		<div class="c-modal is-quick-buy js-quick-buy-modal" id="quick-buy">
-			<svg width="20px" height="20px" data-modal="close" class="c-modal__close">
-	      <use xlink:href="#icon-close"></use>
-	    </svg>
-			<form class="c-form js-quick-buy-form" name="quick-buy">
-				<div class="c-input">
-					<input type="text" required placeholder="{{ 'Name' | translateString('input - Name') }}" name="name">
-				</div>
-				<div class="c-input">
-					<input type="text" required placeholder="{{ 'Surname' | translateString('input - Surname') }}" name="surname">
-				</div>
-				<div class="c-input">
-					<input type="tel" required placeholder="{{ 'Phone' | translateString('input - Phone') }}" name="phone">
-				</div>
-				<div class="c-input">
-					<input type="email" required placeholder="Email" name="email">
-				</div>
-				<div class="c-input">
-					<input type="text" required placeholder="{{ 'City' | translateString('input - City') }}" name="city">
-				</div>
-				<div class="c-input">
-					<input type="text" required placeholder="{{ 'Post Office' | translateString('input - Post Office') }}" name="address">
-				</div>
-
-				{# <input type="hidden" name="action" value="quickBuy"> #}
-				<input type="hidden" name="product_id" value="{{post.ID}}">
-				<input type="hidden" name="variation_id" class="js-quick-buy-variation" value="0">
-
-				<div class="c-form__submit">
-					<button type="submit" name="quick-buy-submit" class="u-btn is-black is-medium js-quick-buy">{{ 'Send' | translateString('buttons - Send') }}</button>
-				</div>
-				<div class="c-load-icon js-load-more-icon">
-	        <span class="c-spinner">
-	          <span></span>
-	          <span></span>
-	          <span></span>
-	        </span>
-	      </div>
-				<div class="js-form-answer"></div>
-			</form>
-		</div>
+		{% include 'templates/modals/modal-lightbox.twig' %}
 	{% endif %}
 </div>
 

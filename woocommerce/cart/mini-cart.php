@@ -32,6 +32,7 @@ $context['cart_products'] = [];
 			// price, title, image, url
 			$products_array['title']     = apply_filters( 'woocommerce_cart_item_name', $_product->get_name(), $cart_item, $cart_item_key );
       $products_array['price']     = $_product->get_price_html();
+			$products_array['id']    = $product_id;
       $products_array['url']       = apply_filters( 'woocommerce_cart_item_permalink', $_product->get_permalink( $cart_item ) , $cart_item, $cart_item_key );
 			$products_array['thumbnail'] = apply_filters( 'woocommerce_cart_item_thumbnail', $_product->get_image(), $cart_item, $cart_item_key );
 
@@ -55,5 +56,5 @@ $context['cart_products'] = [];
 
 $context['total'] = WC()->cart->get_total();
 
-$template = ['templates/woo/mini-cart.twig'];
+$template = ['templates/woo/mini-cart-list.twig'];
 Timber::render($template, $context);

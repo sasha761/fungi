@@ -68,7 +68,7 @@ class BrandedSite extends Site {
     $context['mobile_menu']        = Timber::get_menu( 'menu-3' );
     $context['currency']           = get_woocommerce_currency_symbol();
     $context['is_mobile']          = wp_is_mobile();
-    $context['minicart']['count']  = WC()->cart->cart_contents_count;
+    $context['minicart']           = get_cart_info();
     $context['options']            = get_fields('option');
     
     if ( function_exists( 'icl_get_languages' ) ) {
@@ -107,6 +107,45 @@ class BrandedSite extends Site {
   public function translateString( $string, $name ) {
     return apply_filters( 'wpml_translate_single_string', $string, 'fungi', $name );
   }
+
+  // public function mini_cart() {
+  //   $data['cart_products'] = [];
+  //   $data['count'] = WC()->cart->cart_contents_count;
+
+  //   foreach ( WC()->cart->get_cart() as $cart_item_key => $cart_item ) {
+  //     $products_array = [];
+
+  //     // General vars
+  //     $_product     = apply_filters( 'woocommerce_cart_item_product', $cart_item['data'], $cart_item, $cart_item_key );
+  //     $product_id   = apply_filters( 'woocommerce_cart_item_product_id', $cart_item['product_id'], $cart_item, $cart_item_key );
+
+  //     if ( $_product && $_product->exists() && $cart_item['quantity'] > 0 && apply_filters( 'woocommerce_widget_cart_item_visible', true, $cart_item, $cart_item_key ) ) {
+
+  //       // price, title, image, url
+  //       $products_array['title']     = apply_filters( 'woocommerce_cart_item_name', $_product->get_name(), $cart_item, $cart_item_key );
+  //       $products_array['price']     = $_product->get_price_html();
+  //       $products_array['id']        = $product_id;
+  //       $products_array['url']       = apply_filters( 'woocommerce_cart_item_permalink', $_product->get_permalink( $cart_item ) , $cart_item, $cart_item_key );
+  //       $products_array['thumbnail'] = apply_filters( 'woocommerce_cart_item_thumbnail', $_product->get_image(), $cart_item, $cart_item_key );
+
+
+  //       // Delete button
+  //       $products_array['delete_permalink'] = wc_get_cart_remove_url( $cart_item_key );
+  //       $products_array['delete_productid'] = esc_attr($product_id);
+  //       $products_array['delete_sku'] = esc_attr($_product->get_sku());
+  //       $products_array['cart_item_key'] = $cart_item_key;
+
+  //       $products_array['quantity'] = $cart_item['quantity'];
+
+  //       // Merge with products
+  //       $data['cart_products'][] = $products_array;
+
+  //     }
+  //   }
+
+  //   $data['total'] = WC()->cart->get_total();
+  //   return $data;
+  // }
 }
 
 new BrandedSite();

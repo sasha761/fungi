@@ -1,0 +1,17 @@
+.l-mini-cart-list {
+  max-height: rem(300);
+  overflow-y: auto;
+  padding-right: 2px;
+
+  &::-webkit-scrollbar {
+    width: 2px;
+  }
+   
+  &::-webkit-scrollbar-track {
+  }
+   
+  &::-webkit-scrollbar-thumb {
+    background:#333;
+    border-radius:10px;
+  }
+}

@@ -102,16 +102,12 @@
 															value="{{data.id}}"
 														>
 															<span class="js-button-text is-show">{{ 'Add to cart' | translateString('buttons - Add to cart') }}</span>
-															<span class="c-loader is-white js-loader is-hide">
-																<svg aria-hidden="true" focusable="false" class="spinner" viewBox="0 0 66 66" xmlns="http://www.w3.org/2000/svg">
-																	<circle class="path" fill="none" stroke-width="6" cx="33" cy="33" r="30"></circle>
-																</svg>
-															</span>
+															{% include 'templates/partial/loader.twig' with {'class': 'is-white is-hide'} %}
 														</button>
 
-														<button type="button" {% if data.outStock == 'outofstock' %} disabled {% endif %} class="u-btn is-small is-yellow js-quick-add-to-card is-disabled" data-modal="#quick-buy">
+														{# <button type="button" {% if data.outStock == 'outofstock' %} disabled {% endif %} class="u-btn is-small is-yellow js-quick-add-to-card is-disabled" data-modal="#quick-buy">
 															<span>{{ 'Buy Now' | translateString('buttons - Buy in 1 click') }}</span>
-														</button>
+														</button> #}
 													{% endif %}
 												</div>
 											</div>
@@ -216,7 +212,7 @@
 							</section>
 						{% endif %}
 					</div>
-					<div class="l-product__flex-sidebar">
+					{# <div class="l-product__flex-sidebar">
 						{% include 'templates/partial/sidebar.twig' 
               with {
                 'search': true, 
@@ -224,7 +220,7 @@
                 'popular_posts': popular_posts
               } 
             %}
-					</div>
+					</div> #}
 				</div>
 
 			</section>

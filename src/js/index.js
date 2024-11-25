@@ -1,7 +1,7 @@
 import lightbox     from './modules/lightbox.js';
 import modal        from './modules/modal-container.js';
 import tabs         from './modules/tabs.js';
-import niceSelect   from './modules/niceSelect.js';
+// import niceSelect   from './modules/niceSelect.js';
 import validation   from './modules/validation.js';
 import likes        from './modules/likes.js';
 import readMore     from './modules/read-more.js';
@@ -11,7 +11,7 @@ import loadMore     from './modules/load-more.js';
 import quickBuy     from './modules/quick-buy.js';
 import burgerMenu   from './modules/burger.js';
 import updateCart   from './modules/cart.js';
-import MiniCart     from './modules/quick-add-to-cart';
+import Cart         from './modules/quick-add-to-cart';
 import LazyLoad     from 'vanilla-lazyload';
 import NiceSelect   from 'nice-select2';
 // import {slideUp, slideDown} from './modules/slideToggle.js';
@@ -24,83 +24,63 @@ document.addEventListener("DOMContentLoaded", function(event) {
     threshold: 150,
     unobserve_entered: true
   });
-
+  
   new modal('.c-modal', '.l-modal-container');
-  new tabs('.js-tab-mobile-menu');
+  // new tabs('.js-tab-mobile-menu');
   new tabs('.js-tab-product-additional-info');
   
   new CheckedAccordion('.js-accordion__item', '.js-accordion');
   burgerMenu();
   menu();
 
-  // NiceSelect.bind(document.getElementById("seachable-select"), options);
   
+  const from_validator = new validation();
 
-  const miniCart = new MiniCart({
+  const cart = new Cart({
     addToCartBtn: '.js-add-to-cart',
     removeFromCartBtn: '.js-product-remove',
-    miniCart: '.l-mini-cart',
+    cartContainer: '.js-cart-container',
     miniCartCounter: '.js-mini-cart-counter'
   });
 
-  miniCart.addToCartHandler();
-  miniCart.removeFromCartHandler();
+  cart.addToCartHandler();
+  cart.removeFromCartHandler();
+
+  if (document.querySelector("form[name='quick-buy']")) {
+    from_validator.validate('firstName', '[name="name"]')
+    from_validator.validate('email', '[name="email"]')
+    from_validator.validate('text', '[name="contactInfo"]')
+    from_validator.validate('submit', 'button[name="quick-buy-submit"]')
+  }
+
+  quickBuy();
+
+  // new QuickBuyForm('.js-quick-buy-form');
 
 
   const pageClass = document.querySelector('main').classList.value;
-  const from_validator = new validation();
+  
 
   switch (pageClass) {
     case 'p-main':
       swiperFn();
       break;
     case 'p-shop':
-      new niceSelect('.js-filter-select, .js-filter-sort select');
+      new NiceSelect(document.querySelector(".js-filter-sort select"), {searchable: false, placeholder: 'Sorting'});
       readMore();
       loadMore();      
       break;  
     case 'p-product':
       swiperFn();
       new lightbox('.js-lightbox', '.js-lightbox-modal');
-      if (document.querySelector("form[name='quick-buy']")) {
-        from_validator.validate('firstName', '[name="name"]')
-        from_validator.validate('lastName', '[name="surname"]')
-        from_validator.validate('post', '[name="address"]')
-        from_validator.validate('billingCity', '[name="city"]')
-        from_validator.validate('phone', '[name="phone"]')
-        from_validator.validate('email', '[name="email"]')
-        from_validator.validate('submit', 'button[name="quick-buy-submit"]')
-      }
-      quickBuy();
+      
+      
 
       break;
     case 'p-checkout':
       if (document.querySelector(".js-select")) {
         new NiceSelect(document.querySelector(".js-select"), {searchable: true, placeholder: 'Country/Region'});
       }
-
-      // const paymentItems = document.querySelectorAll('.js-payment-item');
-
-      // if (paymentItems) {
-        
-      //   paymentItems.forEach((item) => {
-      //     console.log(item)
-      //     item.addEventListener('click', () => {
-      //       item.querySelector('input').click();
-
-      //       if(item.classList.contains('is-active')) {
-      //         item.classList.remove('is-active');
-      //         slideUp(item.document.querySelector(''));
-      //       } else {
-      //         item.classList.add('is-active');
-              
-      //         slideDown();
-      //       }
-      //     });
-      //   });
-      // }
-
-
       break;   
     case 'p-shop p-search':
       new niceSelect('.js-filter-sort select');
