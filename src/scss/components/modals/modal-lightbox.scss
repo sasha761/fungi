@@ -1,0 +1,85 @@
+.c-modal {
+  &.is-lightbox {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    padding: 0;
+
+    .c-modal__close {
+      position: absolute;
+      top: 60px;
+      right: 60px;
+      z-index: 2;
+      width: 50px;
+      height: 50px;
+      cursor: pointer;
+    }
+
+    .c-load-icon {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      width: 50px;
+      height: 50px;	  		
+    }
+
+    .swiper {
+      height: 100%;
+      text-align: center;
+
+      .swiper-button-next, 
+      .swiper-button-prev {
+        color: #333;
+      }
+
+      .swiper-zoom-container {
+        cursor: zoom-in;
+        align-items: inherit;
+      }
+    }
+
+    img {
+      height: 100%;
+      width: auto;
+    }
+
+    @include mq('phone-large') {
+      .c-modal__close {
+        top: 30px;
+        right: 30px;
+        width: 25px;
+        height: 25px;
+      }
+
+      .c-load-icon {
+        width: 30px;
+        height: 30px;
+      }
+
+      .is-lightbox-notification {
+        max-width: 300px;
+        margin: 15px auto;
+        display: inline-block;
+        font-size: 15px;
+        line-height: 21px;
+        color: #898686;
+        text-align: center;
+        width: 100%;
+      }
+ 
+      .swiper {
+        height: calc(100% - 120px);
+      }
+ 
+      img {
+        position: relative;
+        top: 0;
+        max-width: none;
+        max-height: none;
+        width: 100%;
+        object-fit: cover;
+      }
+    }
+  }
+}

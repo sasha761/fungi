@@ -46,8 +46,6 @@ require_once get_template_directory() . '/inc/get_cart_info.php'; // get_cart_in
 require_once get_template_directory() . '/inc/get_posts_info.php'; // get_posts_info
 require_once get_template_directory() . '/inc/likes.php';
 
-// require_once get_template_directory() . '/test.php';
-
 
 require_once get_template_directory() . '/inc/ajax/add_to_cart.php';
 require_once get_template_directory() . '/inc/ajax/remove_from_cart.php';

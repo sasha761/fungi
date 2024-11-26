@@ -1,0 +1,36 @@
+.c-modal {
+  opacity: 0;
+  overflow-y: auto;
+  visibility: hidden;
+  background-color: white;
+  transition: all 0.35s linear;
+  z-index: 21;
+  padding: 0 15px;
+
+  &__title {
+    padding: 10px 0;
+    background: #fbf8f8;
+    position: relative;
+    text-align: center;
+    margin: 0 -15px;
+
+    svg {
+      position: absolute;
+      right: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+    }
+  }
+
+  &.is-active {
+    opacity: 1;
+    visibility: visible;
+    left: 0;
+  }
+}
+
+@import 'modal-filter';
+@import 'modal-lightbox';
+@import 'modal-quick-buy';
+@import 'modal-search';
+@import 'modal-status';

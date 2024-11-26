@@ -4,18 +4,18 @@ import tabs         from './modules/tabs.js';
 // import niceSelect   from './modules/niceSelect.js';
 import validation   from './modules/validation.js';
 import likes        from './modules/likes.js';
-import readMore     from './modules/read-more.js';
+// import readMore     from './modules/read-more.js';
 import swiperFn     from './modules/swiper.js';
-import menu         from './modules/menu.js';
-import loadMore     from './modules/load-more.js';
+// import menu         from './modules/menu.js';
+// import loadMore     from './modules/load-more.js';
 import quickBuy     from './modules/quick-buy.js';
 import burgerMenu   from './modules/burger.js';
 import updateCart   from './modules/cart.js';
 import Cart         from './modules/quick-add-to-cart';
 import LazyLoad     from 'vanilla-lazyload';
-import NiceSelect   from 'nice-select2';
-// import {slideUp, slideDown} from './modules/slideToggle.js';
-import {Accordion, CheckedAccordion}    from './modules/accordion.js';
+// import NiceSelect   from 'nice-select2';
+
+// import {Accordion, CheckedAccordion}    from './modules/accordion.js';
 
 
 document.addEventListener("DOMContentLoaded", function(event) {
@@ -29,9 +29,9 @@ document.addEventListener("DOMContentLoaded", function(event) {
   // new tabs('.js-tab-mobile-menu');
   new tabs('.js-tab-product-additional-info');
   
-  new CheckedAccordion('.js-accordion__item', '.js-accordion');
+  // new CheckedAccordion('.js-accordion__item', '.js-accordion');
   burgerMenu();
-  menu();
+  // menu();
 
   
   const from_validator = new validation();
@@ -66,21 +66,19 @@ document.addEventListener("DOMContentLoaded", function(event) {
       swiperFn();
       break;
     case 'p-shop':
-      new NiceSelect(document.querySelector(".js-filter-sort select"), {searchable: false, placeholder: 'Sorting'});
-      readMore();
-      loadMore();      
+      // new NiceSelect(document.querySelector(".js-filter-sort select"), {searchable: false, placeholder: 'Sorting'});
+      // readMore();
+      // loadMore();      
       break;  
     case 'p-product':
       swiperFn();
       new lightbox('.js-lightbox', '.js-lightbox-modal');
       
-      
-
       break;
     case 'p-checkout':
-      if (document.querySelector(".js-select")) {
-        new NiceSelect(document.querySelector(".js-select"), {searchable: true, placeholder: 'Country/Region'});
-      }
+      // if (document.querySelector(".js-select")) {
+      //   new NiceSelect(document.querySelector(".js-select"), {searchable: true, placeholder: 'Country/Region'});
+      // }
       break;   
     case 'p-shop p-search':
       new niceSelect('.js-filter-sort select');

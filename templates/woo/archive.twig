@@ -15,30 +15,30 @@
             data-cat-id="{{query_object.term_id}}"
             >
             
-            {% if banner %}
+            {# {% if banner %}
               <div class="l-shop__banner">
                 <img
                   src="data:image/png;base64,TEVITGhbV0IyeWs4cHlvSmFkUiouN2tDTWRuag==" 
                   data-src="{{banner}}" 
                   class="l-shop__img lazy">
               </div>
-            {% endif %}
+            {% endif %} #}
 
-            {% if description %}
+            {# {% if description %}
               <div class="l-shop__text js-read-more">
                 <div class="js-read-more-text">
                   {{ description }}
                 </div>
                 <a class="u-read-more js-read-more-btn">{{ 'Read completely' | translateString('buttons - Read completely') }}</a>
               </div>
-            {% endif %}
+            {% endif %} #}
 
-            <div class="l-shop__result">
+            {# <div class="l-shop__result">
               <div class="l-shop__result-count">{{ function('woocommerce_result_count') }}</div>
               <div class="c-sort js-filter-sort">
                 {{ function('woocommerce_catalog_ordering') }}
               </div> 
-            </div>
+            </div> #}
 
             <div class="l-shop__product">
               {% if (products|length) %}
@@ -55,7 +55,7 @@
                 </div>
               {% endif %}
               
-              {% if (products|length >= 16 and posts.pagination.pages|length >= 2) %}
+              {# {% if (products|length >= 16 and posts.pagination.pages|length >= 2) %}
                 <div class="c-load-icon js-load-more-icon">
                   <span class="c-spinner">
                     <span></span>
@@ -72,7 +72,7 @@
                   data-category="{{query_object.taxonomy}}"
                   class="u-btn is-load-more is-medium is-black js-show-more-product"
                 >{{ 'Load more' | translateString('buttons - Load more') }}</button>
-              {% endif %}
+              {% endif %} #}
             </div>
 
             {% include 'partial/pagination.twig' with { pagination: posts.pagination({show_all: false, mid_size: 4, end_size: 1}) } %}
