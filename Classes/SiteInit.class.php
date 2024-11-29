@@ -48,7 +48,7 @@ class BrandedSite extends Site {
   }
 
   public function enqueue_scripts() {
-    wp_enqueue_style( 'theme-style', get_stylesheet_uri(), array(), _S_VERSION );
+    // wp_enqueue_style( 'theme-style', get_stylesheet_uri(), array(), _S_VERSION );
     wp_enqueue_style( 'main-style', get_template_directory_uri() . '/dist/css/main.css', array(), _S_VERSION );
 
     wp_enqueue_script( 'pure-js', get_template_directory_uri() . '/dist/js/index.js', array(), _S_VERSION, true );
