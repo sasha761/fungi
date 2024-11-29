@@ -5,71 +5,20 @@
 	</div>
 	<div class="l-header__bottom u-relative">
 		<div class="u-container">
-			<div  class="c-logo">
-				<a href="{{site.url}}">
-					<img src="{{theme.link}}/src/img/main_logo_blue.png" alt="">
-					{# <svg width="100%" height="52px">
-		        <use xlink:href="#logo"></use>
-		      </svg> #}
-				</a>
-			</div>
 
+			{% include 'templates/partial/logo.twig' %}
 			{% include 'templates/menu.twig' with {'menu': menu.get_items} %}
 			
 			<div class="l-header__bottom-right">
-				<div class="c-lang js-lang">
-          <div class="c-lang__current">
-            {{current_lang}}
-            <svg width="11px" height="7px" class="c-lang__arrow">
-              <use xlink:href="#icon-arrow-bottom"></use>
-            </svg>
-          </div>
-          <div class="c-lang__sub">
 
-            {% for lang in language_code %}
-              <a 
-              	href="{{ lang.url }}" 
-              	class="c-lang__item {% if current_lang == lang.code %}is-active {% endif %}"
-              	data-lang="{{lang.code}}"
-            	>
-                {{ lang.code }}
-              </a>
-            {% endfor %}
-          </div>
-        </div>
-
-				<div class="c-service cart">
-					<div>
-						<span class="c-service__count js-mini-cart-counter">{{ minicart.count }}</span>
-						<svg width="20px" height="20px">
-			        <use xlink:href="#cart"></use>
-			      </svg>
-					</div>
-
-		      <div class="c-service__dropdown">
-						{% include 'templates/woo/mini-cart.twig' 
-							with {
-								'minicart': minicart,
-								'cart_title': 'Cart'|translateString('Cart - Cart'),
-								'count_label': 'товар',
-							}
-						%}
-		      </div>
-				</div>
-
-        <div class="c-burger js-burger d-block d-lg-none">
-					<span></span>
-		      <span></span>
-		      <span></span>
-				</div>
-
+				{% include 'templates/partial/lang.twig' %}
+				{% include 'templates/partial/service-cart.twig' %}
+        {% include 'templates/partial/burger.twig' %}
+				
 			</div>
 		</div>
 	</div>
-	{# {{minicart}} #}
-	{# <pre>{{minicart|json_encode(constant('JSON_PRETTY_PRINT'))}}</pre> #}
 	<div class="l-header__mobile">
-		{# {% include 'templates/menu.twig' with {'menu': menu.get_items} %} #}
 		<div class="u-container">
 			<div class="c-mobile-menu">
 				<ul>
@@ -79,11 +28,11 @@
 						</svg>
 						<a href="{{site.url}}">{{ 'Main page' | translateString('Modals - Main page') }}</a>
 					</li>
-					<li class="c-mobile-menu__link" data-modal="#mobile-menu">
+					<li class="c-mobile-menu__link">
 						<svg width="22px" height="20px">
 							<use xlink:href="#catalog"></use>
 						</svg>
-						<span>{{ 'Catalog' | translateString('Header - catalog') }}</span>
+						<a href="{{shop_url}}">{{ 'Catalog' | translateString('Header - catalog') }}</a>
 					</li>
 					<li class="c-mobile-menu__link">
 						<svg width="20px" height="25px">

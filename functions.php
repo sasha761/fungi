@@ -24,12 +24,8 @@ Timber::$dirname = 'templates';
 
 
 if ( ! defined( '_S_VERSION' ) ) {
-	define( '_S_VERSION', '2.0.0' );
+	define( '_S_VERSION', '2.0.1' );
 }
-
-// add_filter('timber_compile_result', function($output) {
-//   return str_replace('http://', 'https://', $output);
-// });
 
 
 require_once get_template_directory() . '/Classes/SiteInit.class.php';
@@ -50,6 +46,6 @@ require_once get_template_directory() . '/inc/likes.php';
 require_once get_template_directory() . '/inc/ajax/add_to_cart.php';
 require_once get_template_directory() . '/inc/ajax/remove_from_cart.php';
 require_once get_template_directory() . '/inc/ajax/cart_quantity.php';
-require_once get_template_directory() . '/inc/ajax/mini-cart.php';
+// require_once get_template_directory() . '/inc/ajax/mini-cart.php';
 require_once get_template_directory() . '/inc/ajax/quick_buy.php';
 require_once get_template_directory() . '/inc/ajax/show_more_products.php';

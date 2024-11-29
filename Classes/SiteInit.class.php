@@ -68,6 +68,7 @@ class BrandedSite extends Site {
     $context['mobile_menu']        = Timber::get_menu( 'menu-3' );
     $context['currency']           = get_woocommerce_currency_symbol();
     $context['is_mobile']          = wp_is_mobile();
+    $context['shop_url']           = wc_get_page_permalink( 'shop' );
     $context['minicart']           = get_cart_info();
     $context['options']            = get_fields('option');
     

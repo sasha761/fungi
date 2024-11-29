@@ -1,0 +1,18 @@
+<div class="c-service cart">
+  <div>
+    <span class="c-service__count js-mini-cart-counter">{{ minicart.count }}</span>
+    <svg width="20px" height="20px">
+      <use xlink:href="#cart"></use>
+    </svg>
+  </div>
+
+  <div class="c-service__dropdown">
+    {% include 'templates/woo/mini-cart.twig' 
+      with {
+        'minicart': minicart,
+        'cart_title': 'Cart'|translateString('Cart - Cart'),
+        'count_label': 'товар',
+      }
+    %}
+  </div>
+</div>

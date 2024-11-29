@@ -1,0 +1,19 @@
+<div class="c-lang js-lang">
+  <div class="c-lang__current">
+    {{current_lang}}
+    <svg width="11px" height="7px" class="c-lang__arrow">
+      <use xlink:href="#icon-arrow-bottom"></use>
+    </svg>
+  </div>
+  <div class="c-lang__sub">
+    {% for lang in language_code %}
+      <a 
+        href="{{ lang.url }}" 
+        class="c-lang__item {% if current_lang == lang.code %}is-active {% endif %}"
+        data-lang="{{lang.code}}"
+      >
+        {{ lang.code }}
+      </a>
+    {% endfor %}
+  </div>
+</div>

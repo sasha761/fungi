@@ -96,7 +96,6 @@ export default class Cart {
 
   #updateMiniCart(data) {
     const cartContainer = document.querySelectorAll(`${this.cartContainer}`);
-
     cartContainer.forEach(cart => {
       let cartList = cart.querySelector('.js-mini-cart-list');
       const cartTotal = cart.querySelector('.js-cart-total');
@@ -105,11 +104,11 @@ export default class Cart {
 
       cartList.innerHTML = '';  
 
-      if (data.data?.html?.cart_products && data.data?.html?.cart_products.length > 0) {
+      if (data.data?.cart_products && data.data?.cart_products.length > 0) {
         cartEmpty?.classList.add('is-hide');
         cartInfo?.classList.remove('is-hide');
 
-        data.data?.html?.cart_products.forEach(product => {
+        data.data?.cart_products.forEach(product => {
           const listItem = document.createElement('li');
           listItem.classList.add('c-mini-cart-product');
 
@@ -151,7 +150,7 @@ export default class Cart {
         cartEmpty?.classList.remove('is-hide');
       }
 
-      if (cartTotal) cartTotal.innerHTML = data.data?.html?.total;
+      if (cartTotal) cartTotal.innerHTML = data.data?.total;
     });
 
     const cartCounter = document.querySelectorAll('.js-mini-cart-counter');

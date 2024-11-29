@@ -4,12 +4,10 @@ $action_tag = 'wpml_register_single_string';
 
 // buttons
 do_action( $action_tag, $domain, 'Buttons - Subscribe now', 'Subscribe now' );
-// do_action( $action_tag, $domain, 'buttons - The entire collection', 'The entire collection' );
 do_action( $action_tag, $domain, 'buttons - Load more', 'Load more' );
 do_action( $action_tag, $domain, 'buttons - Learn more', 'Learn more' );
 do_action( $action_tag, $domain, 'buttons - Read more', 'Read more' );
 do_action( $action_tag, $domain, 'buttons - Read completely', 'Read completely' );
-// do_action( $action_tag, $domain, 'buttons - All filters', 'All filters' );
 do_action( $action_tag, $domain, 'buttons - Send', 'Send' );
 do_action( $action_tag, $domain, 'buttons - In store', 'In store' );
 do_action( $action_tag, $domain, 'buttons - Buy in 1 click', 'Buy in 1 click' );
@@ -28,29 +26,9 @@ do_action( $action_tag, $domain, 'Footer - marketplace', 'Connect to the affilia
 
 
 // header
-// do_action( $action_tag, $domain, 'Header - help', 'Help' );
-// do_action( $action_tag, $domain, 'Header - shipping', 'Shipping and Payment' );
-// do_action( $action_tag, $domain, 'Header - returns', 'Returns and exchanges' );
-// do_action( $action_tag, $domain, 'Header - guarantee', 'Guarantee' );
-// do_action( $action_tag, $domain, 'Header - reviews', 'Reviews' );
 do_action( $action_tag, $domain, 'Header - free shipping', 'FREE SHIPPING ON ORDERS OVER $125' );
 do_action( $action_tag, $domain, 'Header - catalog', 'Catalog' );
 
-
-
-// hero home section
-// do_action( $action_tag, $domain, 'Hero-home - title', 'Branded.com.ua - Online store brand clothing for men and women' );
-
-
-// product-row section
-// do_action( $action_tag, $domain, 'Product row - title', 'Best offers' );
-
-
-
-// subscribe section
-// do_action( $action_tag, $domain, 'Subscribe section - be on topic', 'be on topic' );
-// do_action( $action_tag, $domain, 'Subscribe section - men', 'men' );
-// do_action( $action_tag, $domain, 'Subscribe section - women', 'women' );
 
 
 

@@ -1,6 +1,11 @@
 .p-shop {
 	margin-bottom: rem(80);
 	margin-top: rem(24);
+
+	.u-h2 {
+		margin-bottom: rem(25);
+	}
+
 	&__flex {
 		display: flex;
 		align-items: stretch;

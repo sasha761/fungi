@@ -61,21 +61,21 @@ foreach ($page_ids as $page_id) {
 
 $context['pages']  = $pages;
 
-$related_args = array( 
-  'numberposts' => 6,
-  'ignore_sticky_posts' => true,
-  'orderby' => 'rand',
-  'post_status' => 'publish',
-  'post_type' => 'post', 
-);
+// $related_args = array( 
+//   'numberposts' => 6,
+//   'ignore_sticky_posts' => true,
+//   'orderby' => 'rand',
+//   'post_status' => 'publish',
+//   'post_type' => 'post', 
+// );
 
-$comments_args       = array('post_id' => $timber_post->id, 'status' => 'approve'); 
-$context['comments'] = get_comments($comments_args);
+// $comments_args       = array('post_id' => $timber_post->id, 'status' => 'approve'); 
+// $context['comments'] = get_comments($comments_args);
 
 $context['product_categories'] = get_taxonomy_data([
 	'taxonomy' => 'category'
 ]);;
 
 
-$context['related'] = get_posts( $related_args );
+// $context['related'] = get_posts( $related_args );
 Timber::render(array('page.twig'), $context );

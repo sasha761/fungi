@@ -10,6 +10,7 @@
 	}
 
 	&__left {
+		padding-right: rem(20);
 		.u-h2 {
 			margin-bottom: rem(15);
 		}
@@ -46,6 +47,7 @@
 		&__left {
 			margin-bottom: 40px;
 			text-align: center;
+			padding-right: 0;
 			.u-h2 {
 				color: #000;
 				margin-bottom: 10px;
@@ -56,7 +58,7 @@
 			}
 
 			img {
-				margin: 0 auto;
+				display: none;
 			}
 
 			.u-btn {

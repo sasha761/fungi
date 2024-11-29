@@ -38,33 +38,35 @@
 			</div>
 		</div>
 
-		<section class="l-related js-slider-container">
-			<div class="u-container">
-				<h2 class="u-h2">{{ 'Related Posts' | translateString('Strings - related Posts') }}</h2>
-				<div class="js-product-row swiper">
-					<div class="swiper-wrapper">
-						{% if related %}
-							{% for post in related|slice(0, 6) %}
-								<div class="u-col swiper-slide">
-									{% include 'templates/partial/post.twig' 
-                    with {
-                      'data': post,
-                      'show_category': false,
-                      'excerpt': false,
-                      'info': false,
-                      'readMore': false,
-                      'likes': 'bottom'
-                    } 
-                  %}
-								</div>
-							{% endfor %}
-						{% endif %}
+		{% if related %}
+			<section class="l-related js-slider-container">
+				<div class="u-container">
+					<h2 class="u-h2">{{ 'Related Posts' | translateString('Strings - related Posts') }}</h2>
+					<div class="js-product-row swiper">
+						<div class="swiper-wrapper">
+							
+								{% for post in related|slice(0, 6) %}
+									<div class="u-col swiper-slide">
+										{% include 'templates/partial/post.twig' 
+											with {
+												'data': post,
+												'show_category': false,
+												'excerpt': false,
+												'info': false,
+												'readMore': false,
+												'likes': 'bottom'
+											} 
+										%}
+									</div>
+								{% endfor %}
+							
+						</div>
 					</div>
+					{% if related|length > 3 %}
+						{% include 'templates/partial/arrow.twig' %}
+					{% endif %}
 				</div>
-				{% if related|length > 3 %}
-					{% include 'templates/partial/arrow.twig' %}
-				{% endif %}
-			</div>
-		</section>
+			</section>
+		{% endif %}
 	</main>
 {% endblock %}

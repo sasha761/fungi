@@ -70,7 +70,7 @@ function handle_like() {
 
   // Проверка существующего лайка пользователя
   $existing_like = get_likes($user_id, $translations);
-  if (empty($existing_like)) wp_send_json_error('No likes found');
+  // if (empty($existing_like)) wp_send_json_error('No likes found');
 
   if ($existing_like) {
     if ($existing_like->like_type === $like_type) {

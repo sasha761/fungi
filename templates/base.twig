@@ -6,56 +6,25 @@
   <meta name="google-site-verification" content="XL-5KG2Utf8O_H9vs9rjdjhhCYBebIe7zfCrc6fxoEc" />
   {# <meta name="facebook-domain-verification" content="bcood6oyplq0u82b04m3vmmcoc552c" /> #}
 
-  {# <link rel="preload" href="{{ site.theme.link }}/src/fonts/Gilroy/Gilroy-ExtraBold.woff2" as="font" type="font/woff" crossorigin="anonymous"/>
-  <link rel="preload" href="{{ site.theme.link }}/src/fonts/Montserrat/Montserrat-Medium.woff2" as="font" type="font/woff" crossorigin="anonymous"/>
-  <link rel="preload" href="{{ site.theme.link }}/src/fonts/Montserrat/Montserrat-Light.woff2" as="font" type="font/woff" crossorigin="anonymous"/>
-  <link rel="preload" href="{{ site.theme.link }}/src/fonts/Montserrat/Montserrat-Regular.woff2" as="font" type="font/woff" crossorigin="anonymous"/>
-  <link rel="preload" href="{{ site.theme.link }}/src/fonts/Montserrat/Montserrat-Bold.woff2" as="font" type="font/woff" crossorigin="anonymous"/> 
-
-  {# {% if fn('is_product') %} #}
-    <link rel="preload" href="{{ site.theme.link }}/src/fonts/star/star.woff2" as="font" type="font/woff" crossorigin="anonymous"/>
-
-    <style>
-      @font-face {
-        font-family: 'star';
-        font-display: swap;
-        src: url('{{theme.link}}/src/fonts/star/star.woff2') format('woff2');
-        font-weight: normal;
-        font-style: normal;
-      }
-    </style>
-  {# {% endif %} #}
+  <link rel="preload" href="{{ site.theme.link }}/src/fonts/playfairDisplay/PlayfairDisplay-MediumItalic.woff" as="font" type="font/woff" crossorigin="anonymous"/>
+  <link rel="preload" href="{{ site.theme.link }}/src/fonts/Golos/GolosText-Medium.ttf" as="font" type="font/woff" crossorigin="anonymous"/>
+  <link rel="preload" href="{{ site.theme.link }}/src/fonts/Golos/GolosText-Regular.ttf" as="font" type="font/woff" crossorigin="anonymous"/>
+  <link rel="preload" href="{{ site.theme.link }}/src/fonts/Golos/GolosText-SemiBold.ttf" as="font" type="font/woff" crossorigin="anonymous"/>
+  <link rel="preload" href="{{ site.theme.link }}/src/fonts/star/star.woff2" as="font" type="font/woff" crossorigin="anonymous"/>
 
   <style>
+    @font-face {
+      font-family: 'star';
+      font-display: swap;
+      src: url('{{theme.link}}/src/fonts/star/star.woff2') format('woff2');
+      font-weight: normal;
+      font-style: normal;
+    }
     @font-face {
       font-family: 'Playfair Display';
       src: url('{{theme.link}}/src/fonts/playfairDisplay/PlayfairDisplay-MediumItalic.woff') format('woff');
       font-weight: 500;
       font-style: italic;
-    }
-
-    @font-face {
-      font-family: 'Poppins';
-      font-display: swap;
-      font-style: normal;
-      font-weight: 100;
-      src: local('Poppins Thin'), url('{{theme.link}}/src/fonts/poppins/Poppins-Thin.ttf') format('ttf');
-    }
-
-    @font-face {
-      font-family: 'Poppins';
-      font-display: swap;
-      font-style: normal;
-      font-weight: 200;
-      src: local('Poppins Extra Light'), url('{{theme.link}}/src/fonts/poppins/Poppins-ExtraLight.ttf') format('ttf');
-    }
-
-    @font-face {
-      font-family: 'Poppins';
-      font-display: swap;
-      font-style: normal;
-      font-weight: 300;
-      src: local('Poppins Light'), url('{{theme.link}}/src/fonts/poppins/Poppins-Light.ttf') format('truetype');
     }
 
     @font-face {
@@ -81,56 +50,18 @@
       font-weight: 600;
       src: url('{{theme.link}}/src/fonts/Golos/GolosText-SemiBold.ttf') format('truetype');
     }
-
-    @font-face {
-      font-family: 'Golos Text';
-      font-display: swap;
-      font-style: normal;
-      font-weight: 700;
-      src: url('{{theme.link}}/src/fonts/Golos/GolosText-Bold.ttf') format('truetype');
-    }
-
-    @font-face {
-      font-family: 'Golos Text';
-      font-display: swap;
-      font-style: normal;
-      font-weight: 800;
-      src: url('{{theme.link}}/src/fonts/Golos/GolosText-ExtraBold.ttf') format('truetype');
-    }
-
-    @font-face {
-      font-family: 'Golos Text';
-      font-display: swap;
-      font-style: normal;
-      font-weight: 900;
-      src: url('{{theme.link}}/src/fonts/Golos/GolosText-Black.ttf') format('truetype');
-    }
-
   </style>
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   {{ function('wp_head') }}
 
-  <!-- Google Tag Manager -->
- {#  <script defer="defer">(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-  new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-  j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-  'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-  })(window,document,'script','dataLayer','GTM-PVBLHTV');</script> #}
-  <!-- End Google Tag Manager -->
-
 </head>
 <body class="{{body_class}}" data-template="base.twig" data-language="{{ current_lang }}">
 
-  <!-- Google Tag Manager (noscript) -->
-  {# <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-PVBLHTV"
-  height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript> #}
-  <!-- End Google Tag Manager (noscript) -->
-
   {% include 'templates/partial/icons.twig' %}
   {% include 'templates/header.twig' %}
-  {% include 'templates/partial/modals.twig' %}
+  
   <div class="wrapper">
 
     {% block content %}
@@ -139,39 +70,8 @@
     {% include 'templates/footer.twig' %}
   </div>
 
+  {% include 'templates/partial/modals.twig' %}
+
   {{ function('wp_footer') }}
-  {# {% do action('get_main_style') %} #}
-
-
-<!-- Meta Pixel Code -->
-  {# <script>
-  !function(f,b,e,v,n,t,s)
-  {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-  n.callMethod.apply(n,arguments):n.queue.push(arguments)};
-  if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
-  n.queue=[];t=b.createElement(e);t.async=!0;
-  t.src=v;s=b.getElementsByTagName(e)[0];
-  s.parentNode.insertBefore(t,s)}(window, document,'script',
-  'https://connect.facebook.net/en_US/fbevents.js');
-  fbq('init', '694506855746394');
-  fbq('track', 'PageView');
-  </script>
-  <noscript><img height="1" width="1" style="display:none"
-  src="https://www.facebook.com/tr?id=694506855746394&ev=PageView&noscript=1"
-  /></noscript> #}
-<!-- End Meta Pixel Code -->
-
-
-<!-- Global site tag (gtag.js) - Google Analytics -->
-{# <script defer="defer" src="https://www.googletagmanager.com/gtag/js?id=UA-214033317-1"></script>
-
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'UA-214033317-1');
-</script> #}
-
 </body>
 </html>
