@@ -62,6 +62,7 @@ function get_posts_info($args = [], $is_emoji = true) {
       'permalink' => get_the_permalink($post_id),
       'thumb_md'  => get_the_post_thumbnail_url($post_id, 'archive_md'),
       'thumb_xl'  => get_the_post_thumbnail_url($post_id, 'archive_xl'),
+      'archive'  => get_the_post_thumbnail_url($post_id, 'archive'),
       'thumb_sm'  => get_the_post_thumbnail_url($post_id, array(100, 100)),
       'title'     => get_the_title($post_id),
       'date'      => get_the_date('M j, Y', $post_id), // Формат: Jul 21, 2022

@@ -7,7 +7,7 @@ $context = Timber::context();
 
 $context['blog']  = get_posts_info([
   'posts_per_page' => 5,
-  'order' => 'ASC',
+  'order' => 'DESC',
   'orderby' => 'date',
   'post_type' => 'post'
 ]);

@@ -1,7 +1,5 @@
 <?php
-function ajax_load_more_product(){
-  $context = Timber::context();
-  
+function ajax_load_more_product(){  
   $url = $_SERVER['REQUEST_URI'];
   $url_parts = parse_url($url, PHP_URL_QUERY);
 

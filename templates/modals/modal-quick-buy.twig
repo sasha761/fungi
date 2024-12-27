@@ -30,19 +30,28 @@
       </p>
       <div class="row">
         <div class="col-sm-6 col-12 u-col">
-          <div class="c-input">
-            <input type="text" required placeholder="{{ 'Name' | translateString('input - Name') }}" name="name">
+          <div class="c-input js-input-block">
+            <label for="name">{{ 'Name' | translateString('input - Name') }}</label>
+            <input type="text" required id="name" name="name">
           </div>
         </div>
         <div class="col-sm-6 col-12 u-col">
-          <div class="c-input">
-            <input type="email" required placeholder="Email" name="email">
+          <div class="c-input js-input-block">
+            <input type="tel" required id="phone" name="phone">
+          </div>
+        </div>
+
+        <div class="col-sm-12 col-12 u-col">
+          <div class="c-input js-input-block">
+            <label for="email">Email</label>
+            <input type="email" required id="email" name="email">
           </div>
         </div>
 
         <div class="col-12">
-          <div class="c-input">
-            <input type="text" required placeholder="{{ 'Telegram' | translateString('input - Telegram') }}" name="contactInfo">
+          <div class="c-input js-input-block">
+            <label for="email">{{ 'Contacts' | translateString('input - Contacts') }}</label>
+            <input type="text" required name="contactInfo">
           </div>
         </div>
       </div>

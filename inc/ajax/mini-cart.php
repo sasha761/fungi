@@ -1,7 +1,6 @@
 <?php
 function update_mini_cart_handler() {
   // Собираем данные корзины
-  $context = Timber::context();
   $cart_info = get_cart_info();
 
   $template = ['templates/woo/mini-cart.twig'];
@@ -12,11 +11,6 @@ function update_mini_cart_handler() {
     'count' => $cart_info['count'],
     'total' => $cart_info['total'], 
   ]);
-  // wp_send_json_success([
-  //   'html' => $mini_cart_html,
-  //   'count' => $mini_cart_count,
-  //   'total' => $cart_info['total'], 
-  // ]);
 }
 
 add_action('wp_ajax_update_mini_cart', 'update_mini_cart_handler');

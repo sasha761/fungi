@@ -40,7 +40,7 @@ $context['posts'] = get_posts_info([
   'category'    => $category_id,
   'paged'       => $paged,
 	'orderby'     => 'date',
-  'order'       => 'DESC',
+  'order'       => 'ASC',
   'suppress_filters' => false
 ]);
 
@@ -56,7 +56,7 @@ $context['most_popular']  = get_posts_info(array(
   'meta_key' => 'count_post_viewed', 
   'orderby' => 'meta_value_num', 
   'suppress_filters' => false,
-  'order' => 'DESC'
+  'order' => 'ASC'
 ), $is_emoji = false);
 
 Timber::render( $templates, $context );

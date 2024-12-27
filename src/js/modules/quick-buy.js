@@ -17,7 +17,6 @@ function quickBuy() {
       formData.append(`products[${index}][link]`, product.dataset.link);
     });
 
-    console.log(formData);
     // Отправляем данные с использованием FormData
     ajax(formData);
   });

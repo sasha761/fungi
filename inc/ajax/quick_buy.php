@@ -5,6 +5,7 @@ add_action( 'wp_ajax_nopriv_contactForm', 'contactForm' );
 function contactForm() {
   $name = !empty($_POST['name']) ? sanitize_text_field($_POST['name']) : '';
   $email = !empty($_POST['email']) ? sanitize_email($_POST['email']) : '';
+  $phone = !empty($_POST['phone']) ? $_POST['phone'] : '';
   $contactInfo = !empty($_POST['contactInfo']) ? sanitize_text_field($_POST['contactInfo']) : '';
   $text = !empty($_POST['text']) ? sanitize_text_field($_POST['text']) : '';
   $products = !empty($_POST['products']) ? $_POST['products'] : [];
@@ -29,6 +30,10 @@ function contactForm() {
       $user_mail_body[] = 'Текст: ' . esc_html($text);
   }
 
+  if (!empty($phone)) {
+      $user_mail_body[] = 'Телефон: ' . esc_html($phone);
+  }
+
   if (!empty($products)) {
     foreach ($products as $product) {
       $user_mail_body[] = 'Продукт: ' . esc_html($product['name']) . ' (ID: ' . esc_html($product['id']) . ', Количество: ' . esc_html($product['quantity']) . ')';
@@ -48,7 +53,7 @@ function contactForm() {
   $mailResult = wp_mail($to_admin, $subject, $user_mail_body, $headers);
 
   if ($mailResult) {
-    $order_result = create_order($name, $email, $contactInfo, $products);
+    $order_result = create_order($name, $email, $phone, $contactInfo, $products);
 
     if ($order_result['success']) {
 
@@ -66,7 +71,7 @@ function contactForm() {
 }
 
 
-function create_order($name, $email, $contactInfo, $products) {
+function create_order($name, $email, $phone, $contactInfo, $products) {
   if (empty($email) || empty($contactInfo) || empty($name) || empty($products)) {
     return ['success' => false, 'message' => 'Некорректные данные для создания заказа.'];
   }
@@ -85,7 +90,7 @@ function create_order($name, $email, $contactInfo, $products) {
       'first_name' => $name,
       'last_name'  => '',
       'email'      => $email,
-      'phone'      => '',
+      'phone'      => $phone,
     ];
 
     $order->set_address($billing_address, 'billing');

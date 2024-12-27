@@ -1,7 +1,39 @@
 .c-input {
   width: 100%;
+  position: relative;
+
   &.is-half {
     max-width: 50%;
+  }
+
+  &.invalid {
+    label {
+      top: 0;
+      color: #dc143c;
+      font-size: rem(12);
+      cursor: auto;
+    }
+  }
+
+  &.is-active {
+    label {
+      top: 0;
+      font-size: rem(12);
+      cursor: auto;
+    }
+  }
+
+  label {
+    position: absolute;
+    top: 50%;
+    left: rem(12);
+    transform: translateY(-50%);
+    color: #666666;
+    font-size: rem(16);
+    padding: 0 3px;
+    background: white;
+    transition: all 0.4s ease;
+    cursor: text;
   }
 
   span {
@@ -16,10 +48,22 @@
   textarea {
     display: block;
     width: 100%;
-    background: #fbf8f8;
-    padding: rem(12) rem(20);
-    font-size: rem(15);
-    border: 1px solid transparent;    
+    padding: rem(12) rem(12);
+    font-size: rem(16);
+    border-radius: 5px;
+    border: 1px solid #E2E2E2;
+    color: black;
+
+    &:-webkit-autofill {
+      background-color: white !important; /* Установите нужный цвет фона */
+      color: black !important; /* Установите нужный цвет текста */
+      transition: background-color 5000s ease-in-out 0s; /* Это нужно для устранения мерцания */
+    }
+    
+    &:-moz-autofill {
+      background-color: white !important; /* Установите нужный цвет фона */
+      color: black !important; /* Установите нужный цвет текста */
+    }
   }
 
   input.invalid {
@@ -31,5 +75,12 @@
     margin-top: 3px;
     color: #dc143c;
     text-align: left;
+    position: absolute;
+  }
+
+  @include mq('phone-large') {
+    .error-msg {
+      position: relative;
+    }
   }
 }

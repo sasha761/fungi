@@ -103,6 +103,10 @@
     .c-form {
       display: flex;
       align-items: stretch;
+
+      .u-col {
+        // margin-bottom: rem(25);
+      }
     }
 
     @include mq('tablet') {

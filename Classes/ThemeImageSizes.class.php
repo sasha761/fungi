@@ -63,6 +63,13 @@ class ThemeImageSizes
             true
         );
 
+        add_image_size(
+            'archive',
+            600,
+            400,
+            true
+        );
+
         /**
          * Tablet
          */

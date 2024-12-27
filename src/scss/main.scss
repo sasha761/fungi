@@ -17,6 +17,7 @@ Text Domain: news
 // @import 'vendor/swiper-bundle.css';
 // @import "../../node_modules/nice-select2/src/scss/nice-select2.scss";
 @import "~nice-select2/src/scss/nice-select2.scss";
+@import '../../node_modules/intl-tel-input/build/css/intlTelInput.css';
 
 @import 'utility/style.scss';
 @import 'vendor/style.scss';
@@ -57,4 +58,23 @@ img.lazy {
   text-align: center;
   margin-bottom: rem(10);
   display: none;
+}
+
+.iti { 
+	width: 100%;
+
+	&--container {
+		width: auto;
+		// left: 15px;
+		// top: 15px;
+		// right: 15px;
+		// bottom: 15px;
+	}
+}
+
+.iti-mobile .iti--container {
+	left: 15px;
+	top: 15px;
+	right: 15px;
+	bottom: 15px;
 }

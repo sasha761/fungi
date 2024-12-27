@@ -1,24 +1,23 @@
 import lightbox     from './modules/lightbox.js';
 import modal        from './modules/modal-container.js';
 import tabs         from './modules/tabs.js';
-// import niceSelect   from './modules/niceSelect.js';
 import validation   from './modules/validation.js';
 import likes        from './modules/likes.js';
-// import readMore     from './modules/read-more.js';
 import swiperFn     from './modules/swiper.js';
-// import menu         from './modules/menu.js';
-// import loadMore     from './modules/load-more.js';
 import quickBuy     from './modules/quick-buy.js';
 import burgerMenu   from './modules/burger.js';
 import updateCart   from './modules/cart.js';
 import Cart         from './modules/quick-add-to-cart';
-import LazyLoad     from 'vanilla-lazyload';
-// import NiceSelect   from 'nice-select2';
+import inputBlock   from './modules/input-block';
 
+import LazyLoad     from 'vanilla-lazyload';
+import intlTelInput from 'intl-tel-input';
+
+// import niceSelect   from './modules/niceSelect.js';
 // import {Accordion, CheckedAccordion}    from './modules/accordion.js';
 
 
-document.addEventListener("DOMContentLoaded", function(event) {
+document.addEventListener("DOMContentLoaded", () => {
   window.lazyLoadInstance = new LazyLoad({
     cancel_on_exit: false,
     threshold: 150,
@@ -26,15 +25,45 @@ document.addEventListener("DOMContentLoaded", function(event) {
   });
   
   new modal('.c-modal', '.l-modal-container');
-  // new tabs('.js-tab-mobile-menu');
   new tabs('.js-tab-product-additional-info');
   
-  // new CheckedAccordion('.js-accordion__item', '.js-accordion');
   burgerMenu();
-  // menu();
 
-  
+  inputBlock();
+
+  const input = document.querySelector(".js-input-block #phone");
+  const iti = intlTelInput(input, {
+    initialCountry: "auto",
+    onlyCountries: [
+      "al", "ad", "at", "by", "be", "bg", "hr", "cz", "dk", "ee", "fi", "fr",
+      "de", "gi", "gr", "va", "hu", "is", "ie", "it", "lv", "li", "lt", "lu", "mk",
+      "mt", "md", "mc", "me", "nl", "no", "pl", "pt", "ro", "sm", "rs", "sk", "si",
+      "es", "se", "ch", "ua", "gb", "ge", "az", "kz", "tr", "us", "ca", "br", 
+      "za", "eg", "ng", "ke", "gh", "ma", "dz", "tn"
+    ],
+    preferredCountries: ['ua', 'us', 'ca', 'gb', 'pl', 'de', 'no'],
+    geoIpLookup: callback => {
+      fetch("https://ipapi.co/json")
+        .then(res => res.json())
+        .then(data => callback(data.country_code))
+        .catch(() => callback("us"));
+    },
+    // loadUtils: () => import("intl-tel-input/build/js/utils"),
+    utilsScript: import("intl-tel-input/build/js/utils")
+  });
+
   const from_validator = new validation();
+
+  if (document.querySelector("form[name='quick-buy']")) {
+    from_validator.validate('firstName', '.js-input-block [name="name"]')
+    from_validator.validate('email', '.js-input-block [name="email"]')
+    from_validator.validate('phone', iti)
+    from_validator.validate('text', '.js-input-block [name="contactInfo"]')
+    from_validator.validate('submit', 'button[name="quick-buy-submit"]')
+  }
+
+  quickBuy();
+
 
   const cart = new Cart({
     addToCartBtn: '.js-add-to-cart',
@@ -46,16 +75,9 @@ document.addEventListener("DOMContentLoaded", function(event) {
   cart.addToCartHandler();
   cart.removeFromCartHandler();
 
-  if (document.querySelector("form[name='quick-buy']")) {
-    from_validator.validate('firstName', '[name="name"]')
-    from_validator.validate('email', '[name="email"]')
-    from_validator.validate('text', '[name="contactInfo"]')
-    from_validator.validate('submit', 'button[name="quick-buy-submit"]')
-  }
+  
 
-  quickBuy();
-
-  // new QuickBuyForm('.js-quick-buy-form');
+  
 
 
   const pageClass = document.querySelector('main').classList.value;
@@ -81,7 +103,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
       // }
       break;   
     case 'p-shop p-search':
-      new niceSelect('.js-filter-sort select');
+      // new niceSelect('.js-filter-sort select');
       break;
     case 'p-cart':
       updateCart();

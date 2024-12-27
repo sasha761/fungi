@@ -1,0 +1,27 @@
+{% extends 'templates/base.twig' %}
+{% block content %}
+	<main class="p-faq">
+    <div class="u-container">
+      {{ breadcrumbs }}
+      <h1 class="u-h1">{{ post.title }}</h1>
+
+      {% if questions %}
+        <div class="c-accordion js-accordion">
+          {% for item in questions %}
+          <div class="c-accordion__block js-accordion__item">
+            <div class="c-accordion__block-title js-accordion__heading">
+              <span>{{item.title}}</span>
+              <svg width="44px" height="26px">
+                <use xlink:href="#icon-arrow-bottom"></use>
+              </svg>
+            </div>
+            <div class="c-accordion__block-content js-accordion__list">
+              <p>{{item.text}}</p>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+      {% endif %}
+    </div>
+  </main>
+{% endblock %}
