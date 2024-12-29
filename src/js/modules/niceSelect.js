@@ -15,43 +15,78 @@ export default class select {
 	}
 
 	createNiceSelect() {
-		this.select.forEach(item => {
-			item.style.display = 'none';
-			let options = item.querySelectorAll('option');
-    	let selected = item.querySelector('option:checked');
+		this.select.forEach(originalSelect => {
+			originalSelect.style.display = 'none';
+			
+			let options = originalSelect.querySelectorAll('option');
+			let selectedOptions = originalSelect.querySelectorAll('option:checked');
+			let selectTitle = '';
 
-    	let selects = item.querySelectorAll('option:checked');
+			
+			selectedOptions.forEach(opt => {
+				let iconUrl = opt.dataset.icon ? opt.dataset.icon : '';
+				if (iconUrl) {
+					selectTitle += `<img src="${iconUrl}" alt=""> `;
+				}
+				selectTitle += opt.textContent;
+			});
+			
+			// let newNode = document.createElement('div');
+			// newNode.classList.add('nice-select');
+			// newNode.innerHTML = `
+			// 	<span class="current">${selectTitle}</span>
+			// 	<ul class="list"></ul>
+			// `;
+			
+			// originalSelect.after(newNode);
+			
 
-    	let selectTitle = '';
-    	
-    	selects.forEach(item => {
-    		selectTitle += item.textContent;
-    	});
 
 			let newNode = document.createElement('div');
-					newNode.classList.add('nice-select');		
-					newNode.innerHTML = '<span class="current"></span><ul class="list"></ul>';
+			newNode.classList.add('nice-select');
+			newNode.innerHTML = `<span class="current">${selectTitle}</span><ul class="list"></ul>`;
+			originalSelect.after(newNode);
+			const ulList = newNode.querySelector('ul.list');
+			// newNode.querySelector('.current').innerHTML = selectTitle;
+			
+			options.forEach(opt => {
+				// let li = document.createElement('li');
+				// li.classList.add('option');
 
-			item.after(newNode);
+				// const iconUrl = option.dataset.icon;
 
-		 	newNode.querySelector('.current').innerHTML = selectTitle; 
+				// const optionText = option.textContent;  
+				// let liContent = '';
+				
+				// if (iconUrl) liContent += `<img src="${iconUrl}" alt="">`;
+				// liContent += optionText;
+				// li.innerHTML = liContent;
 
-		 	let optionToList = options.forEach(item => {
-    		const li = document.createElement('li');
+				// if (option.selected) li.classList.add('selected');
+			
+				// li.dataset.value = option.value;
+				
+				// li.innerHTML = option.innerHTML;
+				const li = document.createElement('li');
+				li.classList.add('option');
+				if (opt.selected) li.classList.add('selected');
+				li.dataset.value = opt.value;
+				let iconUrl = opt.dataset.icon ? opt.dataset.icon : '';
+				if (iconUrl) {
+					li.innerHTML = `<img src="${iconUrl}" alt=""> ` + opt.textContent;
+				} else {
+					li.innerText = opt.textContent;
+				}
 
-    		li.classList.add('option');
-    		if (item.selected) li.classList.add('selected');
-    		li.dataset.value = item.value;
-    		li.innerText = item.textContent;
-    		
-    		newNode.querySelector('ul.list').append(li);
-    	});
+				ulList.append(li);
 
+				// newNode.querySelector('ul.list').append(li);
+			});
 		});
-
+	
 		this.niceSelectHTML = document.querySelectorAll('.nice-select');
-		// console.log(this.niceSelectHTML);
 	}
+	
 
 	close() {
 		this.niceSelectHTML.forEach(item => {
@@ -74,41 +109,68 @@ export default class select {
 					event.currentTarget.classList.remove('open');
 				} else {
 					this.close();
+					const rect = event.currentTarget.getBoundingClientRect();
+					const distanceToBottom = window.innerHeight - rect.bottom;
+					const list = event.currentTarget.querySelector('.list');
+					const listHeight = list.offsetHeight;
+	
+					if (distanceToBottom < listHeight) {
+						event.currentTarget.classList.add('is-top');
+					} else {
+						event.currentTarget.classList.remove('is-top');
+					}
+	
 					event.currentTarget.classList.add('open');
 				}
 			});
 		});
 	}
 
- 	triggerChange(element) {
-  	let changeEvent = new Event('change');
-  	element.dispatchEvent(changeEvent);
+	triggerChange(element) {
+		let changeEvent = new Event('change');
+		element.dispatchEvent(changeEvent);
 	}
 
 	submit() {
-		this.niceSelectHTML.forEach((item, index) => {
-
+		this.niceSelectHTML.forEach((item) => {
 			item.addEventListener('click', (event) => {
-				if (event.target.classList.contains('option')) {
-			 		let optionVal = event.target.getAttribute("data-value");
-			 		// let thisSelect = this.select[index];
-			 		let thisSelect = event.currentTarget.closest('form').querySelector('select');
-					
-			 		thisSelect.value = optionVal;
+				const clickedOption = event.target.closest('.option');
+				if (clickedOption) {
+					let optionVal = clickedOption.getAttribute('data-value');
+					console.log('Выбранное значение:', optionVal);
+					let thisSelect = event.currentTarget.closest('form')?.querySelector('select');
+					if (!thisSelect) return;
 
+					thisSelect.value = optionVal;
+					this.triggerChange(thisSelect);
 
-			 		this.triggerChange(thisSelect);
-		
-			 		thisSelect.querySelector('option:checked').removeAttribute("selected");
-			 		thisSelect.querySelector('option[value="' + optionVal + '"]').setAttribute("selected", "selected");
+					let checkedOption = thisSelect.querySelector('option:checked');
+					if (checkedOption) {
+						checkedOption.removeAttribute('selected');
+					}
 
-				 	item.querySelector('.selected').classList.remove('selected');
-				 	item.querySelector('.option[data-value="' + optionVal + '"]').classList.add('selected');
-    			let text = thisSelect.querySelector('option[value="' + optionVal + '"]').innerText;
+					let newCheckedOption = thisSelect.querySelector('option[value="' + optionVal + '"]');
+					if (newCheckedOption) {
+						newCheckedOption.setAttribute('selected', 'selected');
+					}
 
-		      item.querySelector('.current').innerText = text;
+					let selectedLi = item.querySelector('.selected');
+					if (selectedLi) {
+						selectedLi.classList.remove('selected');
+					}
+					clickedOption.classList.add('selected');
 
-		      thisSelect.closest('form').submit();
+					let iconUrl = newCheckedOption?.dataset.icon || '';
+					let text = newCheckedOption?.textContent || '';
+					if (iconUrl) {
+						item.querySelector('.current').innerHTML = `<img src="${iconUrl}" alt=""> ` + text;
+					} else {
+						item.querySelector('.current').innerText = text;
+					}
+
+					// if (!thisSelect.hasAttribute('multiple')) {
+					// 	thisSelect.closest('form').submit();
+					// }
 				}
 			});
 		});

@@ -13,7 +13,7 @@ import inputBlock   from './modules/input-block';
 import LazyLoad     from 'vanilla-lazyload';
 import intlTelInput from 'intl-tel-input';
 
-// import niceSelect   from './modules/niceSelect.js';
+import niceSelect   from './modules/niceSelect.js';
 // import {Accordion, CheckedAccordion}    from './modules/accordion.js';
 
 
@@ -23,6 +23,8 @@ document.addEventListener("DOMContentLoaded", () => {
     threshold: 150,
     unobserve_entered: true
   });
+
+  new niceSelect('select[name="contacts_client"]');
   
   new modal('.c-modal', '.l-modal-container');
   new tabs('.js-tab-product-additional-info');
@@ -77,7 +79,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
   
 
-  
 
 
   const pageClass = document.querySelector('main').classList.value;

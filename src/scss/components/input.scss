@@ -1,9 +1,20 @@
 .c-input {
   width: 100%;
   position: relative;
+  border-radius: 5px;
+  border: 1px solid #E2E2E2;
 
   &.is-half {
     max-width: 50%;
+  }
+
+  &.is-client-contact {
+    display: flex;
+    align-items: center;
+
+    label {
+      left: rem(120);
+    }
   }
 
   &.invalid {
@@ -50,8 +61,7 @@
     width: 100%;
     padding: rem(12) rem(12);
     font-size: rem(16);
-    border-radius: 5px;
-    border: 1px solid #E2E2E2;
+    
     color: black;
 
     &:-webkit-autofill {

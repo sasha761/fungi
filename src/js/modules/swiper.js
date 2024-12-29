@@ -1,5 +1,7 @@
-import Swiper from '../../../node_modules/swiper/swiper-bundle';
+// import Swiper from '../../../node_modules/swiper/swiper-bundle';
 // import Swiper, { Navigation, Pagination } from 'swiper';
+import Swiper from 'swiper';
+import { Navigation, Pagination, Autoplay, Zoom, FreeMode} from 'swiper/modules';
 
 function swiperFn() {
 	const bannerSlider = document.querySelectorAll('.js-banner-slider');
@@ -11,24 +13,28 @@ function swiperFn() {
 		bannerSlider.forEach(slider => {new Swiper(slider)})
 	}
 
-	blogCategorySlider.forEach(slider => {
-		new Swiper(slider, {
-			slidesPerView: 'auto',
-			watchOverflow: true,
-			watchOverflow: true,
-			spaceBetween: 10,
-			autoHeight: false,
-			autoplay: {
-				delay: 2500,
-				stopOnLastSlide: false,
-				disableOnInteraction: true,
-			},
+	if (blogCategorySlider.length) {
+		blogCategorySlider.forEach(slider => {
+			new Swiper(slider, {
+				modules: [Autoplay],
+				slidesPerView: 'auto',
+				watchOverflow: true,
+				watchOverflow: true,
+				spaceBetween: 10,
+				autoHeight: false,
+				autoplay: {
+					delay: 2500,
+					stopOnLastSlide: false,
+					disableOnInteraction: true,
+				},
+			});
 		});
-	});
-	// if (productImageSlider.length && window.innerWidth <= 991) {
-		
+	}
+
+	if (productImageSlider.length) {
 		productImageSlider.forEach(slider => {
 			new Swiper(slider, {
+				modules: [Autoplay, Zoom, Pagination],
 				watchOverflow: true,
 				spaceBetween: 7,
 				autoHeight: false,
@@ -44,7 +50,6 @@ function swiperFn() {
 				pagination: {
 	        el: ".swiper-pagination",
 	        clickable: true,
-	        // type: "progressbar",
 	      },
 				breakpoints: {
 			    320: {
@@ -56,10 +61,9 @@ function swiperFn() {
 			  }
 			});
 		});
-	// }
+	}
 
 	if (productSlider.length) {
-
 		productSlider.forEach(slider => {
 			let sliderContainer = slider.closest('.js-slider-container');
 			let sliderArrows = sliderContainer.querySelector('.c-arrow');
@@ -80,9 +84,10 @@ function swiperFn() {
 			}
 
 			new Swiper(slider, {
+				modules: [Autoplay, Navigation, Pagination],
 				slidesPerView: 'auto',
 				watchOverflow: true,
-				freeModeMomentumRatio: 0.5,
+				// freeModeMomentumRatio: 0.5,
 				// spaceBetween: 7,
 				// freeMode: {
 				// 	enabled: true,

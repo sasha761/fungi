@@ -49,8 +49,16 @@
         </div>
 
         <div class="col-12">
-          <div class="c-input js-input-block">
-            <label for="email">{{ 'Contacts' | translateString('input - Contacts') }}</label>
+          <div class="c-input js-input-block is-client-contact">
+            <select name="contacts_client" id="">
+              <option value="facebook" data-icon="{{theme.link}}/src/img/icons8-facebook.svg">Facebook</option>
+              <option value="telegram" data-icon="{{theme.link}}/src/img/icons8-telegram-logo.svg">Telegram</option>
+              <option value="viber" data-icon="{{theme.link}}/src/img/icons8-viber-logo.svg">Viber</option>
+              <option value="whatsapp" data-icon="{{theme.link}}/src/img/icons8-whatsapp.svg">WhatsApp</option>
+              <option value="discord" data-icon="{{theme.link}}/src/img/icons8-discord-logo.svg">Discord</option>
+              <option value="instagram" data-icon="{{theme.link}}/src/img/icons8-instagram-logo.svg">Instagram</option>
+            </select>
+            <label for="email">{{ '@your_nickname' | translateString('input - Contacts') }}</label>
             <input type="text" required name="contactInfo">
           </div>
         </div>

@@ -12,12 +12,15 @@ License URI: LICENSE
 Text Domain: news
 */
 
-// @import '../../node_modules/jquery-nice-select/css/nice-select.css';
 // @import 'vendor/nice-select.css';
 // @import 'vendor/swiper-bundle.css';
 // @import "../../node_modules/nice-select2/src/scss/nice-select2.scss";
-@import "~nice-select2/src/scss/nice-select2.scss";
+// @import "~nice-select2/src/scss/nice-select2.scss";
 @import '../../node_modules/intl-tel-input/build/css/intlTelInput.css';
+
+@import '../../node_modules/swiper/swiper.css';
+@import '../../node_modules/swiper/modules/free-mode.css';
+@import '../../node_modules/swiper/modules/navigation.css';
 
 @import 'utility/style.scss';
 @import 'vendor/style.scss';
@@ -48,7 +51,73 @@ img.lazy {
 	}
 }
 
+.iti__flag-container {
+	border: 0px;
+	margin-bottom: 0;
+	background-color: #F5F5F5;
+	border-radius: 5px;
+	padding: 0;
+}
 
+.nice-select {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	padding-left: rem(5);
+	padding-right: rem(30);
+	flex-shrink: 0;
+	background-color: #F5F5F5;
+	border: 0;
+	height: rem(43);
+	font-size: rem(14);
+	font-weight: normal;
+	line-height: rem(40);
+
+	&:hover {
+		background-color: #0000000d;
+	}
+
+	&.is-top {
+		.list {
+			top: auto;
+			bottom: 100%;
+		}
+	}
+
+	.list {
+		overflow-y: auto;
+    max-height: rem(240);
+		min-width: 100%;
+	}
+
+	.current {
+		margin-bottom: 0;
+	}
+
+	.option {
+    min-height: rem(40);
+    padding-left: rem(10);
+    padding-right: rem(10);
+    line-height: rem(40);
+	}
+
+	.current,
+	.option {
+		display: flex;
+		align-items: center;
+
+		img {
+			width: rem(16);
+			height: auto;
+			margin-right: 4px;
+		}
+	}
+
+	// .option {
+	// 	display: flex;
+	// 	align-items: center;
+	// }
+}
 
 .otgs-development-site-front-end {
 	display: none!important;
