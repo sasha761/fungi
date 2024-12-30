@@ -156,6 +156,14 @@ export default class Cart {
     const cartCounter = document.querySelectorAll('.js-mini-cart-counter');
     if (cartCounter) cartCounter.forEach(item => item.textContent = data.data?.count)
 
+    const newCount = data.data?.count || 0;
+    const evt = new CustomEvent('cartUpdated', { 
+      detail: { 
+        count: newCount 
+      }
+    });
+    document.dispatchEvent(evt);
+
     this.removeFromCartHandler();
   }
 

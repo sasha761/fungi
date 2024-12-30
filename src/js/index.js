@@ -1,28 +1,41 @@
-import lightbox     from './modules/lightbox.js';
+// import lightbox     from './modules/lightbox.js';
+// import swiperFn     from './modules/swiper.js';
+import updateCart   from './modules/cart.js';
+
 import modal        from './modules/modal-container.js';
 import tabs         from './modules/tabs.js';
-import validation   from './modules/validation.js';
 import likes        from './modules/likes.js';
-import swiperFn     from './modules/swiper.js';
 import quickBuy     from './modules/quick-buy.js';
 import burgerMenu   from './modules/burger.js';
-import updateCart   from './modules/cart.js';
 import Cart         from './modules/quick-add-to-cart';
 import inputBlock   from './modules/input-block';
-
-import LazyLoad     from 'vanilla-lazyload';
-import intlTelInput from 'intl-tel-input';
-
 import niceSelect   from './modules/niceSelect.js';
+import LazyLoad     from 'vanilla-lazyload';
+
 // import {Accordion, CheckedAccordion}    from './modules/accordion.js';
 
 
-document.addEventListener("DOMContentLoaded", () => {
+let modulesLoaded = false;
+
+document.addEventListener('cartUpdated', (e) => {
+  const { count } = e.detail;
+  if (count > 0 && !modulesLoaded) {
+    modulesLoaded = true;
+    initPhoneAndValidation(); 
+  }
+});
+
+document.addEventListener("DOMContentLoaded", async () => {
   window.lazyLoadInstance = new LazyLoad({
     cancel_on_exit: false,
     threshold: 150,
     unobserve_entered: true
   });
+  
+  if (ajax.cartCount > 0) {
+    modulesLoaded = true;
+    initPhoneAndValidation();
+  }
 
   new niceSelect('select[name="contacts_client_messenger"]');
   
@@ -30,10 +43,81 @@ document.addEventListener("DOMContentLoaded", () => {
   new tabs('.js-tab-product-additional-info');
   
   burgerMenu();
-
   inputBlock();
 
+
+  quickBuy();
+
+  const cart = new Cart({
+    addToCartBtn: '.js-add-to-cart',
+    removeFromCartBtn: '.js-product-remove',
+    cartContainer: '.js-cart-container',
+    miniCartCounter: '.js-mini-cart-counter'
+  });
+
+  cart.addToCartHandler();
+  cart.removeFromCartHandler();
+
+  const pageClass = document.querySelector('main').classList.value;
+  switch (pageClass) {
+    case 'p-main': {
+      const swiperModule = await import('./modules/swiper.js');
+      swiperModule.initblogCategorySlider();
+      swiperModule.initProductRowSlider();
+      break;
+    }
+    case 'p-shop': {
+     
+      break;
+    }  
+    case 'p-product': {
+      const [
+        swiperModule, 
+        lightboxModule
+      ] = await Promise.all([
+        import('./modules/swiper.js'),
+        import('./modules/lightbox.js')
+      ]);
+      swiperModule.initProductRowSlider();
+      swiperModule.initProductGallerySlider();
+
+      new lightboxModule.default('.js-lightbox', '.js-lightbox-modal');
+      break;
+    }
+    case 'p-checkout':
+
+      break;   
+    case 'p-shop p-search':
+      break;
+    case 'p-cart':
+      updateCart();
+      break;
+    case 'p-thank':
+      break;       
+    case 'p-page is-page':
+      break;   
+    case 'p-single':
+      const swiperModule = await import('./modules/swiper.js');
+
+      swiperModule.initProductRowSlider();
+      likes();
+      break;  
+    case 'p-reviews':
+      break; 
+    default:
+      break;
+  }
+});
+
+async function initPhoneAndValidation() {
+  await import('intl-tel-input/build/css/intlTelInput.css');
+  const intlTelInput = await import('intl-tel-input');
+  const { default: validation } = await import('./modules/validation.js');
+  const utils = await import("intl-tel-input/build/js/utils");
+
   const input = document.querySelector(".js-input-block #phone");
+  if (!input) return;
+
   const iti = intlTelInput(input, {
     initialCountry: "auto",
     onlyCountries: [
@@ -50,76 +134,16 @@ document.addEventListener("DOMContentLoaded", () => {
         .then(data => callback(data.country_code))
         .catch(() => callback("us"));
     },
-    // loadUtils: () => import("intl-tel-input/build/js/utils"),
-    utilsScript: import("intl-tel-input/build/js/utils")
+    utilsScript: utils
   });
 
-  const from_validator = new validation();
+  const formValidator = new validation();
 
   if (document.querySelector("form[name='quick-buy']")) {
-    from_validator.validate('firstName', '.js-input-block [name="name"]')
-    from_validator.validate('email', '.js-input-block [name="email"]')
-    from_validator.validate('phone', iti)
-    from_validator.validate('text', '.js-input-block [name="contactInfo"]')
-    from_validator.validate('submit', 'button[name="quick-buy-submit"]')
+    formValidator.validate('firstName', '.js-input-block [name="name"]');
+    formValidator.validate('email', '.js-input-block [name="email"]');
+    formValidator.validate('phone', iti);
+    formValidator.validate('text', '.js-input-block [name="contactInfo"]');
+    formValidator.validate('submit', 'button[name="quick-buy-submit"]');
   }
-
-  quickBuy();
-
-
-  const cart = new Cart({
-    addToCartBtn: '.js-add-to-cart',
-    removeFromCartBtn: '.js-product-remove',
-    cartContainer: '.js-cart-container',
-    miniCartCounter: '.js-mini-cart-counter'
-  });
-
-  cart.addToCartHandler();
-  cart.removeFromCartHandler();
-
-  
-
-
-
-  const pageClass = document.querySelector('main').classList.value;
-  
-
-  switch (pageClass) {
-    case 'p-main':
-      swiperFn();
-      break;
-    case 'p-shop':
-      // new NiceSelect(document.querySelector(".js-filter-sort select"), {searchable: false, placeholder: 'Sorting'});
-      // readMore();
-      // loadMore();      
-      break;  
-    case 'p-product':
-      swiperFn();
-      new lightbox('.js-lightbox', '.js-lightbox-modal');
-      
-      break;
-    case 'p-checkout':
-      // if (document.querySelector(".js-select")) {
-      //   new NiceSelect(document.querySelector(".js-select"), {searchable: true, placeholder: 'Country/Region'});
-      // }
-      break;   
-    case 'p-shop p-search':
-      // new niceSelect('.js-filter-sort select');
-      break;
-    case 'p-cart':
-      updateCart();
-      break;
-    case 'p-thank':
-      break;       
-    case 'p-page is-page':
-      break;   
-    case 'p-single':
-      swiperFn();
-      likes();
-      break;  
-    case 'p-reviews':
-      break; 
-    default:
-      break;
-  }
-});
+}

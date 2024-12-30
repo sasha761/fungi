@@ -54,11 +54,9 @@ class BrandedSite extends Site {
     wp_enqueue_script( 'pure-js', get_template_directory_uri() . '/dist/js/index.js', array(), _S_VERSION, true );
     wp_localize_script( 'pure-js', 'ajax', array(
       'url' => admin_url('admin-ajax.php'),
-      'nonce' => wp_create_nonce('likes_nonce')
+      'nonce' => wp_create_nonce('likes_nonce'),
+      'cartCount' => WC()->cart->get_cart_contents_count()
     ));
-    // if ( is_singular() && comments_open() && get_option( 'thread_comments' ) ) {
-    //   wp_enqueue_script( 'comment-reply' );
-    // }
   }
 
   public function add_to_context( $context ) {

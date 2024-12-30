@@ -19,21 +19,50 @@ function updateCart() {
       input.addEventListener('change', function() {
         const productID = this.closest('.c-product-cart').querySelector('.c-remove').dataset.product_id;
         const quantity = this.value;
-        var xhr = new XMLHttpRequest();
-        xhr.open('POST', ajax.url, true);
-        xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');
-        xhr.onload = function() {
-          if (xhr.status === 200) {
-            const response = JSON.parse(xhr.responseText);
-            if (response.success) {
-              updateCartData(response.data);
+        
+        const body = new URLSearchParams({
+          action: 'update_cart_quantity',
+          product_id: productID,
+          quantity: quantity
+        });
+      
+        fetch(ajax.url, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+          },
+          body: body.toString()
+        })
+          .then(response => response.json())
+          .then(data => {
+            if (data.success) {
+              updateCartData(data.data);
             } else {
-              alert('Ошибка при обновлении корзины');
+              console.error('Ошибка при обновлении корзины');
             }
-          }
-        };
-        xhr.send('action=update_cart_quantity&product_id=' + productID + '&quantity=' + quantity);
+          })
+          .catch(error => {
+            console.error('Ошибка при обновлении корзины:', error);
+          });
       });
+      // input.addEventListener('change', function() {
+      //   const productID = this.closest('.c-product-cart').querySelector('.c-remove').dataset.product_id;
+      //   const quantity = this.value;
+      //   var xhr = new XMLHttpRequest();
+      //   xhr.open('POST', ajax.url, true);
+      //   xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');
+      //   xhr.onload = function() {
+      //     if (xhr.status === 200) {
+      //       const response = JSON.parse(xhr.responseText);
+      //       if (response.success) {
+      //         updateCartData(response.data);
+      //       } else {
+      //         alert('Ошибка при обновлении корзины');
+      //       }
+      //     }
+      //   };
+      //   xhr.send('action=update_cart_quantity&product_id=' + productID + '&quantity=' + quantity);
+      // });
     });
 
     function updateCartData(data) {

@@ -1,4 +1,5 @@
-import Swiper from '../../../node_modules/swiper/swiper-bundle';
+import Swiper from 'swiper';
+import { Navigation, Pagination, Zoom} from 'swiper/modules';
 
 class lightbox {
 	swiper;
@@ -16,8 +17,6 @@ class lightbox {
 			images.forEach((image, index) => {
 				let href = image.getAttribute("href");
 				hrefArray.push(href);
-
-				// console.log(href.split('.').pop());
 				
 				image.addEventListener("click", (event) => { 
 					event.preventDefault();
@@ -34,6 +33,7 @@ class lightbox {
 
 		initSlider() {
 			const swiper = new Swiper('.js-lightbox-image', {
+				modules: [Zoom, Pagination, Navigation],
 				watchOverflow: true,
 				zoom: true,
 			 	navigation: {

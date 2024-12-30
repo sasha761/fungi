@@ -1,17 +1,17 @@
-// import Swiper from '../../../node_modules/swiper/swiper-bundle';
-// import Swiper, { Navigation, Pagination } from 'swiper';
 import Swiper from 'swiper';
 import { Navigation, Pagination, Autoplay, Zoom, FreeMode} from 'swiper/modules';
 
-function swiperFn() {
-	const bannerSlider = document.querySelectorAll('.js-banner-slider');
-	const productSlider = document.querySelectorAll('.js-product-row');
-	const productImageSlider = document.querySelectorAll('.js-product-image');
-	const blogCategorySlider = document.querySelectorAll('.js-blog-category');
 
-	if (bannerSlider.length) {
-		bannerSlider.forEach(slider => {new Swiper(slider)})
-	}
+// export const initHeroSlider = () => {
+// 	const bannerSlider = document.querySelectorAll('.js-banner-slider');
+
+// 	if (bannerSlider.length) {
+// 		bannerSlider.forEach(slider => {new Swiper(slider)})
+// 	}
+// }
+
+export const initblogCategorySlider = () => {
+	const blogCategorySlider = document.querySelectorAll('.js-blog-category');
 
 	if (blogCategorySlider.length) {
 		blogCategorySlider.forEach(slider => {
@@ -30,6 +30,10 @@ function swiperFn() {
 			});
 		});
 	}
+}
+
+export const initProductGallerySlider = () => {
+	const productImageSlider = document.querySelectorAll('.js-product-image');
 
 	if (productImageSlider.length) {
 		productImageSlider.forEach(slider => {
@@ -62,6 +66,10 @@ function swiperFn() {
 			});
 		});
 	}
+}
+
+export const initProductRowSlider = () => {
+	const productSlider = document.querySelectorAll('.js-product-row');
 
 	if (productSlider.length) {
 		productSlider.forEach(slider => {
@@ -87,12 +95,6 @@ function swiperFn() {
 				modules: [Autoplay, Navigation, Pagination],
 				slidesPerView: 'auto',
 				watchOverflow: true,
-				// freeModeMomentumRatio: 0.5,
-				// spaceBetween: 7,
-				// freeMode: {
-				// 	enabled: true,
-				// 	sticky: true,
-				// },
 				autoplay: {
 					delay: 2500,
 					stopOnLastSlide: false,
@@ -120,6 +122,4 @@ function swiperFn() {
 			})
 		})
 	}
-};
-
-export default swiperFn;
+}
