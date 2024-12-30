@@ -6,7 +6,8 @@ function contactForm() {
   $name = !empty($_POST['name']) ? sanitize_text_field($_POST['name']) : '';
   $email = !empty($_POST['email']) ? sanitize_email($_POST['email']) : '';
   $phone = !empty($_POST['phone']) ? $_POST['phone'] : '';
-  $contactInfo = !empty($_POST['contactInfo']) ? sanitize_text_field($_POST['contactInfo']) : '';
+  $messenger = !empty($_POST['contacts_client_messenger']) ? sanitize_text_field($_POST['contacts_client_messenger']) : '';
+  $messenger_value = !empty($_POST['contactInfo']) ? sanitize_text_field($_POST['contactInfo']) : '';
   $text = !empty($_POST['text']) ? sanitize_text_field($_POST['text']) : '';
   $products = !empty($_POST['products']) ? $_POST['products'] : [];
 
@@ -22,8 +23,8 @@ function contactForm() {
       'Email: ' . esc_html($email),
   ];
 
-  if (!empty($contactInfo)) {
-      $user_mail_body[] = 'contact info: ' . esc_html($contactInfo);
+  if (!empty($messenger_value)) {
+      $user_mail_body[] = esc_html($messenger) . ': ' . esc_html($messenger_value);
   }
 
   if (!empty($text)) {
@@ -53,7 +54,7 @@ function contactForm() {
   $mailResult = wp_mail($to_admin, $subject, $user_mail_body, $headers);
 
   if ($mailResult) {
-    $order_result = create_order($name, $email, $phone, $contactInfo, $products);
+    $order_result = create_order($name, $email, $phone, $messenger, $messenger_value, $products);
 
     if ($order_result['success']) {
 
@@ -71,8 +72,8 @@ function contactForm() {
 }
 
 
-function create_order($name, $email, $phone, $contactInfo, $products) {
-  if (empty($email) || empty($contactInfo) || empty($name) || empty($products)) {
+function create_order($name, $email, $phone, $messenger, $messenger_value, $products) {
+  if (empty($email) || empty($name) || empty($products)) {
     return ['success' => false, 'message' => 'Некорректные данные для создания заказа.'];
   }
 
@@ -97,7 +98,17 @@ function create_order($name, $email, $phone, $contactInfo, $products) {
     $order->set_address($billing_address, 'shipping');
     $order->set_payment_method_title('Оплата при доставке | быстрый заказ');
     $order->calculate_totals();
+
+    if (!empty($messenger)) {
+      $order->update_meta_data('_messenger', $messenger);
+    }
+
+    if (!empty($messenger_value)) {
+      $order->update_meta_data('_messenger_value', $messenger_value);
+    } 
+
     $order->update_status('processing');
+    $order->save();
 
     $order_id = $order->get_id();
     telegram_notification($order_id);

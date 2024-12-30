@@ -5,7 +5,7 @@
   </svg>
 
 
-  <form class="c-form js-quick-buy-form" name="quick-buy">
+  <form class="c-form js-quick-buy-form" name="quick-buy" method="POST">
     <div class="c-modal__left">
       <div class="c-modal__title">{{options.modal_order.title}}</div>
       <p class="c-modal__text">{{options.modal_order.text}}</p>
@@ -31,8 +31,8 @@
       <div class="row">
         <div class="col-sm-6 col-12 u-col">
           <div class="c-input js-input-block">
-            <label for="name">{{ 'Name' | translateString('input - Name') }}</label>
-            <input type="text" required id="name" name="name">
+            <label for="client_name">{{ 'Name' | translateString('input - Name') }}</label>
+            <input type="text" required id="client_name" name="name">
           </div>
         </div>
         <div class="col-sm-6 col-12 u-col">
@@ -43,23 +43,23 @@
 
         <div class="col-sm-12 col-12 u-col">
           <div class="c-input js-input-block">
-            <label for="email">Email</label>
-            <input type="email" required id="email" name="email">
+            <label for="client_email">Email</label>
+            <input type="email" required id="client_email" name="email">
           </div>
         </div>
 
         <div class="col-12">
           <div class="c-input js-input-block is-client-contact">
-            <select name="contacts_client" id="">
+            <select name="contacts_client_messenger" id="">
+              <option value="telegram" selected data-icon="{{theme.link}}/src/img/icons8-telegram-logo.svg">Telegram</option>
               <option value="facebook" data-icon="{{theme.link}}/src/img/icons8-facebook.svg">Facebook</option>
-              <option value="telegram" data-icon="{{theme.link}}/src/img/icons8-telegram-logo.svg">Telegram</option>
               <option value="viber" data-icon="{{theme.link}}/src/img/icons8-viber-logo.svg">Viber</option>
               <option value="whatsapp" data-icon="{{theme.link}}/src/img/icons8-whatsapp.svg">WhatsApp</option>
               <option value="discord" data-icon="{{theme.link}}/src/img/icons8-discord-logo.svg">Discord</option>
               <option value="instagram" data-icon="{{theme.link}}/src/img/icons8-instagram-logo.svg">Instagram</option>
             </select>
-            <label for="email">{{ '@your_nickname' | translateString('input - Contacts') }}</label>
-            <input type="text" required name="contactInfo">
+            <label for="contactInfo">{{ '@your_nickname' | translateString('input - Contacts') }}</label>
+            <input type="text" required id="contactInfo" name="contactInfo">
           </div>
         </div>
       </div>

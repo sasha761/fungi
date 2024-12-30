@@ -3,6 +3,7 @@ export default () => {
 
   inputBlocks.forEach(block => {
     const input = block.querySelector('input'); 
+    const label = block.querySelector('label');
 
     if (input) {
       input.addEventListener('focus', () => {
@@ -13,6 +14,15 @@ export default () => {
         if (!input.value.trim()) {
           block.classList.remove('is-active');
         }
+      });
+    }
+
+    if (label && input) {
+      label.addEventListener('click', () => {
+        // Если у label правильно проставлен for/id — input получит фокус и сработает событие focus.
+        // Но если по каким-то причинам это не работает, можно явно вызвать:
+        input.focus();
+        // block.classList.add('is-active');
       });
     }
   });

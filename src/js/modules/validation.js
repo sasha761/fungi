@@ -139,18 +139,14 @@ export default class validation {
 
   textStringValidator(e, field) {
     const value = e.target.value;
-    // Регулярное выражение для запрещенных символов
-    const forbiddenChars = /[<>\/{}%&)(]/;
-
-    // Регулярное выражение для проверки, что строка содержит только спецсимволы длиной более 4
+    const forbiddenChars = /[<>{}%&)(]/; 
     const specialCharsOnly = /^[^a-zA-Z\u0400-\u04FF0-9]{5,}$/;
 
-    // Проверка запрещенных символов
     let _isValid = !forbiddenChars.test(value);
-
     if (_isValid) {
       _isValid = !specialCharsOnly.test(value);
     }
+
 
     let error_msg = value === '' ? this.strError('This field is required') : this.strError('Invalid input format');
     this.isValid(_isValid, field, error_msg);

@@ -24,7 +24,7 @@ document.addEventListener("DOMContentLoaded", () => {
     unobserve_entered: true
   });
 
-  new niceSelect('select[name="contacts_client"]');
+  new niceSelect('select[name="contacts_client_messenger"]');
   
   new modal('.c-modal', '.l-modal-container');
   new tabs('.js-tab-product-additional-info');

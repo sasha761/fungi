@@ -76,19 +76,19 @@ function comments_number_count($output, $number) {
 
 
 // most popular
-function count_post_visits() {
-  if( is_single() ) {
-   global $post;
-   $views = get_post_meta( $post->ID, 'count_post_viewed', true );
-   if( $views == '' ) {
-      update_post_meta( $post->ID, 'count_post_viewed', '1' );   
-   } else {
-      $views_number = intval( $views );
-      update_post_meta( $post->ID, 'count_post_viewed', ++$views_number );
-   }
-  }
-}
-add_action( 'wp_head', 'count_post_visits' );
+// function count_post_visits() {
+//   if( is_single() ) {
+//    global $post;
+//    $views = get_post_meta( $post->ID, 'count_post_viewed', true );
+//    if( $views == '' ) {
+//       update_post_meta( $post->ID, 'count_post_viewed', '1' );   
+//    } else {
+//       $views_number = intval( $views );
+//       update_post_meta( $post->ID, 'count_post_viewed', ++$views_number );
+//    }
+//   }
+// }
+// add_action( 'wp_head', 'count_post_visits' );
 
 
 remove_action( 'wp_head', 'feed_links_extra', 3 ); // Display the links to the extra feeds such as category feeds
@@ -125,3 +125,21 @@ add_action( 'feed_links_show_posts_feed',    '__return_false', -1 );
 add_action( 'feed_links_show_comments_feed', '__return_false', -1 );
 remove_action( 'wp_head', 'feed_links',       2 );
 remove_action( 'wp_head', 'feed_links_extra', 3 );
+
+
+add_action( 'woocommerce_admin_order_data_after_order_details', 'show_custom_fields_in_order_admin' );
+function show_custom_fields_in_order_admin( $order ){
+  $messenger      = $order->get_meta('_messenger');
+  $messengerValue = $order->get_meta('_messenger_value');
+  if ( $messenger || $messengerValue ) {
+    echo '<div class="order_data_column">';
+      echo '<h3>Мессенджер</h3>';
+      if ( $messenger ) {
+        echo '<p><strong>Тип:</strong> ' . esc_html($messenger) . '</p>';
+      }
+      if ( $messengerValue ) {
+        echo '<p><strong>Контакт:</strong> ' . esc_html($messengerValue) . '</p>';
+      }
+    echo '</div>';
+  }
+}
