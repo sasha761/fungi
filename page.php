@@ -18,7 +18,6 @@ $timber_post = Timber::get_post();
 $context['post'] = $timber_post;
 
 $context['thumbnail'] = get_the_post_thumbnail_url($timber_post->id);
-
 $context['author_name'] = get_the_author_meta('display_name', $timber_post->post_author);
 $context['author_link'] = get_author_posts_url($timber_post->post_author);
 
@@ -44,15 +43,19 @@ $page_ids = get_posts(array(
 	'posts_per_page' => -1, // Получить все страницы
 ));
 
+
 $pages = [];
 foreach ($page_ids as $page_id) {
 	$author_id = get_post_field('post_author', $page_id);
+	$thumbnail_id = get_post_thumbnail_id($page_id);
+
+
 	$pages[] = (object) [
 		'ID'        => $page_id,
 		'permalink' => get_the_permalink($page_id),
-		'thumb_md'  => get_the_post_thumbnail_url($page_id, 'archive_md'),
-		'thumb_xl'  => get_the_post_thumbnail_url($page_id, 'archive_xl'),
-		'thumb_sm'  => get_the_post_thumbnail_url($page_id, array(100, 100)),
+		'thumb_md'  => get_image_data($thumbnail_id, 'archive_md'),
+		'thumb_xl'  => get_image_data($thumbnail_id, 'archive_xl'),
+		'thumb_sm'  => get_image_data($thumbnail_id, [100, 100]),
 		'title'     => get_the_title($page_id),
 		'date'      => get_the_date('M j, Y', $page_id), // Формат: Jul 21, 2022
 		'excerpt'   => get_the_excerpt($page_id),
@@ -61,16 +64,6 @@ foreach ($page_ids as $page_id) {
 
 $context['pages']  = $pages;
 
-// $related_args = array( 
-//   'numberposts' => 6,
-//   'ignore_sticky_posts' => true,
-//   'orderby' => 'rand',
-//   'post_status' => 'publish',
-//   'post_type' => 'post', 
-// );
-
-// $comments_args       = array('post_id' => $timber_post->id, 'status' => 'approve'); 
-// $context['comments'] = get_comments($comments_args);
 
 $context['product_categories'] = get_taxonomy_data([
 	'taxonomy' => 'category'

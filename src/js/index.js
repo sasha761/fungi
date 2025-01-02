@@ -1,7 +1,4 @@
-// import lightbox     from './modules/lightbox.js';
-// import swiperFn     from './modules/swiper.js';
 import updateCart   from './modules/cart.js';
-
 import modal        from './modules/modal-container.js';
 import tabs         from './modules/tabs.js';
 import likes        from './modules/likes.js';

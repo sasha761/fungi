@@ -11,7 +11,12 @@
         <div class="p-single__box">
           {% if thumbnail %}
             <div class="p-single__image">
-              <img src="{{ thumbnail }}"/>
+              <img 
+                src="{{ thumbnail.url }}" 
+                width="{{ thumbnail.width }}" 
+                height="{{ thumbnail.height }}" 
+                alt="{{ post.title }}" 
+              />
             </div>
           {% endif %}
 

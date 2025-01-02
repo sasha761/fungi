@@ -44,7 +44,7 @@
           <a href="{{product.link}}" class="c-product-small">
             {% if product.thumb_sm %}
              <div class="c-product-small__img">
-                <img src="{{product.thumb_sm}}" alt="">
+                <img src="{{product.thumb_sm.url}}" alt="" width="106" height="106">
               </div>
             {% endif %}
             <div class="c-product-small__content">
@@ -70,7 +70,7 @@
         <div class="c-post-small">
           {% if post.thumb_sm %}
             <a href="{{post.permalink}}" class="c-post-small__img">
-              <img src="{{post.thumb_sm}}" alt="">
+              <img src="{{post.thumb_sm.url}}" alt="" width="106" height="106">
             </a>
           {% endif %}
           <div class="c-post-small__content">
@@ -91,7 +91,7 @@
         <div class="c-post-small">
           {% if page.thumb_sm %}
             <a href="{{page.permalink}}" class="c-post-small__img">
-              <img src="{{page.thumb_sm}}" alt="">
+              <img src="{{page.thumb_sm.url}}" alt="" width="106" height="106">
             </a>
           {% endif %}
           <div class="c-post-small__content">

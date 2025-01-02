@@ -24,6 +24,9 @@ function get_products($args = []) {
   
   foreach ($get_product_ids as $product_id) {
     $product = wc_get_product($product_id);
+
+    if (!$product) continue; 
+    
     $price_sale = $product->is_type('variable') ? $product->get_variation_sale_price() : $product->get_sale_price();
     $price_regular = $product->is_type('variable') ? $product->get_variation_regular_price() : $product->get_regular_price();
 
@@ -33,7 +36,16 @@ function get_products($args = []) {
       $percent = 0;
     }
     $outStock = $product->get_stock_status();
-    $rating = $product->get_average_rating(); 
+    $rating = $product->get_average_rating();
+    
+    $thumbnail_id = get_post_thumbnail_id($product_id);
+
+    $thumb_md_data = get_image_data($thumbnail_id, 'archive_md');
+    $thumb_xl_data = get_image_data($thumbnail_id, 'archive_xl');
+    $archive_data  = get_image_data($thumbnail_id, 'archive');
+    $thumb_sm_data = get_image_data($thumbnail_id, [100, 100]);
+
+    
     $products[] = (object) [
       'ID'            => $product_id,
       'price'         => $product->get_price_html(),
@@ -43,9 +55,10 @@ function get_products($args = []) {
       'percent'       => $percent,
       'outStock'      => $outStock,
       'link'          => get_the_permalink($product_id),
-      'thumb_md'      => get_the_post_thumbnail_url($product_id, 'archive_md'),
-      'thumb_xl'      => get_the_post_thumbnail_url($product_id, 'archive_xl'),
-      'thumb_sm'      => get_the_post_thumbnail_url($product_id, array(100, 100)),
+      'thumb_md'      => $thumb_md_data,
+      'thumb_xl'      => $thumb_xl_data,
+      'archive'       => $archive_data,
+      'thumb_sm'      => $thumb_sm_data,
       'title'         => get_the_title($product_id),
       'rating'        => $rating
     ];

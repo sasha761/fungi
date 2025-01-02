@@ -2,7 +2,14 @@
 
 <div class="c-post">
 	<a href="{{data.permalink}}" class="c-post__img">
-		<img src="{{data.archive}}" alt="">
+		{% if data.archive %}
+			<img 
+				src="{{ data.archive.url }}" 
+				alt="{{ data.title }}" 
+				width="{{ data.archive.width }}" 
+				height="{{ data.archive.height }}" 
+			/>
+		{% endif %}
 	</a>
 
 	{% if show_category %}

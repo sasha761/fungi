@@ -57,13 +57,18 @@ function get_posts_info($args = [], $is_emoji = true) {
     }
     
     $author_id = get_post_field('post_author', $post_id);
+
+    $thumbnail_id = get_post_thumbnail_id($post_id);
+
+    $thumb_md_data = get_image_data($thumbnail_id, 'archive_md');
+    $thumb_xl_data = get_image_data($thumbnail_id, 'archive_xl');
+    $archive_data  = get_image_data($thumbnail_id, 'archive');
+    $thumb_sm_data = get_image_data($thumbnail_id, [100, 100]);
+
+
     $posts[] = (object) [
       'ID'        => $post_id,
       'permalink' => get_the_permalink($post_id),
-      'thumb_md'  => get_the_post_thumbnail_url($post_id, 'archive_md'),
-      'thumb_xl'  => get_the_post_thumbnail_url($post_id, 'archive_xl'),
-      'archive'  => get_the_post_thumbnail_url($post_id, 'archive'),
-      'thumb_sm'  => get_the_post_thumbnail_url($post_id, array(100, 100)),
       'title'     => get_the_title($post_id),
       'date'      => get_the_date('M j, Y', $post_id), // Формат: Jul 21, 2022
       'author_name'   => get_the_author_meta('display_name', $author_id),
@@ -71,7 +76,11 @@ function get_posts_info($args = [], $is_emoji = true) {
       'post_excerpt' => get_the_excerpt($post_id),
       'post_content' => get_the_content($post_id),
       'category' => get_the_category($post_id),
-      'post_likes' => $likes_data
+      'post_likes' => $likes_data,
+      'thumb_md'      => $thumb_md_data,
+      'thumb_xl'      => $thumb_xl_data,
+      'archive'       => $archive_data,
+      'thumb_sm'      => $thumb_sm_data,
     ];
   }
 

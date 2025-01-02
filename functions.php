@@ -32,10 +32,13 @@ require_once get_template_directory() . '/Classes/SiteInit.class.php';
 require_once get_template_directory() . '/Classes/ThemeImageSizes.class.php';
 // require_once get_template_directory() . '/Classes/RegisterSystem.class.php';
 // require_once get_template_directory() . '/Classes/NotificationSystem.class.php';
+
+
 require_once get_template_directory() . '/inc/config.php';
 require_once get_template_directory() . '/inc/language.php';
 require_once get_template_directory() . '/inc/telegram_notification.php';
 require_once get_template_directory() . '/inc/template-functions.php';
+require_once get_template_directory() . '/inc/get_image_data.php'; 
 require_once get_template_directory() . '/inc/get_taxonomy_data.php'; // get_taxonomy_data
 require_once get_template_directory() . '/inc/get_products.php'; // get_products
 require_once get_template_directory() . '/inc/get_cart_info.php'; // get_cart_info
@@ -48,4 +51,4 @@ require_once get_template_directory() . '/inc/ajax/remove_from_cart.php';
 require_once get_template_directory() . '/inc/ajax/cart_quantity.php';
 // require_once get_template_directory() . '/inc/ajax/mini-cart.php';
 require_once get_template_directory() . '/inc/ajax/quick_buy.php';
-require_once get_template_directory() . '/inc/ajax/show_more_products.php';
+// require_once get_template_directory() . '/inc/ajax/show_more_products.php';

@@ -11,7 +11,10 @@ $context = Timber::context();
 $timber_post = Timber::get_post();
 $context['post'] = $timber_post;
 
-$context['thumbnail'] = get_the_post_thumbnail_url($timber_post->id);
+$thumbnail_id = get_post_thumbnail_id($timber_post->id);
+
+$context['thumbnail'] = get_image_data($thumbnail_id, 'full');
+  
 $context['author_name'] = get_the_author_meta('display_name', $timber_post->post_author);
 $context['author_link'] = get_author_posts_url($timber_post->post_author);
 
