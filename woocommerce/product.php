@@ -1,20 +1,19 @@
 <?php
 $context = Timber::context();
-// global $product;
-// $WC_Structured_Data = new WC_Structured_Data();
 
-$post = Timber::get_post();
+$post = get_post();
 $product = wc_get_product($post->ID);
 $product_id = $product->get_id();
 
+$thumbnail_id = get_post_thumbnail_id($product_id);
 $images_ids = $product->get_gallery_image_ids();
 $images = [];
 
 foreach ($images_ids as $image_id) {
   $images[] = [
-    'full' => wp_get_attachment_image_src($image_id, 'full'),
-    'single_xl' => wp_get_attachment_image_src($image_id, 'single_xl'),
-    'archive_xl' => wp_get_attachment_image_src($image_id, 'archive_xl'),
+    'full'  => get_image_data($image_id, 'full'),
+		'single_xl'  => get_image_data($image_id, 'single_xl'),
+		'archive_xl'  => get_image_data($image_id, 'archive_xl'),
   ];
 }
 
@@ -31,12 +30,12 @@ $data = [
   'composition' => get_field('composition', $product_id),
   'sertificates' => get_field('sertificates', $product_id),
   'related_products' => get_products(['posts_per_page' => 8]),
-  'images' => $images,
   'price_html' => $product->get_price_html(),
   'is_sale' => $product->is_on_sale(),
-  'thumb' => get_the_post_thumbnail_url($product_id, 'full'),
-  'thumb_xl' => get_the_post_thumbnail_url($product_id, 'single_xl'),
-  'thumb_md' => get_the_post_thumbnail_url($product_id, 'archive_xl'),
+  'images' => $images,
+  'thumb' => get_image_data($thumbnail_id, 'full'),
+  'thumb_xl' => get_image_data($thumbnail_id, 'single_xl'),
+  'thumb_md' => get_image_data($thumbnail_id, 'archive_xl'),
   'permalink' => get_the_permalink($product_id),
   'price_sale' => $product->is_type('variable') ? $product->get_variation_sale_price() : $product->get_sale_price(),
   'price_regular' => $product->is_type('variable') ? $product->get_variation_regular_price() : $product->get_regular_price(),

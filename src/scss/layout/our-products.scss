@@ -22,12 +22,6 @@
 		margin: 0 -15px;
 	}
 
-	// @include mq('tablet-medium') {
-	// 	.swiper-slide {
-	// 		// width: auto;
-	// 		// max-width: 300px;
-	// 	}
-	// }
 	@include mq('tablet') {
 		margin: 80px 0;
 		background-color: white;
@@ -37,6 +31,7 @@
 		}
 
 		.c-advantages {
+			margin-top: 20px;
 			position: relative;
 			top: 0;
 			color: black;

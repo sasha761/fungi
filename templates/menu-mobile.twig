@@ -2,18 +2,18 @@
 	{% for item in menu %}
 		{% set image = item.meta('image') %}
 		{% if item.children %}
-			<div class="c-mobile-menu__item">
+			<li class="c-mobile-menu__item">
 				<div class="c-mobile-menu__item-parent">
 					<span>{{ item.title }}</span>
 					{% if image %}
 						<picture>
-						  <img 
+							<img 
 								src="{{image.sizes.thumbnail}}"
-		            alt="{{item.title}}" 
-		            title="{{item.title}} - tooltip"
-		            width="95" 
-		            height="95"
-		          >
+								alt="{{item.title}}" 
+								title="{{item.title}} - tooltip"
+								width="95" 
+								height="95"
+							>
 						</picture>
 					{% endif %}
 				</div>
@@ -24,34 +24,32 @@
 							<span>{{ item2.title }}</span>
 							{% if image2 %}
 								<picture>
-								  <img 
+									<img 
 										src="{{image2.sizes.thumbnail}}"
-				            alt="{{item2.title}}" 
-				            title="{{item2.title}} - tooltip"
-				            width="95" 
-				            height="95"
-				          >
+										alt="{{item2.title}}" 
+										title="{{item2.title}} - tooltip"
+										width="95" 
+										height="95"
+									>
 								</picture>
 							{% endif %}
 						</a>
 					{% endfor %}
 				</div>
-			</div>
+			</li>
 		{% else %}
-			<a href="{{ item.link }}" class="c-mobile-menu__item">
-				<span>{{ item.title }}</span>
-				{% if image %}
-					<picture>
-					  <img 
-							src="{{image.sizes.thumbnail}}"
-	            alt="{{item.title}}" 
-	            title="{{item.title}} - tooltip"
-	            width="95" 
-	            height="95"
-	          >
-					</picture>
-				{% endif %}
-			</a>
+		<li class="c-mobile-menu__link">
+			{% if image %}
+				<img 
+					src="{{image.sizes.thumbnail}}"
+					alt="{{item.title}}" 
+					title="{{item.title}}"
+					width="22" 
+					height="20"
+				>
+			{% endif %}
+			<a href="{{ item.link }}">{{ item.title }}</a>
+		</li>
 		{% endif %}
 	{% endfor %}
 {% endif %}

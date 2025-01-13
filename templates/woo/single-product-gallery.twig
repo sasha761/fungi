@@ -1,27 +1,29 @@
 {% if is_mobile == true %}
   {% set imgPlaceholder = 'data:image/gif;base64,R0lGODlhBAAFAIAAAP///wAAACH5BAEAAAEALAAAAAAEAAUAAAIEjI+ZBQA7' %}
+  {% set fallback = thumb_md %}
 {% else %}
   {% set imgPlaceholder = 'data:image/gif;base64,R0lGODlhBwAJAIAAAP///wAAACH5BAEAAAEALAAAAAAHAAkAAAIHjI+py+1cAAA7' %}
+  {% set fallback = thumb_xl %}
 {% endif %}
 
 {% if video == true %}
   <div class="{{ class ? class : '' }}">
-    <a href="{{thumb}}" class="js-lightbox">
+    <a href="{{thumb.url}}" class="js-lightbox">
       <picture>
         <source
-          data-srcset="{{thumb_xl}}"
+          data-srcset="{{thumb_xl.url}}"
           media="(min-width: 426px)"
         >
         <source
-          data-srcset="{{thumb_md}}"
+          data-srcset="{{thumb_md.url}}"
           media="(max-width: 425px)"
         >
         <img 
           src="{{imgPlaceholder}}"
           alt="{{post.post_title|replace({'"':'\''})|raw}}" 
           title="{{post.post_title|replace({'"':'\''})|raw}}" 
-          width="550"
-          height="560"
+          width="{{fallback.width}}"
+          height="{{fallback.height}}"
           class="lazy"
         >
       </picture>
@@ -30,22 +32,28 @@
 {% endif %}
 {% if images %}
   {% for image in images %}
+    {% if is_mobile %}
+      {% set fallback = image.archive_xl %}
+    {% else %}
+      {% set fallback = image.single_xl %}
+    {% endif %}
+
     <div class="{{ class ? class : '' }}">
-      <a href="{{image.full[0]}}" class="js-lightbox">
+      <a href="{{image.full.url}}" class="js-lightbox">
         <picture class="js-lazy-load">
           <source
-            data-srcset="{{image.single_xl[0]}}"
+            data-srcset="{{image.single_xl.url}}"
             media="(min-width: 426px)"
           >
           <source
-            data-srcset="{{image.archive_xl[0]}}"
+            data-srcset="{{image.archive_xl.url}}"
             media="(max-width: 425px)"
           >
           <img
             src="{{imgPlaceholder}}"
             alt="{{ post.post_title|replace({'"':'\''})|raw }}"
-            width="550"
-            height="560"
+            width="{{ fallback.width }}"
+            height="{{ fallback.height }}"
             class="lazy"
           >
         </picture>

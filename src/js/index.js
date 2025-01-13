@@ -7,6 +7,8 @@ import burgerMenu   from './modules/burger.js';
 import Cart         from './modules/quick-add-to-cart';
 import inputBlock   from './modules/input-block';
 import niceSelect   from './modules/niceSelect.js';
+import headerSticky from './modules/header.js';
+
 import LazyLoad     from 'vanilla-lazyload';
 
 // import {Accordion, CheckedAccordion}    from './modules/accordion.js';
@@ -28,6 +30,12 @@ document.addEventListener("DOMContentLoaded", async () => {
     threshold: 150,
     unobserve_entered: true
   });
+
+  headerSticky({
+    threshold: 35,
+    hiddenClass: 'scrolled-down'
+  })
+
   
   if (ajax.cartCount > 0) {
     modulesLoaded = true;
@@ -70,13 +78,19 @@ document.addEventListener("DOMContentLoaded", async () => {
     case 'p-product': {
       const [
         swiperModule, 
-        lightboxModule
+        lightboxModule,
+        ratingModule
       ] = await Promise.all([
         import('./modules/swiper.js'),
-        import('./modules/lightbox.js')
+        import('./modules/lightbox.js'),
+        import('./modules/rating-stars.js')
       ]);
       swiperModule.initProductRowSlider();
       swiperModule.initProductGallerySlider();
+      ratingModule.initRatingModule({
+        reviewRatingRequired: true,
+        requiredRatingText: 'Не забудьте выбрать оценку!',
+      });
 
       new lightboxModule.default('.js-lightbox', '.js-lightbox-modal');
       break;

@@ -1,8 +1,8 @@
-<header class="l-header">
-	<div class="l-header__top">
-		<span>{{ 'FREE SHIPPING ON ORDERS OVER $125' | translateString('Header - free shipping') }}</span>
-		<a href="#" class="u-btn is-small is-white-border">In Europe?</a>
-	</div>
+<div class="l-header-top">
+	<span>{{ 'FREE SHIPPING ON ORDERS OVER $125' | translateString('Header - free shipping') }}</span>
+	<a href="#" class="u-btn is-small is-white-border">In Europe?</a>
+</div>
+<header id="mainHeader" class="l-header">
 	<div class="l-header__bottom u-relative">
 		<div class="u-container">
 
@@ -20,43 +20,15 @@
 	</div>
 	<div class="l-header__mobile">
 		<div class="u-container">
-			<div class="c-mobile-menu">
+			<nav class="c-mobile-menu">
 				<ul>
-					<li class="c-mobile-menu__link">
-						<svg width="20px" height="20px">
-							<use xlink:href="#shipping-store"></use>
-						</svg>
-						<a href="{{site.url}}">{{ 'Main page' | translateString('Mobile menu - Main page') }}</a>
-					</li>
-					<li class="c-mobile-menu__link">
-						<svg width="22px" height="20px">
-							<use xlink:href="#catalog"></use>
-						</svg>
-						<a href="{{shop_url}}">{{ 'Catalog' | translateString('Mobile menu - catalog') }}</a>
-					</li>
-					<li class="c-mobile-menu__link">
-						<svg width="20px" height="25px">
-							<use xlink:href="#open-box-checked"></use>
-						</svg>
-						<a href="{{site.url}}/shipping-and-payment">{{ 'Delivery and payment' | translateString('Mobile menu - Delivery and payment') }}</a>
-					</li>
-					<li class="c-mobile-menu__link">
-						<svg width="20px" height="25px">
-							<use xlink:href="#open-box"></use>
-						</svg>
-						<a href="{{site.url}}/refund_returns">{{ 'Returns and exchanges' | translateString('Mobile menu - Returns and exchanges') }}</a>
-					</li>
+					{% include 'templates/menu-mobile.twig' with {'menu': mobile_menu.get_items} %}
+					
 					<li class="c-mobile-menu__link">
 						<svg width="21px" height="20px" class="is-phone">
 							<use xlink:href="#icon-phone"></use>
 						</svg>
 						<a href="tel:{{ options.social.phone }}">{{ 'Call us' | translateString('Mobile menu - Call us') }}</a>
-					</li>
-					<li class="c-mobile-menu__link">
-						<svg width="17px" height="20px">
-							<use xlink:href="#coment"></use>
-						</svg>
-						<a href="{{site.url}}/reviews">{{ 'Reviews' | translateString('Mobile menu - Reviews') }}</a>
 					</li>
 				</ul>
 				{% include 'templates/search-form.twig' %}

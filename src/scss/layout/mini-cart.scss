@@ -2,14 +2,14 @@
   position: relative;
   
   .u-h3 {
-    font-size: 12px;
-    line-height: 15px;
+    font-size: rem(12);
+    line-height: 1.2;
     font-weight: 600;
-    letter-spacing: .05em;
+    // letter-spacing: .05em;
     text-transform: uppercase;
     color: #333;
     text-align: center;
-    margin-bottom: 20px;
+    margin-bottom: rem(20);
   }
 
   &.is-loading {
@@ -26,8 +26,8 @@
     position: absolute;
     top: 0;
     right: 0;
-    font-size: 12px;
-    line-height: 15px;
+    font-size: rem(12);
+    line-height: 1.2;
     color: #898686;
   }
   
@@ -39,8 +39,8 @@
 
   &__total {
     border-bottom: 1px solid #efeded;
-    margin-bottom: 10px;
-    padding-bottom: 10px;
+    margin-bottom: rem(10);
+    padding-bottom: rem(10);
     display: flex;
     align-items: center;
     justify-content: space-between;

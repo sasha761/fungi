@@ -1,12 +1,25 @@
 .l-header {
-	position: relative;
+	position: sticky;
+  top: 0;
+  left: 0;
+  z-index: 999;
+  transition: top 0.5s ease-in-out;
+	// height: rem(70);
 	border-bottom: 1px solid #E5E4E2;
 	// margin-bottom: 20px;
-	z-index: 2;
+	// z-index: 2;
 	background-color: rgba(255, 255, 255, 0.8);
 	backdrop-filter: blur(18px);
 
-	&__top {
+	// transition-property: all;
+	// transition-timing-function: cubic-bezier(.4,0,.2,1);
+	// transition-duration: .5s;
+
+	&.scrolled-down {
+		top: rem(-75);
+	}
+
+	&-top {
 		background: #1F1F1F;
     padding: rem(12) rem(20);
     display: flex;
@@ -109,6 +122,10 @@
 
 		& ~ .wrapper {
 			padding-top: 140px;
+		}
+
+		&-top {
+			display: none;
 		}
 
 		&__bottom {

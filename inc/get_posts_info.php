@@ -60,12 +60,6 @@ function get_posts_info($args = [], $is_emoji = true) {
 
     $thumbnail_id = get_post_thumbnail_id($post_id);
 
-    $thumb_md_data = get_image_data($thumbnail_id, 'archive_md');
-    $thumb_xl_data = get_image_data($thumbnail_id, 'archive_xl');
-    $archive_data  = get_image_data($thumbnail_id, 'archive');
-    $thumb_sm_data = get_image_data($thumbnail_id, [100, 100]);
-
-
     $posts[] = (object) [
       'ID'        => $post_id,
       'permalink' => get_the_permalink($post_id),
@@ -77,10 +71,10 @@ function get_posts_info($args = [], $is_emoji = true) {
       'post_content' => get_the_content($post_id),
       'category' => get_the_category($post_id),
       'post_likes' => $likes_data,
-      'thumb_md'      => $thumb_md_data,
-      'thumb_xl'      => $thumb_xl_data,
-      'archive'       => $archive_data,
-      'thumb_sm'      => $thumb_sm_data,
+      'thumb_md'      => get_image_data($thumbnail_id, 'archive_md'),
+      'thumb_xl'      => get_image_data($thumbnail_id, 'archive_xl'),
+      'archive'       => get_image_data($thumbnail_id, 'archive'),
+      'thumb_sm'      => get_image_data($thumbnail_id, [100, 100]),
     ];
   }
 

@@ -25,11 +25,13 @@ $context['popular_posts'] = get_posts_info([
   'orderby'  => 'meta_value_num',
 ], $is_emoji = false);
 
-
+$context['shop_link'] = get_the_permalink(wc_get_page_id('shop'));
 
 $context['blog_section'] = get_field('blog_section');
 $context['about_us_section'] = get_field('about_us_section');
 $context['our_products'] = get_field('our_products');
 $context['our_vision'] = get_field('our_vision');
+$context['hero_section'] = get_field('hero_section');
+
 
 Timber::render( array( 'template-home.twig', 'page.twig' ), $context );

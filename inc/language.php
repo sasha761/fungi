@@ -7,6 +7,7 @@ $action_tag = 'wpml_register_single_string';
 do_action( $action_tag, $domain, 'buttons - Load more', 'Load more' );
 do_action( $action_tag, $domain, 'buttons - Learn more', 'Learn more' );
 do_action( $action_tag, $domain, 'buttons - Read more', 'Read more' );
+do_action( $action_tag, $domain, 'buttons - Shop now', 'Shop now' );
 // do_action( $action_tag, $domain, 'buttons - Read completely', 'Read completely' );
 do_action( $action_tag, $domain, 'buttons - Send', 'Send' );
 do_action( $action_tag, $domain, 'buttons - In store', 'In store' );

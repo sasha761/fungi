@@ -35,16 +35,8 @@ function get_products($args = []) {
     } else {
       $percent = 0;
     }
-    $outStock = $product->get_stock_status();
-    $rating = $product->get_average_rating();
     
     $thumbnail_id = get_post_thumbnail_id($product_id);
-
-    $thumb_md_data = get_image_data($thumbnail_id, 'archive_md');
-    $thumb_xl_data = get_image_data($thumbnail_id, 'archive_xl');
-    $archive_data  = get_image_data($thumbnail_id, 'archive');
-    $thumb_sm_data = get_image_data($thumbnail_id, [100, 100]);
-
     
     $products[] = (object) [
       'ID'            => $product_id,
@@ -53,14 +45,14 @@ function get_products($args = []) {
       'sale_price'    => $price_sale,
       'is_sale'       => $product->is_on_sale(),
       'percent'       => $percent,
-      'outStock'      => $outStock,
+      'outStock'      => $product->get_stock_status(),
       'link'          => get_the_permalink($product_id),
-      'thumb_md'      => $thumb_md_data,
-      'thumb_xl'      => $thumb_xl_data,
-      'archive'       => $archive_data,
-      'thumb_sm'      => $thumb_sm_data,
+      'thumb_md'      => get_image_data($thumbnail_id, 'archive_md'),
+      'thumb_xl'      => get_image_data($thumbnail_id, 'archive_xl'),
+      'archive'       => get_image_data($thumbnail_id, 'archive'),
+      'thumb_sm'      => get_image_data($thumbnail_id, [100, 100]),
       'title'         => get_the_title($product_id),
-      'rating'        => $rating
+      'rating'        => $product->get_average_rating()
     ];
   }
 

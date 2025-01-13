@@ -2,6 +2,14 @@
 {% block content %}
 	<main class="p-main">
 
+		{% include 'templates/partial/hero-home.twig' 
+			with {
+				'data': hero_section,
+				'popular_posts': popular_posts,
+				'shop_link': shop_link
+			} 
+		%}
+
 		{% if about_us_section %}
 			<section class="l-about-us">
 				<div class="u-container">

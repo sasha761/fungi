@@ -1,8 +1,16 @@
 <?php
 function update_cart_quantity() {
+  // Если передаём язык (lang) - переключаем
+  if ( isset($_POST['lang']) && ! empty($_POST['lang']) ) {
+    global $sitepress, $woocommerce_wpml;
+    $lang = sanitize_text_field( $_POST['lang'] );
+    // Принудительно переключаем язык
+    $sitepress->switch_lang( sanitize_text_field($lang) );
+  }
+
   if (isset($_POST['product_id']) && isset($_POST['quantity'])) {
     $product_id = intval($_POST['product_id']);
-    $quantity = intval($_POST['quantity']);
+    $quantity   = intval($_POST['quantity']);
 
     if ($quantity > 0) {
       $cart = WC()->cart;
@@ -10,15 +18,13 @@ function update_cart_quantity() {
         if ($cart_item['product_id'] == $product_id) {
           $cart->set_quantity($cart_item_key, $quantity);
           
-          // Получаем обновленные данные корзины
-          $cart_totals = WC()->cart->get_totals();
-          $data = array(
-            'cart_total' => wc_price($cart_totals['total']),
-            'subtotal' => wc_price($cart_totals['subtotal']),
-            'shipping_total' => wc_price($cart_totals['shipping_total'])
-          );
-
-          wp_send_json_success(array('data' => $data));
+          $cart_totals = $cart->get_totals();
+          $data = [
+            'cart_total'     => wc_price($cart_totals['total']),
+            'subtotal'       => wc_price($cart_totals['subtotal']),
+            'shipping_total' => wc_price($cart_totals['shipping_total']),
+          ];
+          wp_send_json_success(['data' => $data]);
           return;
         }
       }

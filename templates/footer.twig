@@ -3,10 +3,12 @@
     <p class="l-footer__top">{{ 'We believe in the power of nature and its ability to improve our lives. Dive into the world of harmony with us.' | translateString('Footer - text') }}</p>
     <div class="l-footer__center">
       <div class="u-col is-first">
-        <h4 class="u-h4">{{ 'Contact Us' | translateString('Footer - Contact us') }}</h4>
+        <h4 class="u-h4">{{ 'Contact Us' | translateString('Footer - Contact Us') }}</h4>
         <p>{{ options.social.location }}</p>
         <a href="mailto:{{ options.social.mail }}" class="is-mail">{{ options.social.mail }}</a>
         <a class="u-btn is-blur" href="tel:{{ options.social.phone|replace({' ': ''}) }}">{{ options.social.phone }}</a>
+        {% include 'templates/partial/social.twig' with {'share': false} %}
+
       </div>
       <div class="u-col is-second">
         <h4 class="u-h4">{{ 'Learn more' | translateString('Footer - Learn more') }}</h4>
@@ -19,7 +21,6 @@
           <button type="submit" class="u-btn is-black">{{ 'Subscribe now' | translateString('Button - Subscribe now') }}</button>
         </form>
         <p>*{{ 'You may withdraw your consent at any time!' | translateString('Footer - noties under subscribe') }}</p>
-        {% include 'templates/partial/social.twig' with {'share': false} %}
       </div>  
     </div>
     <div class="l-footer__bottom">

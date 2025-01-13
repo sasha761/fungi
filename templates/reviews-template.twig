@@ -1,0 +1,50 @@
+{% extends 'templates/base.twig' %}
+{% block content %}
+
+  <main class="p-reviews">
+    <div class="u-container">
+      {{breadcrumbs}}
+
+     <section class="l-shop">
+        <div class="l-shop__ordering">
+          <h1 class="u-h2">{{post.post_title}}</h1>
+        </div>
+      </section>
+      <section class="l-reviews">
+        <div class="row">
+          {% for review in reviews %}
+            {% if review.comment_parent == 0 %}
+              {% set rating = function('get_comment_meta', review.comment_ID, 'rating', true ) %}
+              {% set title = function('get_the_title', review.comment_post_ID) %} 
+              {% set link = function('get_permalink', review.comment_post_ID) %}
+
+              <div class="col-lg-4">
+                <div class="c-reviews">
+                  <div class="star-rating" role="img">
+                    <span style="width:{{(rating / 5) * 100}}%"></span>
+                  </div>
+                  <a href="{{link}}" class="u-h6">{{ title }}</a>
+                  <p>{{ review.comment_content }}</p>
+
+                  <div class="c-reviews__user">
+                    <div class="c-reviews__user-img">
+                      <img
+                        class="lazy"
+                        src="data:image/png;base64,TEVITGhbV0IyeWs4cHlvSmFkUiouN2tDTWRuag=="
+                        data-src="{{theme.link}}/src/img/user.jpg" 
+                        alt="user icon"
+                        >
+                    </div>
+                    <div class="c-reviews__user-name">{{ review.comment_author }}</div>
+                  </div>
+                </div>
+              </div>
+            {% endif %}
+          {% endfor %}
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+{% endblock %}

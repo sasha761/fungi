@@ -1,7 +1,9 @@
 {% if is_mobile == true %}
   {% set imgPlaceholder = 'data:image/gif;base64,R0lGODlhBAAFAIAAAP///wAAACH5BAEAAAEALAAAAAAEAAUAAAIEjI+ZBQA7' %}
+  {% set fallback = thumb_md %}
 {% else %}
   {% set imgPlaceholder = 'data:image/gif;base64,R0lGODlhBwAJAIAAAP///wAAACH5BAEAAAEALAAAAAAHAAkAAAIHjI+py+1cAAA7' %}
+  {% set fallback = thumb_xl %}
 {% endif %}
 
 <div class="{{ class ? class : '' }}">
@@ -13,22 +15,22 @@
       <video class="lazy" src="{{video}}" muted playsinline autoplay loop width="550" poster="{{thumb|resize(550, height, center)|tojpg}}"></video>
     </a>  
   {% else %}
-    <a href="{{thumb}}" class="js-lightbox">
+    <a href="{{thumb.url}}" class="js-lightbox">
       <picture>
         <source
-          data-srcset="{{thumb_xl}}"
+          data-srcset="{{thumb_xl.url}}"
           media="(min-width: 426px)"
         >
         <source
-          data-srcset="{{thumb_md}}"
+          data-srcset="{{thumb_md.url}}"
           media="(max-width: 425px)"
         >
         <img
           src="{{imgPlaceholder}}"
           alt="{{post.post_title|replace({'"':'\''})|raw}}"
           title="{{post.post_title|replace({'"':'\''})|raw}}"
-          width="550"
-          height="560"
+          width="{{ fallback.width }}"
+          height="{{ fallback.height }}"
           class="lazy"
         >
       </picture>

@@ -1,10 +1,9 @@
 .l-hero {
 	position: relative;
-	
-	// background-image: url(../img/hero-bg.jpg);
+	background-image: url(../img/hero-bg.jpg);
 	background-size: cover;
 	background-repeat: no-repeat;
-	margin-bottom: rem(72);
+	max-height: rem(800);
 
 	.u-container {
 		height: 100%;
@@ -13,13 +12,12 @@
 	&__content {
 		display: flex;
 		align-items: stretch;
-		height: 100%;
-		min-height: rem(760);
+		height: 100%;	
 	}
 
 	&__left {
 		border-right: 1px solid #FFF;
-		padding: 0px 0px rem(128) rem(50);
+		padding: rem(100) rem(50) rem(128) rem(50);
 		flex-direction: column;
 		justify-content: flex-end;
 		align-items: flex-start;
@@ -89,4 +87,35 @@
 		background: #1F1F1F;
 	}
 
+	@include mq('tablet-wide') {
+		&__right {
+			display: none;
+		}
+
+		&__left {
+			max-width: 100%;
+		}
+	}
+
+	@include mq('tablet') {
+		&__left {
+			padding: rem(100) rem(15) rem(100) rem(15);
+			text-align: center;
+
+			.u-btn {
+				margin: 0 auto;
+			}
+			.u-h1 {
+				font-size: 40px;
+				line-height: 1.35;
+				margin-bottom: 20px;
+			}
+		}
+	}
+
+	@include mq('phone-large') {
+		.u-h1 {
+			font-size: 32px;
+		}
+	}
 }

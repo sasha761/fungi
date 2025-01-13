@@ -74,6 +74,7 @@ export default class Cart {
       this.#buttonChangeStatus(button);
       this.#cartChangeStatus();
       this.#updateMiniCart(data);
+
       
     }).catch(error => {
       console.error('Failed to update mini cart:', error);
@@ -168,7 +169,12 @@ export default class Cart {
   }
 
   #cartVisability(status) {
+    const header = document.getElementById('mainHeader');
     const headerMiniCart = document.querySelector('.c-service.cart');
+
+    if (header) {
+      header.classList.remove('scrolled-down');
+    }
     headerMiniCart.classList.toggle('hovered', status === 'show');
   }
 

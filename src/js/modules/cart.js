@@ -19,11 +19,14 @@ function updateCart() {
       input.addEventListener('change', function() {
         const productID = this.closest('.c-product-cart').querySelector('.c-remove').dataset.product_id;
         const quantity = this.value;
+
+        const currentLang = ajax.lang || 'en';
         
         const body = new URLSearchParams({
           action: 'update_cart_quantity',
           product_id: productID,
-          quantity: quantity
+          quantity: quantity,
+          lang: currentLang
         });
       
         fetch(ajax.url, {
@@ -31,6 +34,7 @@ function updateCart() {
           headers: {
             'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
           },
+          credentials: 'include',
           body: body.toString()
         })
           .then(response => response.json())

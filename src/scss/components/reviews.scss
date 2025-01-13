@@ -1,8 +1,8 @@
 .c-reviews {
   background: #FFFFFF;
   box-shadow: 0px 10px 15px rgba(0, 0, 0, 0.06);
-  padding: 15px 15px 25px;
-  margin-bottom: 20px;
+  padding: rem(15) rem(15) rem(25);
+  margin-bottom: rem(20);
 
   .c-date {
     // font-family: Graphik LCG;
@@ -10,23 +10,27 @@
     font-weight: normal;
     line-height: 160%;
     color: #192E20;
-    font-size: 13px;
-    margin-bottom: 15px;
+    font-size: rem(13);
+    margin-bottom: rem(15);
+  }
+
+  .star-rating {
+    margin-bottom: rem(10);
   }
 
   .u-h6 {
-    margin-bottom: 15px;
+    margin-bottom: rem(15);
     font-weight: bold;
   }
 
   p {
-    font-size: 13px;
+    font-size: rem(13);
     line-height: 160%;
   }
 
   &__user {
-    margin-top: 15px;
-    padding-top: 15px;
+    margin-top: rem(15);
+    padding-top: rem(15);
     position: relative;
     display: flex;
     align-items: center;
@@ -36,32 +40,33 @@
       position: absolute;
       top: 0;
       left: 0;
-      width: 90px;
+      width: rem(90);
       height: 1px;
       background-color: #ddd;
     }
 
     &-img {
-      margin-right: 15px;
+      margin-right: rem(10);
       border-radius: 50%;
-
+      flex-shrink: 0;
       overflow: hidden;
+      line-height: 0;
 
       img {
-        max-width: 35px;
+        max-width: rem(35);
       }
     }
     &-name {
       // font-family: Graphik LCG;
       font-weight: bold;
-      font-size: 12px;
+      font-size: rem(14);
       line-height: 140%;
     }
   }
 
   &__answer {
-    padding-top: 16px;
-    margin-top: 32px;
+    padding-top: rem(16);
+    margin-top: rem(32);
     border-top: 1px solid #E0E0E0;
   }
 

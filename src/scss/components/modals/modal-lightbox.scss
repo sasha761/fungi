@@ -36,6 +36,12 @@
       .swiper-zoom-container {
         cursor: zoom-in;
         align-items: inherit;
+        text-align: center;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        height: 100%;
+        display: flex;
       }
     }
 

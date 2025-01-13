@@ -24,7 +24,7 @@
         {% for tag in product_tags %}
           <a href="{{tag.link}}" class="c-tag">
             {% if tag.img %}
-              <img src="{{tag.img}}">
+              <img src="{{tag.img}}" alt="{{tag.name}}">
             {% else %}
               <svg width="100%" height="18px">
                 <use xlink:href="#icon-brain"></use>
@@ -44,7 +44,7 @@
           <a href="{{product.link}}" class="c-product-small">
             {% if product.thumb_sm %}
              <div class="c-product-small__img">
-                <img src="{{product.thumb_sm.url}}" alt="" width="106" height="106">
+                <img src="{{product.thumb_sm.url}}" alt="{{product.title}}" width="106" height="106">
               </div>
             {% endif %}
             <div class="c-product-small__content">
@@ -70,7 +70,7 @@
         <div class="c-post-small">
           {% if post.thumb_sm %}
             <a href="{{post.permalink}}" class="c-post-small__img">
-              <img src="{{post.thumb_sm.url}}" alt="" width="106" height="106">
+              <img src="{{post.thumb_sm.url}}" alt="{{post.title}}" width="106" height="106">
             </a>
           {% endif %}
           <div class="c-post-small__content">
@@ -91,7 +91,7 @@
         <div class="c-post-small">
           {% if page.thumb_sm %}
             <a href="{{page.permalink}}" class="c-post-small__img">
-              <img src="{{page.thumb_sm.url}}" alt="" width="106" height="106">
+              <img src="{{page.thumb_sm.url}}" alt="{{page.title}}" width="106" height="106">
             </a>
           {% endif %}
           <div class="c-post-small__content">

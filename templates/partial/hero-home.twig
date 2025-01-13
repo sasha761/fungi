@@ -1,31 +1,25 @@
 <section class="l-hero">
-		<div class="l-hero__content">
-			<div class="l-hero__left">
-				<h1 class="u-h1">How To Microdose Shrooms Effectively?</h1>
-				<a href="#" class="u-btn is-white-border">Learn more</a>
-			</div>
-			<div class="l-hero__right">
-				<div class="c-post">
-				  <div class="c-post__author">
-				  	<img src="{{theme.link}}/src/img/author.png" alt="">
-				  	<span>by Marvin McKinney</span>
-				  </div>
-					<div class="c-post__title">Common microdosing training techniques and how to use them</div>
-					<a class="u-btn is-white-border">Learn more</a>
-				</div>
-				<div class="c-post">
-				  <div class="c-post__time">
-				  	<svg xmlns="http://www.w3.org/2000/svg" width="26" height="30" viewBox="0 0 26 30" fill="none">
-						  <path d="M10.9328 0.42862C11.4988 -0.142873 12.4166 -0.142873 12.9826 0.42862L16.606 4.08698C16.8778 4.36141 17.0305 4.73365 17.0305 5.12176C17.0305 5.50989 16.8778 5.88212 16.606 6.15656L12.9826 9.81492C12.4166 10.3864 11.4988 10.3864 10.9328 9.81492C10.3668 9.24341 10.3668 8.31683 10.9328 7.74533L12.0318 6.63578C6.90394 7.14901 2.89884 11.5169 2.89884 16.8293C2.89884 22.4868 7.44134 27.0732 13.0448 27.0732C18.2176 27.0732 22.4882 23.1634 23.1122 18.1117C23.2112 17.3096 23.9354 16.7404 24.7297 16.8405C25.5241 16.9405 26.0878 17.6718 25.9887 18.4737C25.1861 24.9723 19.6981 30 13.0448 30C5.84035 30 0 24.1033 0 16.8293C0 9.87101 5.34435 4.17303 12.1147 3.69149L10.9328 2.49821C10.3668 1.9267 10.3668 1.00013 10.9328 0.42862ZM19.1426 12.1359C19.7086 12.7074 19.7086 13.634 19.1426 14.2055L12.6202 20.7909C12.0542 21.3623 11.1365 21.3623 10.5705 20.7909L7.67162 17.864C7.10559 17.2926 7.10559 16.366 7.67162 15.7945C8.23766 15.223 9.15538 15.223 9.72142 15.7945L11.5954 17.6865L17.0929 12.1359C17.6589 11.5644 18.5766 11.5644 19.1426 12.1359Z" fill="white"/>
-						</svg>
-				  	<span>by Marvin McKinney</span>
-				  </div>
-					<div class="c-post__title">Which fungal product is right for you? Let's find out!</div>
-					<a href="#" class="u-btn is-white-border">Learn more</a>
-				</div>
-			</div>
+	<div class="l-hero__content">
+		<div class="l-hero__left">
+			<h1 class="u-h1">{{data.title}}</h1>
+			<a href="{{data.link.url}}" class="u-btn is-white-border">{{data.link.title}}</a>
 		</div>
+		<div class="l-hero__right">
+			{% for post in popular_posts|slice(0, 2) %}
+				<div class="c-post">
+					<div class="c-post__author">
+						<svg xmlns="http://www.w3.org/2000/svg" width="26" height="30" viewBox="0 0 26 30" fill="none">
+							<path d="M10.9328 0.42862C11.4988 -0.142873 12.4166 -0.142873 12.9826 0.42862L16.606 4.08698C16.8778 4.36141 17.0305 4.73365 17.0305 5.12176C17.0305 5.50989 16.8778 5.88212 16.606 6.15656L12.9826 9.81492C12.4166 10.3864 11.4988 10.3864 10.9328 9.81492C10.3668 9.24341 10.3668 8.31683 10.9328 7.74533L12.0318 6.63578C6.90394 7.14901 2.89884 11.5169 2.89884 16.8293C2.89884 22.4868 7.44134 27.0732 13.0448 27.0732C18.2176 27.0732 22.4882 23.1634 23.1122 18.1117C23.2112 17.3096 23.9354 16.7404 24.7297 16.8405C25.5241 16.9405 26.0878 17.6718 25.9887 18.4737C25.1861 24.9723 19.6981 30 13.0448 30C5.84035 30 0 24.1033 0 16.8293C0 9.87101 5.34435 4.17303 12.1147 3.69149L10.9328 2.49821C10.3668 1.9267 10.3668 1.00013 10.9328 0.42862ZM19.1426 12.1359C19.7086 12.7074 19.7086 13.634 19.1426 14.2055L12.6202 20.7909C12.0542 21.3623 11.1365 21.3623 10.5705 20.7909L7.67162 17.864C7.10559 17.2926 7.10559 16.366 7.67162 15.7945C8.23766 15.223 9.15538 15.223 9.72142 15.7945L11.5954 17.6865L17.0929 12.1359C17.6589 11.5644 18.5766 11.5644 19.1426 12.1359Z" fill="white"/>
+						</svg>
+						<span>{{post.author_name}}</span>
+					</div>
+					<div class="c-post__title">{{post.title}}</div>
+					<a href="{{post.permalink}}" class="u-btn is-white-border">{{ 'Learn more' | translateString('buttons - Learn more') }}</a>
+				</div>
+			{% endfor %}
+		</div>
+	</div>
 	<div class="l-hero__bottom">
-		<a href="#" class="u-btn is-white-border">Shop now</a>
+		<a href="{{shop_link}}" class="u-btn is-white-border">{{ 'Shop now' | translateString('buttons - Shop now') }}</a>
 	</div>						
 </section>

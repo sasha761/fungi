@@ -48,14 +48,21 @@ class BrandedSite extends Site {
   }
 
   public function enqueue_scripts() {
-    // wp_enqueue_style( 'theme-style', get_stylesheet_uri(), array(), _S_VERSION );
+    $current_lang = 'en';
+    if ( defined('ICL_LANGUAGE_CODE') && ICL_LANGUAGE_CODE ) {
+      $current_lang = sanitize_text_field( ICL_LANGUAGE_CODE );
+    }
+
+    $ajax_url_with_lang = add_query_arg('lang', $current_lang, admin_url('admin-ajax.php'));
+
     wp_enqueue_style( 'main-style', get_template_directory_uri() . '/dist/css/main.css', array(), _S_VERSION );
 
     wp_enqueue_script( 'pure-js', get_template_directory_uri() . '/dist/js/index.js', array(), _S_VERSION, true );
     wp_localize_script( 'pure-js', 'ajax', array(
-      'url' => admin_url('admin-ajax.php'),
+      'url' => $ajax_url_with_lang,
       'nonce' => wp_create_nonce('likes_nonce'),
-      'cartCount' => WC()->cart->get_cart_contents_count()
+      'cartCount' => WC()->cart->get_cart_contents_count(),
+      'lang' => $current_lang,
     ));
   }
 
