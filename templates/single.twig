@@ -32,8 +32,13 @@
               <div class="c-likes__item c-likes__hart" data-like-type="heart">❤️ <span>{{ post_likes.heart | default(0) }}</span></div>
             </div>
           </div>
+          <div class="p-single__content-controller">
+            <button class="btn-summarize" data-summary="original">Original</button>
+            <button class="btn-summarize" data-summary="short">Short</button>
+            <button class="btn-summarize" data-summary="medium">Medium</button>
+          </div>
 
-          <div class="p-single__content">
+          <div class="p-single__content" id="article-content">
             {{ post.content }}
           </div>
 

@@ -10,6 +10,7 @@ import niceSelect   from './modules/niceSelect.js';
 import headerSticky from './modules/header.js';
 
 import LazyLoad     from 'vanilla-lazyload';
+import { initializeSummarizeButtons } from './modules/summarizeButtons.js';
 
 // import {Accordion, CheckedAccordion}    from './modules/accordion.js';
 
@@ -36,6 +37,8 @@ document.addEventListener("DOMContentLoaded", async () => {
     hiddenClass: 'scrolled-down'
   })
 
+
+  initializeSummarizeButtons();
   
   if (ajax.cartCount > 0) {
     modulesLoaded = true;
