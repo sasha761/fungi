@@ -1,15 +1,6 @@
 import Swiper from 'swiper';
 import { Navigation, Pagination, Autoplay, Zoom, FreeMode} from 'swiper/modules';
 
-
-// export const initHeroSlider = () => {
-// 	const bannerSlider = document.querySelectorAll('.js-banner-slider');
-
-// 	if (bannerSlider.length) {
-// 		bannerSlider.forEach(slider => {new Swiper(slider)})
-// 	}
-// }
-
 export const initblogCategorySlider = () => {
 	const blogCategorySlider = document.querySelectorAll('.js-blog-category');
 

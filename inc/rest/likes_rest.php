@@ -1,4 +1,11 @@
 <?php
+add_action('rest_api_init', callback: function () {
+  register_rest_route('custom/v1', '/handle_like', [
+      'methods'             => 'POST',
+      'callback'            => 'handle_like',
+      'permission_callback' => '__return_true', // при необходимости замените на свою проверку
+  ]);
+});
 function get_IP() {
   if (!empty($_SERVER['HTTP_CLIENT_IP'])) {
     $ip = $_SERVER['HTTP_CLIENT_IP'];
@@ -53,48 +60,85 @@ function add_like($post_id, $user_id, $like_type) {
   return $wpdb->insert("{$wpdb->prefix}post_likes", array('post_id' => $post_id, 'user_id' => $user_id, 'like_type' => $like_type));
 }
 
-function handle_like() {
-  if (!isset($_POST['nonce']) || !wp_verify_nonce($_POST['nonce'], 'likes_nonce')) wp_send_json_error('Invalid nonce');
-
-  $post_id = intval($_POST['post_id']);
-  $like_type = sanitize_text_field($_POST['like_type']);
+function handle_like( WP_REST_Request $request ) {
+  $post_id   = intval( $request->get_param('post_id') );
+  $like_type = sanitize_text_field( $request->get_param('like_type') );
 
   $ip = get_IP();
-
   $user_id = ipToLong($ip);
-  if ($user_id === false) wp_send_json_error('Invalid IP');
-
-  // Получение всех связанных постов
-  $translations = get_posts_translations($post_id);
-  if (empty($translations)) wp_send_json_error('No translations found');
-
-  // Проверка существующего лайка пользователя
-  $existing_like = get_likes($user_id, $translations);
-  // if (empty($existing_like)) wp_send_json_error('No likes found');
-
-  if ($existing_like) {
-    if ($existing_like->like_type === $like_type) {
-      // delete like
-      $response = delete_like($existing_like);
-      if ($response === false) wp_send_json_error('Database insert failed');
-      wp_send_json_success(['new_likes' => 'removed']);
-    } else {
-      // update like
-      $response = update_like($like_type, $existing_like);
-      if ($response === false) wp_send_json_error('Database insert failed');
-      wp_send_json_success(['new_likes' => 'updated']);
-    }
-  } else {
-    // add like
-    $response = add_like($post_id, $user_id, $like_type);
-    if ($response === false) wp_send_json_error('Database insert failed');
-    wp_send_json_success(['new_likes' => 'inserted']);
+  if ($user_id === false) {
+      return new WP_Error(
+          'invalid_ip',
+          'Invalid IP',
+          ['status' => 400]
+      );
   }
 
-  wp_send_json_error('Unexpected error');
+  // Получаем связанные посты (переводы)
+  $translations = get_posts_translations($post_id);
+  if ( empty($translations) ) {
+      return new WP_Error(
+          'no_translations',
+          'No translations found',
+          ['status' => 404]
+      );
+  }
+
+  // Проверка, лайкал ли уже (like / dislike и т.д.)
+  $existing_like = get_likes($user_id, $translations);
+
+  if ($existing_like) {
+      // Лайк уже есть
+      if ($existing_like->like_type === $like_type) {
+          // Удаляем лайк
+          $response = delete_like($existing_like);
+          if ($response === false) {
+              return new WP_Error(
+                  'db_delete_failed',
+                  'Database delete failed',
+                  ['status' => 500]
+              );
+          }
+
+          // Возвращаем успех
+          return [
+              'success'   => true,
+              'new_likes' => 'removed',
+          ];
+      } else {
+          // Обновляем тип лайка
+          $response = update_like($like_type, $existing_like);
+          if ($response === false) {
+              return new WP_Error(
+                  'db_update_failed',
+                  'Database update failed',
+                  ['status' => 500]
+              );
+          }
+
+          return [
+              'success'   => true,
+              'new_likes' => 'updated',
+          ];
+      }
+  } else {
+      // Добавляем новый лайк
+      $response = add_like($post_id, $user_id, $like_type);
+      if ($response === false) {
+          return new WP_Error(
+              'db_insert_failed',
+              'Database insert failed',
+              ['status' => 500]
+          );
+      }
+
+      return [
+          'success'   => true,
+          'new_likes' => 'inserted',
+      ];
+  }
 }
-add_action('wp_ajax_handle_like', 'handle_like');
-add_action('wp_ajax_nopriv_handle_like', 'handle_like');
+
 
 function create_likes_table() {
   global $wpdb;

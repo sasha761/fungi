@@ -60,7 +60,7 @@ class BrandedSite extends Site {
     wp_enqueue_script( 'pure-js', get_template_directory_uri() . '/dist/js/index.js', array(), _S_VERSION, true );
     wp_localize_script( 'pure-js', 'ajax', array(
       'url' => $ajax_url_with_lang,
-      'nonce' => wp_create_nonce('likes_nonce'),
+      // 'nonce' => wp_create_nonce('likes_nonce'),
       'cartCount' => WC()->cart->get_cart_contents_count(),
       'lang' => $current_lang,
     ));

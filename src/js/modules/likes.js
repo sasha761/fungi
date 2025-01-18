@@ -29,23 +29,22 @@ export default () => {
       selectedItem.classList.add('selected');
     }
 
-
-
       const postId = document.querySelector('.c-likes').getAttribute('data-post-id');
       const likeType = this.getAttribute('data-like-type');
-      const nonce = ajax.nonce;
-      const data = new URLSearchParams();
-      data.append('post_id', postId);
-      data.append('like_type', likeType);
-      data.append('nonce', nonce);
+      // const nonce = ajax.nonce;
+      // const data = new URLSearchParams();
+      // data.append('post_id', postId);
+      // data.append('like_type', likeType);
+      // data.append('nonce', nonce);
 
-
-      fetch(`${window.ajax.url}?action=handle_like`, {
+      fetch('/wp-json/custom/v1/handle_like', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/x-www-form-urlencoded',
-        },
-        body: data.toString(),
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          'post_id': postId,
+          'like_type': likeType,
+          // 'nonce': nonce,
+        }),
       })
       .then(response => response.json())
       .then(data => {
@@ -55,7 +54,7 @@ export default () => {
             // item.innerText = parseInt(item.innerText) + 1;
               // item.innerHTML = item.innerHTML.replace(/\d+$/, data.data.new_likes);
           } else {
-            alert(data.data);
+            console.log(data.data);
 
             if (previouslySelected) {
               let previousCount = parseInt(previouslySelected.querySelector('span').textContent);

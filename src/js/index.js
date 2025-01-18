@@ -38,7 +38,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   })
 
 
-  initializeSummarizeButtons();
+  
   
   if (ajax.cartCount > 0) {
     modulesLoaded = true;
@@ -114,6 +114,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       const swiperModule = await import('./modules/swiper.js');
 
       swiperModule.initProductRowSlider();
+      initializeSummarizeButtons();
       likes();
       break;  
     case 'p-reviews':

@@ -5,7 +5,6 @@ export function initializeSummarizeButtons() {
   const contentContainer = document.getElementById('article-content');
   const originalContent = contentContainer.innerHTML; // Сохраняем оригинальный текст
   const lang = window.ajax.lang;
-  console.log(lang);
   buttons.forEach(button => {
     button.addEventListener('click', async () => {
       const length = button.getAttribute('data-summary');

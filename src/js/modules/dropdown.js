@@ -18,7 +18,7 @@ function dropdown() {
 	});
 
 	document.addEventListener('click', function(event) {
-		let target = event.target.className;
+		// let target = event.target.className;
 
 	 	var isClickInsideElement = dropdown.contains(event.target);
 	  if (!isClickInsideElement) {
