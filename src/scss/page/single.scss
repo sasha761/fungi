@@ -1,8 +1,8 @@
 .p-single {
   margin-top: rem(25);
   &__flex {
-    display: flex;
-    align-items: flex-start;
+    // display: flex;
+    // align-items: flex-start;
     margin-bottom: rem(80);
   }
 
@@ -11,14 +11,18 @@
   }
 
   &__box {
-    margin-right: rem(32);
+    // margin-right: rem(32);
     border-radius: 5px;
     border: 1px solid #E2E2E2;
     background: #F5F5F5;
     padding: rem(30);
-    max-width: rem(860);
+    // max-width: rem(860);
     width: 100%;
     flex-shrink: 0;
+  }
+
+  .u-container {
+    max-width: rem(980);
   }
 
   .l-sidebar {
@@ -26,6 +30,61 @@
   }
 
   &__content {
+    position: relative;
+
+    &-controller {
+      margin-bottom: rem(24);
+      padding: rem(16) rem(24);
+      border: 1px solid #FFA819;
+      border-radius: 6px;
+      background: #FFA81933;
+      display: flex;
+      align-items: center;
+
+      &__title {
+        margin-right: rem(28);
+        font-size: rem(16);
+        font-weight: 500;
+        font-family: Inter;
+        display: flex;
+        align-items: center;
+        svg {
+          flex-shrink: 0;
+          margin-right: rem(12);
+        }
+      }
+
+      .u-btn {
+        margin-right: rem(16);
+
+        &:last-child {
+          margin-right: 0;
+        }
+      }
+    } 
+
+    &.is-loading {
+      .c-loader {
+        display: block;
+        opacity: 1;
+        visibility: visible;
+      }
+
+      #article-content {
+        filter: blur(1px);
+      }
+    }
+
+    .c-loader {
+      top: rem(50);
+      left: 50%;
+      transform: translateX(-50%);
+      position: absolute;
+      width: rem(40);
+      height: rem(40);
+      display: none;
+    }
+
     h2 {
       color: #000;
       font-size: rem(28);
@@ -34,7 +93,7 @@
       margin-bottom: rem(16);
     }
 
-    & > p, ul, ol {
+    p, ul, ol {
       color: #666;
       font-size: rem(15);
       font-style: normal;
@@ -124,12 +183,13 @@
     margin-bottom: rem(24);
 
     &-left {
-
+      color: #666666;
       .c-date,
       .c-author {
         margin-right: rem(10);
         padding-right: rem(10);
         border-right: 1px solid #E2E2E2;
+        font-size: rem(14);
       }
     }
   }
@@ -225,6 +285,20 @@
     .l-related {
       background: transparent;
     }
+
+    &__content {
+      &-controller {
+        padding: 15px;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: flex-end;
+        
+        &__title {
+          margin-right: 0;
+          margin-bottom: rem(20);
+        }
+      }
+    }
   }
 
   @include mq('phone-large') {
@@ -283,7 +357,15 @@
 
   @include mq('phone-medium') {
     &__info {
+      flex-direction: column;
+      align-items: flex-start;
+
+      .c-likes {
+        font-size: 16px;
+      }
+
       &-left {
+        margin-bottom: 12px;
         .c-date,
         .c-author {
           font-size: 14px;

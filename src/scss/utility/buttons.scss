@@ -11,6 +11,12 @@
   border-radius: rem(50);	
   font-family: 'Golos Text';
 
+	&[disabled] {
+		background: #c4c3c3!important;
+		color: #000!important;
+		cursor: not-allowed;
+	}
+
   &.is-blur {
 		background: rgba(255, 255, 255, 0.12);
 		backdrop-filter: blur(7px);
@@ -18,7 +24,7 @@
   }
 	
 	&.is-small {
-    padding: rem(10) rem(26);
+    padding: rem(8) rem(24);
 		text-transform: none;
 		font-size: 14px;
 	}
@@ -34,9 +40,14 @@
 	}
 
 	&.is-white-border {
-		// background: #1F1F1F;
 		color: #fff;
 		border: 1px solid #E1E1E1;
+	}
+
+	&.is-orange {
+		background: #FFA819B2;
+		border-radius: rem(8);
+		color: black;
 	}
 
 	@include mq('phone-large') {
@@ -124,15 +135,5 @@
 		top: 50%;
 		left: 50%;
 		transform: translate(-50%, -50%);
-
-		&.is-hide {
-			opacity: 0;
-			visibility: hidden;
-		}
-
-		&.is-show {
-			opacity: 1;
-			visibility: visible;
-		}
 	}
 }

@@ -138,3 +138,5 @@ do_action( $action_tag, $domain, 'Search - You searched', 'You searched' );
 // Strings
 do_action( $action_tag, $domain, 'Strings - tags', 'Tags' );
 do_action( $action_tag, $domain, 'Strings - related Posts', 'Related Posts' );
+do_action( $action_tag, $domain, 'Strings - AI tool to summarize', 'For a quicker read, use AI tool to summarize it to your preferred size' );
+

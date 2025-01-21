@@ -67,6 +67,8 @@ $likes_data = [
   'like' => 0,
   'fire' => 0,
   'heart' => 0,
+  'swearing' => 0,
+  'clown' => 0,
 ];
 
 foreach ($likes as $like) {

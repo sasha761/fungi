@@ -100,8 +100,12 @@
 	align-items: center;
 
 	&__item {
-		margin-right: rem(16);
+		margin-right: rem(6);
 		cursor: pointer;
+		background-color: white;
+    border-radius: rem(20);
+    padding: rem(3) rem(8);
+		font-size: rem(14);
 
 		&:last-child {
 			margin-right: 0;

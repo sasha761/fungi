@@ -36,8 +36,6 @@ document.addEventListener("DOMContentLoaded", async () => {
     threshold: 35,
     hiddenClass: 'scrolled-down'
   })
-
-
   
   
   if (ajax.cartCount > 0) {
