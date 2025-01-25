@@ -84,6 +84,19 @@
 		margin-bottom: rem(15);
 	}
 
+	.c-inform {
+    border-radius: rem(6);
+    font-size: rem(15);
+    line-height: 1.4;
+    color: rgba(255, 255, 255, 0.70);
+		font-family: 'Golos Text';
+    margin-bottom: rem(24);
+
+		.is-red {
+			font-size: rem(16);
+		}
+  }
+
 
 	.c-post-mini {
 		margin-bottom: rem(22);

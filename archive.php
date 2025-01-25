@@ -11,6 +11,7 @@ $templates = array( 'archive.twig', 'index.twig' );
 
 $context = Timber::context();
 
+
 $context['title'] = 'Archive';
 if ( is_day() ) {
 	$context['title'] = 'Archive: ' . get_the_date( 'D M Y' );
@@ -33,10 +34,10 @@ $category_id = get_queried_object_id();
 $paged = get_query_var('paged') ? get_query_var('paged') : 1;
 
 
-$context['posts'] = get_posts_info([
+$context['blog_posts'] = get_posts_info([
 	'post_type'   => $post_type,
 	'post_status' => 'publish',
-  'posts_per_page' => 21,
+  'posts_per_page' => 10,
   'category'    => $category_id,
   'paged'       => $paged,
 	'orderby'     => 'date',

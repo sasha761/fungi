@@ -3,7 +3,7 @@
 {% block content %}
  	<main class="p-archive">  
  		<div class="u-container">
-      {{ breadcrumbs }}
+      {{ breadcrumbs }} 
       <h1 class="u-h1">{{ title }}</h1>    
 
       <section class="l-our-blog">
@@ -12,7 +12,7 @@
 	 					<div class="l-our-blog__content-first-post">
 						 	{% include 'templates/partial/post.twig' 
 						 		with {
-						 			'data': posts[0],
+						 			'data': blog_posts[0],
 						 			'show_category': false,
 	 								'excerpt': true,
 	 								'info': true,
@@ -22,9 +22,9 @@
 				 			%}
 	 					</div>
 	 					<div class="l-our-blog__content-posts">
-							{% if posts|length > 1 %}
+							{% if blog_posts|length > 1 %}
 								<div class="row">
-									{% for post in posts|slice(1) %}
+									{% for post in blog_posts|slice(1) %}
 										<div class="col-lg-6 col-sm-6 u-col">
 											{% include 'templates/partial/post.twig' 
 												with {
@@ -53,6 +53,7 @@
             } 
           %}
  				</div>
+
         {% include 'partial/pagination.twig' with { pagination: posts.pagination({show_all: false, mid_size: 2, end_size: 1}) } %}
 			
 	 		</section>

@@ -3,85 +3,95 @@
 {% block content %}
 
   <main class="p-single">
-    <div class="u-container">
-      {{ breadcrumbs }}
-      <h1 class="u-h1">{{ post.title }}</h1>
+    <section class="l-article">
+      <div class="u-container">
+        {{ breadcrumbs }}
+        <h1 class="u-h1">{{ post.title }}</h1>
 
-      <div class="p-single__flex">
-        <div class="p-single__box">
-          {% if thumbnail %}
-            <div class="p-single__image">
-              <img 
-                src="{{ thumbnail.url }}" 
-                width="{{ thumbnail.width }}" 
-                height="{{ thumbnail.height }}" 
-                alt="{{ post.title }}" 
-              />
-            </div>
-          {% endif %}
+        {% if current_lang == 'ru' %}
+          <div class="c-inform"><span class="is-red">Внимание!</span>  Эта статья предоставлена исключительно в информационных целях. Мы не продаем и не продвигаем наркотики или незаконные вещества.</div>
+        {% elseif current_lang == 'uk' %}
+          <div class="c-inform"><span class="is-red">Увага!</span>  Ця стаття надана виключно в інформаційних цілях. Ми не продаємо і не просуваємо наркотики чи незаконні речовини.</div>
+        {% else %}
+          <div class="c-inform"><span class="is-red">Attention!</span> This article is provided for informational purposes only. We do not sell or promote drugs or illegal substances.</div>
+        {% endif %}
 
-          <div class="p-single__info">
-            <div class="p-single__info-left">
-              <span class="c-date">{{ post.date }}</span>
-              <a href="{{author_link}}" class="c-author">{{author_name}}</a>
-            </div>
-            
-            <div class="c-likes" data-post-id="{{ post.ID }}">
-              <div class="c-likes__item c-likes__like" data-like-type="like">👍 <span>{{ post_likes.like | default(0) }}</span></div>
-              <div class="c-likes__item c-likes__fire" data-like-type="fire">🔥 <span>{{ post_likes.fire | default(0) }}</span></div>
-              <div class="c-likes__item c-likes__hart" data-like-type="heart">❤️ <span>{{ post_likes.heart | default(0) }}</span></div>
-              <div class="c-likes__item c-likes__swearing" data-like-type="swearing">🤬 <span>{{ post_likes.swearing | default(0) }}</span></div>
-              <div class="c-likes__item c-likes__clown" data-like-type="clown">🤡 <span>{{ post_likes.clown | default(0) }}</span></div>
-            </div>
-          </div>
-          <div class="p-single__content-controller js-buttons-container">
-            <div class="p-single__content-controller__title">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <g clip-path="url(#clip0_2126_5014)">
-                  <path d="M15.3516 3.99375C15.1406 4.07344 15 4.275 15 4.5C15 4.725 15.1406 4.92656 15.3516 5.00625L18 6L18.9938 8.64844C19.0734 8.85938 19.275 9 19.5 9C19.725 9 19.9266 8.85938 20.0062 8.64844L21 6L23.6484 5.00625C23.8594 4.92656 24 4.725 24 4.5C24 4.275 23.8594 4.07344 23.6484 3.99375L21 3L20.0062 0.351562C19.9266 0.140625 19.725 0 19.5 0C19.275 0 19.0734 0.140625 18.9938 0.351562L18 3L15.3516 3.99375ZM9.61406 3.43594C9.49219 3.16875 9.225 3 8.93438 3C8.64375 3 8.37656 3.16875 8.25469 3.43594L5.77969 8.77969L0.435938 11.25C0.16875 11.3719 0 11.6391 0 11.9344C0 12.2297 0.16875 12.4922 0.435938 12.6141L5.78438 15.0844L8.25 20.4281C8.37187 20.6953 8.63906 20.8641 8.92969 20.8641C9.22031 20.8641 9.4875 20.6953 9.60938 20.4281L12.0797 15.0797L17.4281 12.6094C17.6953 12.4875 17.8641 12.2203 17.8641 11.9297C17.8641 11.6391 17.6953 11.3719 17.4281 11.25L12.0844 8.78437L9.61406 3.43594ZM18 18L15.3516 18.9938C15.1406 19.0734 15 19.275 15 19.5C15 19.725 15.1406 19.9266 15.3516 20.0062L18 21L18.9938 23.6484C19.0734 23.8594 19.275 24 19.5 24C19.725 24 19.9266 23.8594 20.0062 23.6484L21 21L23.6484 20.0062C23.8594 19.9266 24 19.725 24 19.5C24 19.275 23.8594 19.0734 23.6484 18.9938L21 18L20.0062 15.3516C19.9266 15.1406 19.725 15 19.5 15C19.275 15 19.0734 15.1406 18.9938 15.3516L18 18Z" fill="#FFA819"/>
-                </g>
-                <defs>
-                  <clipPath id="clip0_2126_5014">
-                    <rect width="24" height="24" fill="white"/>
-                  </clipPath>
-                </defs>
-              </svg>
-              <p>{{ 'For a quicker read, use AI tool to summarize it to your preferred size' | translateString('Strings - AI tool to summarize') }}</p>
-            </div>
-            <button class="u-btn is-orange is-small d-none" data-summary="original">Original</button>
-            <button class="u-btn is-orange is-small" data-summary="short">Short</button>
-            <button class="u-btn is-orange is-small" data-summary="medium">Medium</button>
-          </div>
-          
-          <div class="p-single__content js-article-content">
-            {% include 'templates/partial/loader.twig' with {'class': 'is-hide'} %}
-
-            <div id="article-content">
-              {{ post.content }}
-            </div>
-          </div>
-
-          <div class="p-single__bottom">
-            {% if post.terms('tags') %}
-              <ul class="c-tags">
-                <li class="c-tags__title">{{ 'Tags' | translateString('Strings - tags') }}: </li>
-                {% for term in post.terms('tags') %}
-                  <li class="c-tags__item"><a href="{{term.link}}">{{term.name}}</a></li>
-                {% endfor %}
-              </ul>
+        <div class="p-single__flex">
+          <div class="p-single__box">
+            {% if thumbnail %}
+              <div class="p-single__image">
+                <img 
+                  src="{{ thumbnail.url }}" 
+                  width="{{ thumbnail.width }}" 
+                  height="{{ thumbnail.height }}" 
+                  alt="{{ post.title }}" 
+                />
+              </div>
             {% endif %}
 
-            {% include 'templates/partial/social.twig' with {'share': true} %}
+            <div class="p-single__info">
+              <div class="p-single__info-left">
+                <span class="c-date">{{ post.date }}</span>
+                <a href="{{author_link}}" class="c-author">{{author_name}}</a>
+              </div>
+              
+              <div class="c-likes" data-post-id="{{ post.ID }}">
+                <div class="c-likes__item c-likes__like" data-like-type="like">👍 <span>{{ post_likes.like | default(0) }}</span></div>
+                <div class="c-likes__item c-likes__fire" data-like-type="fire">🔥 <span>{{ post_likes.fire | default(0) }}</span></div>
+                <div class="c-likes__item c-likes__hart" data-like-type="heart">❤️ <span>{{ post_likes.heart | default(0) }}</span></div>
+                <div class="c-likes__item c-likes__swearing" data-like-type="swearing">🤬 <span>{{ post_likes.swearing | default(0) }}</span></div>
+                <div class="c-likes__item c-likes__clown" data-like-type="clown">🤡 <span>{{ post_likes.clown | default(0) }}</span></div>
+              </div>
+            </div>
+            <div class="p-single__content-controller js-buttons-container">
+              <div class="p-single__content-controller__title">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <g clip-path="url(#clip0_2126_5014)">
+                    <path d="M15.3516 3.99375C15.1406 4.07344 15 4.275 15 4.5C15 4.725 15.1406 4.92656 15.3516 5.00625L18 6L18.9938 8.64844C19.0734 8.85938 19.275 9 19.5 9C19.725 9 19.9266 8.85938 20.0062 8.64844L21 6L23.6484 5.00625C23.8594 4.92656 24 4.725 24 4.5C24 4.275 23.8594 4.07344 23.6484 3.99375L21 3L20.0062 0.351562C19.9266 0.140625 19.725 0 19.5 0C19.275 0 19.0734 0.140625 18.9938 0.351562L18 3L15.3516 3.99375ZM9.61406 3.43594C9.49219 3.16875 9.225 3 8.93438 3C8.64375 3 8.37656 3.16875 8.25469 3.43594L5.77969 8.77969L0.435938 11.25C0.16875 11.3719 0 11.6391 0 11.9344C0 12.2297 0.16875 12.4922 0.435938 12.6141L5.78438 15.0844L8.25 20.4281C8.37187 20.6953 8.63906 20.8641 8.92969 20.8641C9.22031 20.8641 9.4875 20.6953 9.60938 20.4281L12.0797 15.0797L17.4281 12.6094C17.6953 12.4875 17.8641 12.2203 17.8641 11.9297C17.8641 11.6391 17.6953 11.3719 17.4281 11.25L12.0844 8.78437L9.61406 3.43594ZM18 18L15.3516 18.9938C15.1406 19.0734 15 19.275 15 19.5C15 19.725 15.1406 19.9266 15.3516 20.0062L18 21L18.9938 23.6484C19.0734 23.8594 19.275 24 19.5 24C19.725 24 19.9266 23.8594 20.0062 23.6484L21 21L23.6484 20.0062C23.8594 19.9266 24 19.725 24 19.5C24 19.275 23.8594 19.0734 23.6484 18.9938L21 18L20.0062 15.3516C19.9266 15.1406 19.725 15 19.5 15C19.275 15 19.0734 15.1406 18.9938 15.3516L18 18Z" fill="#FFA819"/>
+                  </g>
+                  <defs>
+                    <clipPath id="clip0_2126_5014">
+                      <rect width="24" height="24" fill="white"/>
+                    </clipPath>
+                  </defs>
+                </svg>
+                <p>{{ 'For a quicker read, use AI tool to summarize it to your preferred size' | translateString('Strings - AI tool to summarize') }}</p>
+              </div>
+              <button class="u-btn is-orange is-small d-none" data-summary="original">Original</button>
+              <button class="u-btn is-orange is-small" data-summary="short">Short</button>
+              <button class="u-btn is-orange is-small" data-summary="medium">Medium</button>
+            </div>
+            
+            <div class="p-single__content js-article-content">
+              {% include 'templates/partial/loader.twig' with {'class': 'is-hide'} %}
+
+              <div id="article-content">
+                {{ post.content }}
+              </div>
+            </div>
+
+            <div class="p-single__bottom">
+              {% if post.terms('tags') %}
+                <ul class="c-tags">
+                  <li class="c-tags__title">{{ 'Tags' | translateString('Strings - tags') }}: </li>
+                  {% for term in post.terms('tags') %}
+                    <li class="c-tags__item"><a href="{{term.link}}">{{term.name}}</a></li>
+                  {% endfor %}
+                </ul>
+              {% endif %}
+
+              {% include 'templates/partial/social.twig' with {'share': true} %}
+            </div>
           </div>
+          {# {% include 'templates/partial/sidebar.twig' 
+            with {
+              'category': product_categories, 
+              'popular_posts': popular_posts
+            } 
+          %} #}
         </div>
-        {# {% include 'templates/partial/sidebar.twig' 
-          with {
-            'category': product_categories, 
-            'popular_posts': popular_posts
-          } 
-        %} #}
       </div>
-    </div>
+    </section>  
 
     <section class="l-related js-slider-container">
       <div class="u-container">
