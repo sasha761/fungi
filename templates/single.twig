@@ -8,12 +8,14 @@
         {{ breadcrumbs }}
         <h1 class="u-h1">{{ post.title }}</h1>
 
-        {% if current_lang == 'ru' %}
-          <div class="c-inform"><span class="is-red">Внимание!</span>  Эта статья предоставлена исключительно в информационных целях. Мы не продаем и не продвигаем наркотики или незаконные вещества.</div>
-        {% elseif current_lang == 'uk' %}
-          <div class="c-inform"><span class="is-red">Увага!</span>  Ця стаття надана виключно в інформаційних цілях. Ми не продаємо і не просуваємо наркотики чи незаконні речовини.</div>
-        {% else %}
-          <div class="c-inform"><span class="is-red">Attention!</span> This article is provided for informational purposes only. We do not sell or promote drugs or illegal substances.</div>
+        {% if if_attention %}
+          {% if current_lang == 'ru' %}
+            <div class="c-inform"><span class="is-red">Внимание!</span>  Эта статья предоставлена исключительно в информационных целях. Мы не продаем и не продвигаем наркотики или незаконные вещества.</div>
+          {% elseif current_lang == 'uk' %}
+            <div class="c-inform"><span class="is-red">Увага!</span>  Ця стаття надана виключно в інформаційних цілях. Ми не продаємо і не просуваємо наркотики чи незаконні речовини.</div>
+          {% else %}
+            <div class="c-inform"><span class="is-red">Attention!</span> This article is provided for informational purposes only. We do not sell or promote drugs or illegal substances.</div>
+          {% endif %}
         {% endif %}
 
         <div class="p-single__flex">
@@ -82,13 +84,10 @@
 
               {% include 'templates/partial/social.twig' with {'share': true} %}
             </div>
+
+            {% include 'templates/partial/comments.twig' %}
           </div>
-          {# {% include 'templates/partial/sidebar.twig' 
-            with {
-              'category': product_categories, 
-              'popular_posts': popular_posts
-            } 
-          %} #}
+          
         </div>
       </div>
     </section>  
@@ -121,5 +120,7 @@
         {% endif %} 
       </div>
     </section>
+
+    
   </main>
 {% endblock %}

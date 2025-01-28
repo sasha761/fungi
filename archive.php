@@ -37,11 +37,12 @@ $paged = get_query_var('paged') ? get_query_var('paged') : 1;
 $context['blog_posts'] = get_posts_info([
 	'post_type'   => $post_type,
 	'post_status' => 'publish',
-  'posts_per_page' => 10,
+  'posts_per_page' => 9,
+  'numberposts' => 9,
   'category'    => $category_id,
   'paged'       => $paged,
 	'orderby'     => 'date',
-  'order'       => 'ASC',
+  'order'       => 'DESC',
   'suppress_filters' => false
 ]);
 
@@ -52,7 +53,7 @@ $context['categories'] = get_taxonomy_data([
 $context['most_popular']  = get_posts_info(array(
   'post_type'   => 'post',
   'post_status' => 'publish',
-  'posts_per_page' => 12, 
+  'posts_per_page' => 10, 
   // 'category'    => $category_id,
   'meta_key' => 'count_post_viewed', 
   'orderby' => 'meta_value_num', 

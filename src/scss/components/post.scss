@@ -13,9 +13,9 @@
 		font-style: normal;
 		font-weight: 500;
 		line-height: 140%; 
-		padding-bottom: rem(15);
+		padding-bottom: rem(10);
 		border-bottom: 1px solid #E2E2E2;
-		margin-bottom: rem(15);
+		margin-bottom: rem(7);
 	}
 
 	&__category {
@@ -48,8 +48,10 @@
 	&__info {
 		display: flex;
 		align-items: center;
+		flex-wrap: wrap;
 		color: #666;
 		font-size: rem(14);
+		margin-top: rem(7);
 		margin-bottom: rem(20);
 		font-style: normal;
 		font-weight: 400;

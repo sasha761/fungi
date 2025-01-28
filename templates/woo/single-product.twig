@@ -188,7 +188,7 @@
 									</div>
 								{% endif %}
 								<div id="reviews" class="c-tab__content {% if active_tab == 'reviews' %}is-active{% endif %}">
-									{% include 'templates/partial/comments.twig' %}
+									{% include 'templates/partial/comments.twig' with {'comments': data.comments} %}
 								</div>
 							</div>
 						</div>

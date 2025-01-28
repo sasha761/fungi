@@ -25,6 +25,8 @@ $user_description = get_field('user_description', 'user_' . $author_id);
 $context = Timber::context();
 $context['author_name'] = get_the_author_meta('first_name', $author_id);
 $context['author_surname'] = get_the_author_meta('last_name', $author_id);
+$context['author_nickname'] = get_the_author_meta('user_nicename', $author_id);
+
 
 $context['posts'] = $posts;
 $context['user_photo'] = $user_photo;

@@ -40,6 +40,8 @@ $context['related'] = get_posts_info([
   'post__not_in' => array($timber_post->id) 
 ]);
 
+$context['if_attention'] = get_field('attention');
+
 global $wpdb;
 
 // Получение всех связанных постов
@@ -77,9 +79,8 @@ foreach ($likes as $like) {
 
 $context['post_likes'] = $likes_data;
 
+Timber::render( array( 'single-' . $timber_post->ID . '.twig', 'single-' . $timber_post->post_type . '.twig', 'single.twig' ), $context );
 
-if ( post_password_required( $timber_post->ID ) ) {
+// if ( post_password_required( $timber_post->ID ) ) {
 	// Timber::render( 'single-password.twig', $context );
-} else {
-	Timber::render( array( 'single-' . $timber_post->ID . '.twig', 'single-' . $timber_post->post_type . '.twig', 'single.twig' ), $context );
-}
+// } 

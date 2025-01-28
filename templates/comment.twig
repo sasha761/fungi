@@ -17,20 +17,20 @@
     </div>
     <div class="c-comments__text">{{comment.comment_content|wpautop}}</div>
 
-    {# {% if comment.children %}
+    {% if comment.children %}
       {% for child_comment in comment.children %}
-      <div class="c-comments__user {{comment.comment_type}}">
-        <div class="c-comments__name"> 
-          <span class="c-time">
-            {{ comment.comment_date|date("m/d/Y") }}
-          </span>
-          <span class="c-name">{{comment.comment_author}}</span>
-          <div class="c-comments__text">{{comment.comment_content|wpautop}}</div>  
-            {# {% include 'comment.twig' with { comment:child_comment } %} #}
-        {# </div>
-      </div>  #}
-      {# {% endfor %}
-    {% endif %}  #}
+        <div class="c-comments__user {{comment.comment_type}}">
+          <div class="c-comments__name"> 
+            <span class="c-time">
+              {{ comment.comment_date|date("m/d/Y") }}
+            </span>
+            <span class="c-name">{{comment.comment_author}}</span>
+            <div class="c-comments__text">{{comment.comment_content|wpautop}}</div>  
+              {% include 'comment.twig' with { comment:child_comment } %} 
+          </div>
+        </div>  
+      {% endfor %}
+    {% endif %} 
   </div>
 </div>
 

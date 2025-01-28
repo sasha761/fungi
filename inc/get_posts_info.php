@@ -4,7 +4,8 @@ function get_posts_info($args = [], $is_emoji = true) {
   
   $defaults = [
     'author'           => '',
-    'numberposts'      => 5,
+    'numberposts'      => 10,
+    'posts_per_page'   => 10,
 		'category'         => 0,
 		'orderby'          => 'date',
 		'order'            => 'DESC',

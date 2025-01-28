@@ -2,8 +2,7 @@
 
 {% block content %}
 	<main class="p-single p-author">
-		<div
-			class="u-container">
+		<div class="u-container">
 			{{ breadcrumbs }}
 			<div class="p-single__flex">
 				<div class="p-single__box">
@@ -14,7 +13,67 @@
 						<div class="col-lg-8 col-md-8 u-col">
 							<h1 class="u-h1">{{ author_name ~ ' ' ~ author_surname }}</h1>
 							<div class="p-single__content">
-								{{ user_description }}
+								{% if author_nickname == 'sasha761' %}
+									{% if current_lang == 'ru' %}
+										<p>Привет! Меня зовут Александр Кулачинский, и я рад приветствовать вас на моем сайте. У меня большой опыт в использовании микродозинга, и я искренне верю в его способность помогать нам справляться с вызовами современной жизни.</p>
+										<p>По профессии я программист, работаю в сфере IT, где каждый день сталкиваюсь с высокой интеллектуальной нагрузкой. Микродозинг стал для меня инструментом, который помогает поддерживать концентрацию, креативность и эмоциональное равновесие в напряженной рабочей среде.</p>
+										<p>Я окончил магистратуру по специальности "Механика и биомеханика", что дало мне хорошую научную базу для глубокого понимания, как работают адаптогенные грибы и их влияние на организм. Моя техническая подготовка позволяет мне подходить к вопросу использования микродозинга с аналитической точки зрения, внимательно изучать исследования и экспериментировать с оптимальными методами.</p>
+										<p>Кроме того, я увлекаюсь физикой, квантовой механикой и космологией. Благодаря этому интересу я изучаю работы учёных и стараюсь понимать их идеи, осознавая, что квантовая механика намного причудливее и сложнее всего, что человек может придумать или нафантазировать. Это убеждает меня в том, что мир гораздо глубже и многограннее, чем его нам представляют.</p>
+										<p>На этом сайте я делюсь не только своим личным опытом, но и полезной информацией о том, как микродозинг может помочь вам достичь гармонии в жизни, улучшить работоспособность и укрепить здоровье. Моя цель — предоставить вам простые и проверенные знания, которые можно применить в реальной жизни.</p>
+										<p>Если вы только начинаете свой путь в микродозинге или ищете ответы на вопросы, связанные с этой темой, я буду рад помочь! Вдохновляйтесь, учитесь и находите то, что работает именно для вас.</p>
+									{% elseif current_lang == 'uk' %}
+										<p>Привіт! Мене звати Олександр Кулачинський, і я радий вітати вас на моєму сайті. У мене великий досвід у використанні мікродозингу, і я щиро вірю в його здатність допомагати нам справлятися з викликами сучасного життя.</p>
+										<p>За професією я програміст, працюю в сфері IT, де кожен день стикаюся з високим інтелектуальним навантаженням. Мікродозинг став для мене інструментом, який допомагає підтримувати концентрацію, креативність і емоційну рівновагу в напруженому робочому середовищі.</p>
+										<p>Я закінчив магістратуру за спеціальністю "Механіка і біомеханіка", що дало мені добру наукову базу для глибокого розуміння, як працюють адаптогенні гриби та їхній вплив на організм. Моя технічна підготовка дозволяє мені підходити до питання використання мікродозингу з аналітичної точки зору, уважно вивчати дослідження та експериментувати з оптимальними методами.</p>
+										<p>Крім того, я захоплююся фізикою, квантовою механікою та космологією. Завдяки цьому інтересу я вивчаю роботи вчених і намагаюся зрозуміти їхні ідеї, усвідомлюючи, що квантова механіка набагато причудливіша і складніша за все, що людина може вигадати або нафантазувати. Це переконує мене, що світ набагато глибший і багатогранніший, ніж його часто представляють у звичних медіа.</p>
+										<p>На цьому сайті я ділюся не лише своїм особистим досвідом, а й корисною інформацією про те, як мікродозинг може допомогти вам досягти гармонії в житті, покращити працездатність і зміцнити здоров'я. Моя мета — надати вам прості й перевірені знання, які можна застосувати в реальному житті.</p>
+									{% else %}
+										<p>Hello! My name is Alexander Kulachynskyi, and I am happy to welcome you to my website. I have extensive experience in microdosing, and I genuinely believe in its ability to help us tackle the challenges of modern life.</p>
+										<p>By profession, I am a programmer working in the IT industry, where I face high intellectual demands every day. Microdosing has become a tool for me to maintain focus, creativity, and emotional balance in a demanding work environment.</p>
+										<p>I hold a master's degree in "Mechanics and Biomechanics," which has provided me with a strong scientific foundation to deeply understand how adaptogenic mushrooms work and their effects on the body. My technical background allows me to approach the topic of microdosing analytically, thoroughly studying research and experimenting with optimal methods.</p>
+										<p>Additionally, I am passionate about physics, quantum mechanics, and cosmology. This interest drives me to study the works of scientists and strive to understand their ideas, realizing that quantum mechanics is far more peculiar and complex than anything humans could imagine or invent. This convinces me that the world is much deeper and more multifaceted than how it is often portrayed in mainstream media.</p>
+										<p>On this website, I share not only my personal experiences but also valuable information on how microdosing can help you achieve harmony in life, enhance productivity, and strengthen your health. My goal is to provide you with simple and reliable knowledge that you can apply in real life.</p>
+									{% endif %}
+								{% elseif author_nickname == 'gleb-admin' %}
+									{% if current_lang == 'ru' %}
+										<p>Привет! Меня зовут Глеб Сопинский, и я живу в Норвегии, где посвящаю своё время изучению и написанию статей о микродозинге. Это моя основная специализация, и я рад делиться своими знаниями в этой области.</p>
+										<p>Микродозинг — это не просто интересная тема, а реальный инструмент для улучшения здоровья и повышения качества жизни. Я стараюсь доступно и понятно объяснять, как микродозинг адаптогенных грибов может помочь в поддержании физического и эмоционального благополучия.</p>
+										<p>Мой опыт работы в международных командах и взаимодействия с людьми из разных культур научил меня понимать людей и доносить сложную информацию простым языком. Я всегда тщательно подхожу к выбору материалов и проверке фактов, чтобы мои статьи были максимально полезны и надежны.</p>
+									{% elseif current_lang == 'uk' %}
+										<p>Привіт! Мене звати Гліб Сопінський, і я живу в Норвегії, де присвячую свій час вивченню та написанню статей про мікродозинг. Це моя основна спеціалізація, і я радий ділитися своїми знаннями в цій галузі.</p>
+										<p>Мікродозинг — це не просто цікава тема, а реальний інструмент для покращення здоров'я та підвищення якості життя. Я прагну доступно і зрозуміло пояснювати, як мікродозинг адаптогенних грибів може допомогти у підтриманні фізичного та емоційного благополуччя.</p>
+										<p>Мій досвід роботи в міжнародних командах і взаємодії з людьми з різних культур навчив мене розуміти людей і доносити складну інформацію простою мовою. Я завжди ретельно підходжу до вибору матеріалів і перевірки фактів, щоб мої статті були максимально корисними та надійними.</p>
+									{% else %}
+										<p>Hello! My name is Gleb Sopinsky, and I live in Norway, where I dedicate my time to researching and writing articles about microdosing. This is my primary area of expertise, and I am happy to share my knowledge in this field.</p>
+										<p>Microdosing is not just an interesting topic but a real tool for improving health and enhancing the quality of life. I strive to explain in an accessible and clear way how microdosing with adaptogenic mushrooms can help maintain physical and emotional well-being.</p>
+										<p>My experience working in international teams and interacting with people from different cultures has taught me to understand others and convey complex information in simple terms. I always approach the selection of materials and fact-checking with great care to ensure that my articles are as useful and reliable as possible.</p>
+									{% endif %}
+								{% elseif author_nickname == 'daniil_lianka' %}
+									{% if current_lang == 'ru' %}
+										<p>Приветствую! Меня зовут Даниил. Я начал микродозинг грибами в 2019 году и прошел путь от зажатого, вспыльчивого и тревожного человека к принятию себя и внутреннему спокойствию. Теперь моя миссия — делиться этим опытом с теми, кто ищет баланс и гармонию в своей жизни.</p>
+										<p>За эти годы я изучил тонкости микродозинга: от подбора оптимальных дозировок и комбинаций грибов до понимания их долгосрочного воздействия. Я знаком с ошибками, которые могут встретиться как у новичков, так и у опытных пользователей.</p>
+										<p>Мне близко состояние непрерывного мысленного потока, которое мешает жить. И каждый раз, когда люди рассказывают, что освободились от ментальных блоков, приняли свои эмоции и укрепили здоровье, я чувствую искреннюю радость. Так как я и мои близкие переживали весь этот опыт и на себе.</p>
+										<p>Моя цель — помочь людям найти своё внутреннее «Я», научиться принимать свои эмоции и мысли, а также поддержать тех, кто сталкивается с ПТСР, депрессией, бессонницей, когнитивными нарушениями и проблемами как с ментальным, так и физическим здоровьем. Каждого человека я лично консультирую, подбирая гриб и дозировки под его индивидуальные потребности. Также я тщательно дегустирую каждый продукт, чтобы убедиться в его качестве. Все грибы хранятся в правильных условиях, чтобы сохранять свой терапевтический эффект до следующего сезона. Мне важно, чтобы продукт был максимально эффективным, чистым и не содержал в себе тяжелые металлы и песок. Весь продукт я заготавливаю даже не "как для себя", а непосредственно и для себя в том числе. Поэтому я на 100% в нем уверен.</p>
+										<p>Грибы — это не волшебная таблетка, но мощный инструмент для преобразования жизни и восстановления внутреннего баланса. Позвольте мне поделиться своими знаниями и показать куда нужно направить свое внимание, чтобы сделать жизнь яркой, интересной и полной гармонии.</p>
+										<p>С уважением, создатель и участник проекта Fungi Harmony.</p>
+									{% elseif current_lang == 'uk' %}
+										<p>Вітаю! Мене звати Данило. Я почав мікродозинг грибами у 2019 році і пройшов шлях від закритої, запальної та тривожної людини до прийняття себе та внутрішнього спокою. Тепер моя місія — ділитися цим досвідом з тими, хто шукає баланс і гармонію у своєму житті.</p>
+										<p>За ці роки я вивчив тонкощі мікродозингу: від підбору оптимальних дозувань і комбінацій грибів до розуміння їх довгострокового впливу. Я знайомий із помилками, які можуть виникати як у новачків, так і у досвідчених користувачів.</p>
+										<p>Мені знайомий стан безперервного потоку думок, який заважає жити. І кожного разу, коли люди розповідають, що позбулися ментальних блоків, прийняли свої емоції та зміцнили здоров’я, я відчуваю щиру радість. Адже я і мої близькі пережили весь цей досвід на собі.</p>
+										<p>Моя мета — допомогти людям знайти своє внутрішнє «Я», навчитися приймати свої емоції та думки, а також підтримати тих, хто стикається з ПТСР, депресією, безсонням, когнітивними порушеннями та проблемами як з ментальним, так і фізичним здоров’ям. Кожну людину я особисто консультую, підбираючи гриби і дозування відповідно до її індивідуальних потреб. Також я ретельно дегустую кожен продукт, щоб переконатися в його якості. Усі гриби зберігаються в правильних умовах, щоб зберігати свій терапевтичний ефект до наступного сезону. Мені важливо, щоб продукт був максимально ефективним, чистим і не містив важких металів та піску. Увесь продукт я заготовляю не просто «як для себе», а безпосередньо і для себе також. Тому я на 100% впевнений у його якості.</p>
+										<p>Гриби — це не чарівна таблетка, але потужний інструмент для перетворення життя та відновлення внутрішнього балансу. Дозвольте мені поділитися своїми знаннями і показати, куди потрібно спрямувати свою увагу, щоб зробити життя яскравим, цікавим і наповненим гармонією.</p>
+										<p>З повагою, засновник і учасник проєкту Fungi Harmony.</p>
+									{% else %}
+										<p>Greetings! My name is Daniil. I started microdosing mushrooms in 2019 and transitioned from being a reserved, quick-tempered, and anxious person to embracing myself and finding inner peace. Now my mission is to share this experience with those who seek balance and harmony in their lives.</p>
+										<p>Over the years, I have studied the intricacies of microdosing: from selecting optimal dosages and mushroom combinations to understanding their long-term effects. I am familiar with the mistakes that both beginners and experienced users may encounter.</p>
+										<p>I know the feeling of being trapped in a continuous mental stream that interferes with life. And every time people share that they’ve freed themselves from mental blocks, accepted their emotions, and improved their health, I feel genuine joy, as my loved ones and I have experienced all of this ourselves.</p>
+										<p>My goal is to help people find their inner "self," learn to accept their emotions and thoughts, and support those dealing with PTSD, depression, insomnia, cognitive impairments, and challenges with both mental and physical health. I personally consult each individual, selecting mushrooms and dosages tailored to their specific needs. I also carefully test every product to ensure its quality. All mushrooms are stored under proper conditions to preserve their therapeutic effects until the next season. It’s important to me that the product is as effective, pure, and free of heavy metals or sand as possible. I prepare all products not just "as if for myself," but literally for myself as well. That’s why I am 100% confident in their quality.</p>
+										<p>Mushrooms are not a magic pill but a powerful tool for transforming life and restoring inner balance. Let me share my knowledge and guide you on where to focus your attention to make your life vibrant, exciting, and full of harmony.</p>
+										<p>Sincerely, the founder and participant of the Fungi Harmony project.</p>
+									{% endif %}
+								{% else %}
+									{{ user_description }}
+								{% endif %}
 							</div>
 						</div>
 					</div>
@@ -35,12 +94,12 @@
 						{% include 'templates/partial/social.twig' with {'share': true} %}
 					</div>
 				</div>
-				{% include 'templates/partial/sidebar.twig' 
-          with {
-            'category': product_categories, 
-            'pages': pages
-          } 
-        %}
+				{# {% include 'templates/partial/sidebar.twig' 
+				          with {
+				            'category': product_categories, 
+				            'pages': pages
+				          } 
+				        %} #}
 			</div>
 		</div>
 
@@ -53,13 +112,13 @@
 						'subtitle': 'by ' ~ author_name ~ ' ' ~ author_surname 
 		 			} 
 	 			%}
-					<div class="l-our-blog__content">
-						<div class="l-our-blog__content-posts">
-							{% if posts|length > 1 %}
-								<div class="row">
-									{% for post in posts %}
-										<div class="col-lg-4 col-md-6 col-sm-6 u-col">
-											{% include 'templates/partial/post.twig' 
+				<div class="l-our-blog__content">
+					<div class="l-our-blog__content-posts">
+						{% if posts|length > 1 %}
+							<div class="row">
+								{% for post in posts %}
+									<div class="col-lg-4 col-md-6 col-sm-6 u-col">
+										{% include 'templates/partial/post.twig' 
 												with {
 													'data': post,
 													'show_category': true,
@@ -69,16 +128,16 @@
 													'likes': 'top'
 												} 
 											%}
-										</div>
-									{% endfor %}
-								</div>
-							{% else %}
-								<div class="l-content__nofound">
-									<h2>{{ 'Posts not found' | translateString('Archive - Posts not found') }}</h2>
-								</div>
-							{% endif %}
-						</div>
+									</div>
+								{% endfor %}
+							</div>
+						{% else %}
+							<div class="l-content__nofound">
+								<h2>{{ 'Posts not found' | translateString('Archive - Posts not found') }}</h2>
+							</div>
+						{% endif %}
 					</div>
+				</div>
 				{% include 'partial/pagination.twig' with { pagination: posts.pagination({show_all: false, mid_size: 2, end_size: 1}) } %}
 			</div>
 		</section>
