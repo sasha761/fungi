@@ -2,12 +2,14 @@
 {% set rating = (rating is not empty) ? rating : 5 %}
 
 <div class="c-comments__user is-{{comment.comment_type}}">
-  <div class="c-comments__user-rating">
-    <div class="star-rating" role="img">
-      <span style="width:{{(rating / 5) * 100}}%">
-      </span>
+  {% if starts %}
+    <div class="c-comments__user-rating">
+      <div class="star-rating" role="img">
+        <span style="width:{{(rating / 5) * 100}}%">
+        </span>
+      </div>
     </div>
-  </div>
+  {% endif %}
   <div class="c-comments__user-content">
     <div class="c-comments__name">
       <span class="c-name">{{comment.comment_author}}</span>

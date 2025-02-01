@@ -162,7 +162,7 @@
 								{% if data.sertificates %}
 									<span data-tab="#sertificates" class="c-tab__item {% if active_tab == 'sertificates' %}is-active{% endif %}">{{ 'Sertificates' | translateString('Product - Sertificates') }}</span>
 								{% endif %}
-								<span data-tab="#reviews" class="c-tab__item {% if active_tab == 'reviews' %}is-active{% endif %}">{{ 'Reviews' | translateString('Product - Reviews') }}</span>
+								<span data-tab="#reviews" class="c-tab__item {% if active_tab == 'reviews' %}is-active{% endif %}">{{ 'Reviews' | translateString('Product - Reviews') }} ({{fn('comments_number', '0') }})</span>
 							</div>
 							<div class="c-tab__container">
 								{% if data.how_to_use %}
@@ -188,7 +188,7 @@
 									</div>
 								{% endif %}
 								<div id="reviews" class="c-tab__content {% if active_tab == 'reviews' %}is-active{% endif %}">
-									{% include 'templates/partial/comments.twig' with {'comments': data.comments} %}
+									{% include 'templates/partial/comments.twig' with {'comments': data.comments, 'stars': true} %}
 								</div>
 							</div>
 						</div>

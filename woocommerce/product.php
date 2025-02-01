@@ -26,7 +26,7 @@ $data = [
   'rating' => $product->get_average_rating(),
   'count' => $product->get_rating_count(),
   'comments' => get_comments(['post_id' => $product_id, 'status' => 'approve']),
-  'how_to_use' => get_field('how_to_use', $product_id),
+  'how_to_use' => get_field('how_to_use', post_id: $product_id),
   'composition' => get_field('composition', $product_id),
   'sertificates' => get_field('sertificates', $product_id),
   'related_products' => get_products(['posts_per_page' => 8]),

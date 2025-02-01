@@ -9,6 +9,24 @@
       <label>{{ 'Name' | translateString('Comments - Name') }}* <br>
         <input required name="author" type="text">
       </label>
+      {% if stars %}
+        <div class="c-comments__registration-label">{{ 'Evaluation' | translateString('Comments - Evaluation') }}* <br>
+          <div class="comment-form-rating">
+            <select name="rating" id="rating" required>
+              <option value="">Оценка…</option>
+              <option value="5">Отлично</option>
+              <option value="4">Хорошо</option>
+              <option value="3">Средне</option>
+              <option value="2">Неплохо</option>
+              <option value="1">Очень плохо</option>
+            </select>
+          </div>
+        </div> 
+      {% endif %} 
+    </div>
+  {% endif %}
+  {% if user and stars %}
+    <div class="c-comments__registration">
       <div class="c-comments__registration-label">{{ 'Evaluation' | translateString('Comments - Evaluation') }}* <br>
         <div class="comment-form-rating">
           <select name="rating" id="rating" required>
@@ -20,24 +38,8 @@
             <option value="1">Очень плохо</option>
           </select>
         </div>
-      </div>  
-    </div>
-  {% endif %}
-  {% if user %}
-  <div class="c-comments__registration">
-    <div class="c-comments__registration-label">{{ 'Evaluation' | translateString('Comments - Evaluation') }}* <br>
-      <div class="comment-form-rating">
-        <select name="rating" id="rating" required>
-          <option value="">Оценка…</option>
-          <option value="5">Отлично</option>
-          <option value="4">Хорошо</option>
-          <option value="3">Средне</option>
-          <option value="2">Неплохо</option>
-          <option value="1">Очень плохо</option>
-        </select>
       </div>
     </div>
-  </div>
   {% endif %}
   
   <div class="c-comments__submit c-subscribe">
@@ -47,7 +49,7 @@
       <input type="hidden" name="url" value="{{ user.link }}">
     {% endif %}
 
-  	<input name="comment_post_ID" value="{{ post.id }}" type="hidden">
+  	<input name="comment_post_ID" value="{{ post_id }}" type="hidden">
     <input name="comment_parent"  value="{{ comment.ID|default('0') }}" type="hidden">
     <input type="text" name="comment" required  placeholder="{{ 'Your comment' | translateString('input - Your comment') }}">
     <button class="u-btn is-black" type="submit" name="Submit">{{ 'Send' | translateString('buttons - Send') }}</button>

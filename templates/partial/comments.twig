@@ -1,6 +1,6 @@
 <section class="l-comments">
   <div class="c-comments comment-respond" id="respond">
-    <h3 class="u-h4">{{ 'Reviews' | translateString('Product - Reviews') }}: {{fn('comments_number',__('No Responses to', 'timber-foundation'), __('One Response to', 'timber-foundation'), __('% Responses to', 'timber-foundation')) }}
+    <h3 class="u-h4">{{ 'Reviews' | translateString('Product - Reviews') }}: {{comments|length}}
     </h3>
     <div class="c-comments__box">
       {% for comment in comments %}

@@ -1,27 +1,21 @@
 <?php
-// Подключаем Timber
-$templates = array( 'author.twig', 'archive.twig' );
 
 $context = Timber::context();
+$templates = ['author.twig', 'archive.twig'];
 
 // Получаем текущего автора
 $author_id = get_query_var('author');
-// $author = new User($author_id);
-// $author = Timber::get_user($author_id);
 
-// Получаем все посты автора
 $args = array(
   'author' => $author_id,
   'post_type' => 'post',
-  'posts_per_page' => -1, // Получить все посты автора
+  'posts_per_page' => -1, 
 );
 $posts = get_posts_info($args);
 
-// Получаем кастомные поля автора
 $user_photo = get_field('user_photo', 'user_' . $author_id);
 $user_description = get_field('user_description', 'user_' . $author_id);
 
-// Подготавливаем контекст для Timber
 $context = Timber::context();
 $context['author_name'] = get_the_author_meta('first_name', $author_id);
 $context['author_surname'] = get_the_author_meta('last_name', $author_id);
@@ -47,14 +41,13 @@ $woocommerce_pages = [
 	wc_get_page_id('myaccount'),
 ];
 
-// Получаем все опубликованные страницы, кроме главной и страниц WooCommerce
 $page_ids = get_posts(array(
 	'post_type' => 'page',
 	'post_status' => 'publish',
 	'post__not_in' => array_merge([$homepage_id], $woocommerce_pages),
 	'fields'       => 'ids',
 	'suppress_filters' => false,
-	'posts_per_page' => -1, // Получить все страницы
+	'posts_per_page' => -1, 
 ));
 
 
@@ -79,5 +72,4 @@ foreach ($page_ids as $page_id) {
 $context['pages']  = $pages;
 
 
-// Рендерим шаблон
 Timber::render('author.twig', $context);

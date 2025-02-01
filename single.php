@@ -6,30 +6,126 @@
  *
  * @package News
  */
+function get_likes_for_post_translations( $post_id ) {
+  global $wpdb;
+
+  // Получаем все переводные ID через WPML (без прямых запросов)
+  $trid = $wpdb->get_var( $wpdb->prepare("
+      SELECT trid FROM {$wpdb->prefix}icl_translations
+       WHERE element_id = %d
+       LIMIT 1
+  ", $post_id ) );
+
+  if ( ! $trid ) {
+      // Если вдруг записи нет в icl_translations, просто вернём данные для одного поста
+      return [
+          'like' => 0,
+          'fire' => 0,
+          'heart' => 0,
+          'swearing' => 0,
+          'clown' => 0,
+      ];
+  }
+
+  // Все element_id в группе перевода
+  $translations = $wpdb->get_col( $wpdb->prepare("
+      SELECT element_id 
+      FROM {$wpdb->prefix}icl_translations 
+      WHERE trid = %d
+  ", $trid ) );
+
+  // Подготовка плейсхолдеров и выполнение запроса
+  if ( empty($translations) ) {
+      $translations = [ $post_id ];
+  }
+  $placeholders = implode(',', array_fill(0, count($translations), '%d'));
+
+  $query = $wpdb->prepare("
+      SELECT like_type, COUNT(*) as count
+        FROM {$wpdb->prefix}post_likes
+       WHERE post_id IN ($placeholders)
+       GROUP BY like_type
+  ", ...$translations );
+
+  $results = $wpdb->get_results( $query );
+
+  // Базовые значения
+  $likes_data = [
+      'like' => 0,
+      'fire' => 0,
+      'heart' => 0,
+      'swearing' => 0,
+      'clown' => 0,
+  ];
+  // Заполняем
+  foreach ( $results as $row ) {
+      if ( isset($likes_data[$row->like_type]) ) {
+          $likes_data[$row->like_type] = $row->count;
+      }
+  }
+
+  return $likes_data;
+}
+
+
+function get_all_language_comments( $post_id, $args = [] ) {
+  global $sitepress;
+
+  // Если нужно, добавляем дефолтные аргументы
+  $default_args = [
+      'post_id' => $post_id,
+      'status'  => 'approve',
+      'lang'    => 'all', // если WPML поддерживает этот параметр
+  ];
+  $args = wp_parse_args( $args, $default_args );
+
+  // Убираем фильтр WPML, чтобы не обрезало по языку
+  remove_filter( 'comments_clauses', [ $sitepress, 'comments_clauses' ], 10 );
+
+  $comments = get_comments( $args );
+
+  // Возвращаем фильтр обратно
+  add_filter( 'comments_clauses', [ $sitepress, 'comments_clauses' ], 10, 2 );
+
+  return $comments;
+}
+
+function get_main_post_id( $current_post_id, $main_language_code = 'en' ) {
+  // WPML filter:
+  $main_id = (int) apply_filters('wpml_object_id', $current_post_id, 'post', true, $main_language_code);
+  return $main_id ?: $current_post_id; // fallback
+}
 
 $context = Timber::context();
-$timber_post = Timber::get_post();
-$context['post'] = $timber_post;
 
-$thumbnail_id = get_post_thumbnail_id($timber_post->id);
+$post_id        = get_the_ID();
+$post_type      = get_post_type( $post_id );
+$thumbnail_id   = get_post_thumbnail_id( $post_id );
+$author_id      = get_the_author_meta('ID', $post_id);
 
-$context['thumbnail'] = get_image_data($thumbnail_id, 'full');
-  
-$context['author_name'] = get_the_author_meta('display_name', $timber_post->post_author);
-$context['author_link'] = get_author_posts_url($timber_post->post_author);
+$main_language_code = 'en';
+$main_post_id       = get_main_post_id( $post_id, $main_language_code );
 
+$likes_data = get_likes_for_post_translations( $post_id );
+$comments = get_all_language_comments( $main_post_id );
 
-$comments_args       = array('post_id' => $timber_post->id, 'status' => 'approve'); 
-$context['comments'] = get_comments($comments_args);
+$data = [
+    'ID'             => $post_id,
+    'main_post_id'   => $main_post_id,
+    'title'          => get_the_title( $post_id ),
+    'date'           => get_the_date( 'M j, Y', $post_id ),
+    'thumbnail'      => get_image_data( $thumbnail_id, 'full' ),
+    'author_name'    => get_the_author_meta( 'display_name', $author_id ),
+    'author_link'    => get_author_posts_url( $author_id ),
+    'comments'       => $comments,
+    'if_attention'   => get_field('attention'),
+    'post_likes'     => $likes_data,
+    'content'        => apply_filters( 'the_content', get_the_content( null, false, $post_id ) ),
+];
 
-$context['popular_posts'] = get_posts_info([
-  'meta_key' => 'count_post_viewed',
-  'orderby'  => 'meta_value_num',
-], $is_emoji = false);
+// Дополнительно: related posts
+$context['data'] = $data;
 
-$context['product_categories'] = get_taxonomy_data([
-	'taxonomy' => 'category'
-]);;
 
 $context['related'] = get_posts_info([
   'numberposts' => 6,
@@ -37,50 +133,8 @@ $context['related'] = get_posts_info([
   'orderby' => 'rand',
   'post_status' => 'publish',
   'post_type' => 'post', 
-  'post__not_in' => array($timber_post->id) 
+  'post__not_in' => [$post_id] 
 ]);
 
-$context['if_attention'] = get_field('attention');
 
-global $wpdb;
-
-// Получение всех связанных постов
-$translations = $wpdb->get_col($wpdb->prepare(
-  "SELECT element_id FROM {$wpdb->prefix}icl_translations WHERE trid = (SELECT trid FROM {$wpdb->prefix}icl_translations WHERE element_id = %d)",
-  $timber_post->id
-));
-
-if (empty($translations)) {
-  $translations = [$timber_post->id];
-}
-
-// Формирование плейсхолдеров для IN()
-$placeholders = implode(',', array_fill(0, count($translations), '%d'));
-
-// Подготовка и выполнение запроса
-$query = $wpdb->prepare(
-  "SELECT like_type, COUNT(*) as count FROM {$wpdb->prefix}post_likes WHERE post_id IN ($placeholders) GROUP BY like_type",
-  ...$translations
-);
-
-$likes = $wpdb->get_results($query);
-
-$likes_data = [
-  'like' => 0,
-  'fire' => 0,
-  'heart' => 0,
-  'swearing' => 0,
-  'clown' => 0,
-];
-
-foreach ($likes as $like) {
-  $likes_data[$like->like_type] = $like->count;
-}
-
-$context['post_likes'] = $likes_data;
-
-Timber::render( array( 'single-' . $timber_post->ID . '.twig', 'single-' . $timber_post->post_type . '.twig', 'single.twig' ), $context );
-
-// if ( post_password_required( $timber_post->ID ) ) {
-	// Timber::render( 'single-password.twig', $context );
-// } 
+Timber::render( array( 'single-' . $post_id . '.twig', 'single-' . $post_type . '.twig', 'single.twig' ), $context );

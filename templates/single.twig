@@ -6,7 +6,7 @@
     <section class="l-article">
       <div class="u-container">
         {{ breadcrumbs }}
-        <h1 class="u-h1">{{ post.title }}</h1>
+        <h1 class="u-h1">{{ data.title }}</h1>
 
         {% if if_attention %}
           {% if current_lang == 'ru' %}
@@ -20,29 +20,29 @@
 
         <div class="p-single__flex">
           <div class="p-single__box">
-            {% if thumbnail %}
+            {% if data.thumbnail %}
               <div class="p-single__image">
                 <img 
-                  src="{{ thumbnail.url }}" 
-                  width="{{ thumbnail.width }}" 
-                  height="{{ thumbnail.height }}" 
-                  alt="{{ post.title }}" 
+                  src="{{ data.thumbnail.url }}" 
+                  width="{{ data.thumbnail.width }}" 
+                  height="{{ data.thumbnail.height }}" 
+                  alt="{{ data.title }}" 
                 />
               </div>
             {% endif %}
 
             <div class="p-single__info">
               <div class="p-single__info-left">
-                <span class="c-date">{{ post.date }}</span>
-                <a href="{{author_link}}" class="c-author">{{author_name}}</a>
+                <span class="c-date">{{ data.date }}</span>
+                <a href="{{data.author_link}}" class="c-author">{{data.author_name}}</a>
               </div>
               
-              <div class="c-likes" data-post-id="{{ post.ID }}">
-                <div class="c-likes__item c-likes__like" data-like-type="like">👍 <span>{{ post_likes.like | default(0) }}</span></div>
-                <div class="c-likes__item c-likes__fire" data-like-type="fire">🔥 <span>{{ post_likes.fire | default(0) }}</span></div>
-                <div class="c-likes__item c-likes__hart" data-like-type="heart">❤️ <span>{{ post_likes.heart | default(0) }}</span></div>
-                <div class="c-likes__item c-likes__swearing" data-like-type="swearing">🤬 <span>{{ post_likes.swearing | default(0) }}</span></div>
-                <div class="c-likes__item c-likes__clown" data-like-type="clown">🤡 <span>{{ post_likes.clown | default(0) }}</span></div>
+              <div class="c-likes" data-post-id="{{ data.ID }}">
+                <div class="c-likes__item c-likes__like" data-like-type="like">👍 <span>{{ data.post_likes.like | default(0) }}</span></div>
+                <div class="c-likes__item c-likes__fire" data-like-type="fire">🔥 <span>{{ data.post_likes.fire | default(0) }}</span></div>
+                <div class="c-likes__item c-likes__hart" data-like-type="heart">❤️ <span>{{ data.post_likes.heart | default(0) }}</span></div>
+                <div class="c-likes__item c-likes__swearing" data-like-type="swearing">🤬 <span>{{ data.post_likes.swearing | default(0) }}</span></div>
+                <div class="c-likes__item c-likes__clown" data-like-type="clown">🤡 <span>{{ data.post_likes.clown | default(0) }}</span></div>
               </div>
             </div>
             <div class="p-single__content-controller js-buttons-container">
@@ -68,24 +68,22 @@
               {% include 'templates/partial/loader.twig' with {'class': 'is-hide'} %}
 
               <div id="article-content">
-                {{ post.content }}
+                {{ data.content }}
               </div>
             </div>
 
             <div class="p-single__bottom">
-              {% if post.terms('tags') %}
-                <ul class="c-tags">
-                  <li class="c-tags__title">{{ 'Tags' | translateString('Strings - tags') }}: </li>
-                  {% for term in post.terms('tags') %}
-                    <li class="c-tags__item"><a href="{{term.link}}">{{term.name}}</a></li>
-                  {% endfor %}
-                </ul>
-              {% endif %}
-
               {% include 'templates/partial/social.twig' with {'share': true} %}
             </div>
 
-            {% include 'templates/partial/comments.twig' %}
+            {# <pre>{{dump(data.comments)}}</pre> #}
+
+            {% include 'templates/partial/comments.twig' with {
+              'comments': data.comments, 
+              'stars': false,
+              'post_id': data.main_post_id
+            } %}
+            
           </div>
           
         </div>
@@ -120,7 +118,5 @@
         {% endif %} 
       </div>
     </section>
-
-    
   </main>
 {% endblock %}
