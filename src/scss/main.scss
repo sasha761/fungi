@@ -147,3 +147,104 @@ img.lazy {
 	right: 15px;
 	bottom: 15px;
 }
+
+.c-user {
+	margin-top: rem(30);
+	padding-bottom: rem(15);
+	margin-bottom: rem(15);
+	border-bottom: 1px solid rgba(0,0,0,0.1);
+
+	&__info {
+		display: flex;
+		align-items: center;
+		margin-bottom: rem(15);
+
+		&-img {
+			max-width: rem(45);
+			margin-right: rem(10);
+
+			img {
+				width: 100%;
+			}
+		}
+
+		.c-name {
+			display: block;
+			font-size: rem(15);
+			font-weight: 700;
+		}
+
+		.c-time {
+			font-size: rem(13);
+			color: #808080;
+			margin-left: 0;
+		}
+	}
+
+	&__content {
+		margin-bottom: rem(15);
+		font-size: rem(17);
+	}
+
+	&__actions {	
+		display: flex;
+		align-items: center;
+
+		.reply-link {
+			font-size: rem(15);
+			margin-right: rem(10);
+			color: #808080;
+			padding: 0;
+			transition: color 0.3s ease;
+
+			&:hover {
+				color: #333;
+			}
+		}
+
+		.like-btn,
+		.dislike-btn {
+			font-size: rem(15);
+			padding: 0;
+			display: flex;
+			align-items: center;
+
+			svg {
+				margin-right: 4px;
+				width: rem(20);
+				color: #808080;
+				transition: color 0.3s ease;
+
+				&:hover {
+					color: #333;
+				}
+			}
+		}
+
+		.like-btn {
+			margin-right: rem(12);
+			span {
+				color: #008422;
+			}
+		}
+
+		.dislike-btn {
+			span {
+				color: #db2113;
+			}
+		}
+	}
+
+	&__reply {
+		padding-left: rem(30);
+
+		.c-user {
+			border-bottom: 0;
+			padding-bottom: 0;
+		}
+	}
+}
+
+.c-comment-form {
+	margin-bottom: rem(30);
+}

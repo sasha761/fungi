@@ -67,17 +67,43 @@ function get_likes_for_post_translations( $post_id ) {
   return $likes_data;
 }
 
+function nest_comments( $comments ) {
+    $comments_by_id = [];
+
+    // Инициализируем новое свойство custom_children для каждого комментария
+    foreach ( $comments as $comment ) {
+
+        $comment->meta = [
+            'like_count'    => get_comment_meta( $comment->comment_ID, 'like_count', true ) ?: 0,
+            'dislike_count' => get_comment_meta( $comment->comment_ID, 'dislike_count', true ) ?: 0,
+        ];
+        // Используем имя, отличное от children, чтобы не было конфликта с защищённым свойством
+        $comment->custom_children = [];
+        $comments_by_id[ $comment->comment_ID ] = $comment;
+    }
+
+    $nested = [];
+    // Распределяем комментарии по родительским комментариям
+    foreach ( $comments as $comment ) {
+        if ( $comment->comment_parent && isset( $comments_by_id[ $comment->comment_parent ] ) ) {
+            $comments_by_id[ $comment->comment_parent ]->custom_children[] = $comment;
+        } else {
+            // Если комментарий не является ответом (comment_parent == 0) или родитель не найден — это корневой комментарий
+            $nested[] = $comment;
+        }
+    }
+
+    return $nested;
+}
+
 
 function get_all_language_comments( $post_id, $args = [] ) {
-  global $sitepress;
+    global $sitepress;
 
-  // Если нужно, добавляем дефолтные аргументы
-  $default_args = [
+    $args = [
       'post_id' => $post_id,
       'status'  => 'approve',
-      'lang'    => 'all', // если WPML поддерживает этот параметр
-  ];
-  $args = wp_parse_args( $args, $default_args );
+    ];
 
   // Убираем фильтр WPML, чтобы не обрезало по языку
   remove_filter( 'comments_clauses', [ $sitepress, 'comments_clauses' ], 10 );
@@ -108,6 +134,7 @@ $main_post_id       = get_main_post_id( $post_id, $main_language_code );
 
 $likes_data = get_likes_for_post_translations( $post_id );
 $comments = get_all_language_comments( $main_post_id );
+$nested_comments = nest_comments( $comments );
 
 $data = [
     'ID'             => $post_id,
@@ -117,13 +144,12 @@ $data = [
     'thumbnail'      => get_image_data( $thumbnail_id, 'full' ),
     'author_name'    => get_the_author_meta( 'display_name', $author_id ),
     'author_link'    => get_author_posts_url( $author_id ),
-    'comments'       => $comments,
+    'comments'       => $nested_comments,
     'if_attention'   => get_field('attention'),
     'post_likes'     => $likes_data,
     'content'        => apply_filters( 'the_content', get_the_content( null, false, $post_id ) ),
 ];
 
-// Дополнительно: related posts
 $context['data'] = $data;
 
 

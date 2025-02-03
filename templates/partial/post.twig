@@ -4,10 +4,11 @@
 	<a href="{{data.permalink}}" class="c-post__img">
 		{% if data.archive %}
 			<img 
-				src="{{ data.archive.url }}" 
+				data-src="{{ data.archive.url }}" 
 				alt="{{ data.title }}" 
 				width="{{ data.archive.width }}" 
 				height="{{ data.archive.height }}" 
+				class="lazy"
 			/>
 		{% endif %}
 	</a>

@@ -20,7 +20,7 @@
 							{% if about_us_section.button %}
 								<a href="{{about_us_section.button.url}}" class="u-btn is-black">{{about_us_section.button.title}}</a>
 							{% endif %}
-							<img src="{{about_us_section.image|resize(394, 466)}}">
+							<img data-src="{{about_us_section.image|resize(394, 466)}}" class="lazy">
 							{% if about_us_section.button %}
 								<a href="{{about_us_section.button.url}}" class="u-link">{{about_us_section.button.title}}</a>
 							{% endif %}
@@ -115,7 +115,7 @@
 								</blockquote>
 
 								<div class="c-quote__img">
-									<img src="{{our_vision.quote.image}}" alt="">
+									<img data-src="{{our_vision.quote.image}}" class="lazy" alt="">
 								</div>
 							</div>
 						{% endif %}

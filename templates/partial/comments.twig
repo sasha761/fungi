@@ -1,4 +1,4 @@
-<section class="l-comments">
+{# <section class="l-comments">
   <div class="c-comments comment-respond" id="respond">
     <h3 class="u-h4">{{ 'Reviews' | translateString('Product - Reviews') }}: {{comments|length}}
     </h3>
@@ -9,4 +9,124 @@
     </div>
     {% include "comment-form.twig" %}
   </div>
+</section> #}
+
+
+<section class="l-comments">
+  <div class="c-comments comment-respond" id="respond">
+  {# Форма отправки нового комментария #}
+    <form class="c-comment-form" id="commentform" method="post" action="{{ site.site_url }}/wp-comments-post.php">
+      {% if not user %}
+        <h3 class="u-h3">{{ 'Write a review' | translateString('Comments - Write a review') }}</h3>
+        <p>{{ 'Your email will not be published. * Marker for mandatory fields' | translateString('Comments - Notification') }}</p>
+        <div class="c-comments__registration">
+          <label>Email* <br>
+            <input required name="email" type="email" id="email">
+          </label>
+          <label>{{ 'Name' | translateString('Comments - Name') }}* <br>
+            <input required name="author" type="text">
+          </label>
+          {% if stars %}
+            <div class="c-comments__registration-label">
+              {{ 'Evaluation' | translateString('Comments - Evaluation') }}* <br>
+              <div class="comment-form-rating">
+                <select name="rating" id="rating" required>
+                  <option value="">Оценка…</option>
+                  <option value="5">Отлично</option>
+                  <option value="4">Хорошо</option>
+                  <option value="3">Средне</option>
+                  <option value="2">Неплохо</option>
+                  <option value="1">Очень плохо</option>
+                </select>
+              </div>
+            </div>
+          {% endif %}
+        </div>
+      {% endif %}
+      {% if user and stars %}
+        <div class="c-comments__registration">
+          <div class="c-comments__registration-label">
+            {{ 'Evaluation' | translateString('Comments - Evaluation') }}* <br>
+            <div class="comment-form-rating">
+              <select name="rating" id="rating" required>
+                <option value="">Оценка…</option>
+                <option value="5">Отлично</option>
+                <option value="4">Хорошо</option>
+                <option value="3">Средне</option>
+                <option value="2">Неплохо</option>
+                <option value="1">Очень плохо</option>
+              </select>
+            </div>
+          </div>
+        </div>
+      {% endif %}
+      <div class="c-comments__submit c-subscribe">
+        {% if user %}
+          <input type="hidden" name="email" value="{{ user.email }}">
+          <input type="hidden" name="author" value="{{ user.name }}">
+          <input type="hidden" name="url" value="{{ user.link }}">
+        {% endif %}
+        <input type="hidden" name="comment_post_ID" value="{{ post_id }}">
+        <input type="hidden" name="comment_parent" id="comment_parent" value="0">
+        <input type="text" name="comment" required placeholder="{{ 'Your comment' | translateString('input - Your comment') }}">
+        <button class="u-btn is-black" type="submit" name="Submit">
+          {{ 'Send' | translateString('buttons - Send') }}
+        </button>
+      </div>
+    </form>
+    <h3 class="u-h4">{{fn('comments_number', '0') }} {{ 'Reviews' | translateString('Product - Reviews') }}</h3>
+    <div class="c-comments__box">
+      {% for comment in comments %}
+        {% include 'comment.twig' with { comment: comment } %}
+      {% endfor %}
+    </div>
+  </div>
 </section>
+
+{# JavaScript для обработки ответа и лайков/дизлайков #}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  // Функционал для "Ответить" — установка ID родительского комментария
+  document.querySelectorAll('.reply-link').forEach(function(link) {
+    link.addEventListener('click', function(e) {
+      e.preventDefault();
+      var commentId = this.getAttribute('data-comment-id');
+      document.getElementById('comment_parent').value = commentId;
+      document.getElementById('commentform').scrollIntoView({ behavior: 'smooth' });
+    });
+  });
+
+  // Функционал для лайков/дизлайков комментариев
+  document.querySelectorAll('.like-btn, .dislike-btn').forEach(function(button) {
+    button.addEventListener('click', function(e) {
+      e.preventDefault();
+      var commentId = this.getAttribute('data-comment-id');
+      var actionType = this.getAttribute('data-action');
+      var btn = this;
+      
+      var data = new FormData();
+      data.append('action', 'comment_reaction');
+      data.append('comment_id', commentId);
+      data.append('action_type', actionType);
+      
+      fetch("{{ site.site_url }}/wp-admin/admin-ajax.php", {
+        method: 'POST',
+        body: data
+      })
+      .then(response => response.json())
+      .then(result => {
+        if(result.success) {
+          if(actionType === 'like') {
+            btn.querySelector('.like-count').textContent = result.data.count;
+          } else {
+            btn.querySelector('.dislike-count').textContent = result.data.count;
+          }
+        } else {
+          console.error('Ошибка обновления реакции', result.data || result);
+        }
+      })
+      .catch(error => console.error('Ошибка запроса:', error));
+    });
+  });
+});
+</script>

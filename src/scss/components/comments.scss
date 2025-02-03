@@ -23,44 +23,21 @@
 				border: 1px solid #555555;
 			}	
 		}
-
 	}
+
 	.u-h3 {
 		color: $black;
 		margin-bottom: 10px;
 		font-weight: 600;
 	}
-	p {
-		font-weight: 300;
-    font-size: 13px;
-    line-height: 15px;
-	}
+
 	.u-h4 {
-		// color: #0047a4;
-		letter-spacing: 2.26px;
-		padding-bottom: 20px;
-		border-bottom: 1px solid rgba(0,0,0,0.1);
-		margin-bottom: 20px;
+		// padding-bottom: rem(20);
+		// border-bottom: 1px solid rgba(0,0,0,0.1);
+		margin-bottom: rem(20);
 	}
 
 	&__submit {
-		// display: flex;
-		// align-items: center;
-		// background: rgba(255, 255, 255, 0.35);
-		// border: 1px solid #1d1d1d;
-		// box-sizing: border-box;
-		// border-radius: 4px;
-		
-		// input {
-		// 	flex-grow: 1;
-    // 	padding: 12px 45px;
-		// }
-
-		// .u-btn {
-		// 	flex-shrink: 0;
-		// 	padding: 13px 60px;
-		// }
-
 		&.c-subscribe {
 			border: 1px solid rgba(0, 0, 0, 0.20);
 			color: rgba(0, 0, 0, 0.70);
@@ -100,15 +77,15 @@
 
 		input {
 			width: 100%;
-			padding: 10px 0;
+			padding: rem(10) 0;
 			border-bottom: 1px solid rgba(0,0,0,0.1);
 			font-weight: 300;
-			font-size: 18px;
+			font-size: rem(18);
 			color: $black;
 		}
 
 		.comment-form-rating {
-			margin-top: 20px;
+			margin-top: rem(20);
 		}
 
 		select {
@@ -119,44 +96,72 @@
 	    height: 1px;
 	    opacity: 0;
 	    position: relative;
-	    /* Top should be the same as the height of your */
-	    /* unfocused, nice select replacement element! */
 	    top: 10px;
 		}
 	}
 
+	&__children {
+		padding-top: rem(10);
+		padding-left: rem(30);
+
+		.c-comments__user {
+			padding-top: rem(20);
+			margin-bottom: 0;
+			padding-bottom: 0;
+		}
+	}
+
 	&__user {
-		margin-bottom: 25px;
-		padding-bottom: 25px;
+		margin-bottom: rem(25);
+		padding-bottom: rem(25);
 		border-bottom: 1px solid rgba(0,0,0,0.1);
-		display: flex;
+		// display: flex;
 		
 		&:last-child {
 			border-bottom: none;
 		}
 
 		&-rating {
-			margin-right: 20px;
+			margin-right: rem(20);
+		}
+
+		&-actions {
+			margin-top: rem(15);
+			display: flex;
+			align-items: center;
+			font-size: rem(15);
+
+			.reply-link {
+				margin-right: rem(7);
+				color: #808080;
+				
+			}
 		}
 	}
 
 	&__name {
 		// direction: ltr;
-		margin-bottom: 7px;
+		margin-bottom: rem(7);
+	}
+
+	&__text {
+		p {
+			font-size: rem(17);
+		}
 	}
 
 	.c-time {
 		// font-family: Assistant;
 		font-weight: 300;
-		font-size: 11px;
-		line-height: 15px;
+		font-size: rem(11);
+		line-height: 1.4;
 		color: #626161;
-		margin-left: 12px;
+		margin-left: rem(12);
 	}
 	.c-name {
 		font-weight: 600;
-		font-size: 14px;
-		line-height: 15px;
+		font-size: rem(14);
+		line-height: 1.1;
 		color: $black;
 	}
 
@@ -173,9 +178,8 @@
 	}
 
 	@include mq('phone-large') {
-
 		&__box {
-			max-height: 400px;	
+			max-height: 550px;	
 			overflow-y: auto; 
 		}
 
@@ -197,7 +201,7 @@
 	    &-label,
 	    label {
   	    width: 100%;
-  	    margin-bottom: 0px;
+  	    margin-bottom: 15px;
   	    padding: 0;
 	    }
 

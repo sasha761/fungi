@@ -64,6 +64,10 @@ class BrandedSite extends Site {
       'cartCount' => WC()->cart->get_cart_contents_count(),
       'lang' => $current_lang,
     ));
+    // var_dump(get_option('thread_comments'))
+    // if (is_singular() && comments_open() && get_option('thread_comments')) {
+    //   wp_enqueue_script('comment-reply');
+    // }
   }
 
   public function add_to_context( $context ) {

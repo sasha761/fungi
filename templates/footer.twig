@@ -1,4 +1,4 @@
-<footer class="l-footer">
+<footer class="l-footer lazy" data-bg="{{theme.link}}/src/img/Footer.webp">
   <div class="u-container">
     <p class="l-footer__top">{{ 'We believe in the power of nature and its ability to improve our lives. Dive into the world of harmony with us.' | translateString('Footer - text') }}</p>
     <div class="l-footer__center">
@@ -8,7 +8,6 @@
         <a href="mailto:{{ options.social.mail }}" class="is-mail">{{ options.social.mail }}</a>
         <a class="u-btn is-blur" href="tel:{{ options.social.phone|replace({' ': ''}) }}">{{ options.social.phone }}</a>
         {% include 'templates/partial/social.twig' with {'share': false} %}
-
         
       </div>
       <div class="u-col is-second">

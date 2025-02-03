@@ -8,11 +8,12 @@
 					{% if image %}
 						<picture>
 							<img 
-								src="{{image.sizes.thumbnail}}"
+								data-src="{{image.sizes.thumbnail}}"
 								alt="{{item.title}}" 
 								title="{{item.title}} - tooltip"
 								width="95" 
 								height="95"
+								class="lazy"
 							>
 						</picture>
 					{% endif %}
@@ -25,11 +26,12 @@
 							{% if image2 %}
 								<picture>
 									<img 
-										src="{{image2.sizes.thumbnail}}"
+										data-src="{{image2.sizes.thumbnail}}"
 										alt="{{item2.title}}" 
 										title="{{item2.title}} - tooltip"
 										width="95" 
 										height="95"
+										class="lazy"
 									>
 								</picture>
 							{% endif %}
@@ -41,11 +43,12 @@
 		<li class="c-mobile-menu__link">
 			{% if image %}
 				<img 
-					src="{{image.sizes.thumbnail}}"
+					data-src="{{image.sizes.thumbnail}}"
 					alt="{{item.title}}" 
 					title="{{item.title}}"
 					width="22" 
 					height="20"
+					class="lazy"
 				>
 			{% endif %}
 			<a href="{{ item.link }}">{{ item.title }}</a>
