@@ -20,12 +20,16 @@
         <h3 class="u-h3">{{ 'Write a review' | translateString('Comments - Write a review') }}</h3>
         <p>{{ 'Your email will not be published. * Marker for mandatory fields' | translateString('Comments - Notification') }}</p>
         <div class="c-comments__registration">
-          <label>Email* <br>
-            <input required name="email" type="email" id="email">
-          </label>
-          <label>{{ 'Name' | translateString('Comments - Name') }}* <br>
-            <input required name="author" type="text">
-          </label>
+          <div class="c-input js-input-block">
+            <label for="comment_email">Email* </label>
+            <input required name="email" type="email" id="comment_email">
+          </div>
+
+          <div class="c-input js-input-block">
+            <label for="comment_name">{{ 'Name' | translateString('Comments - Name') }}* </label>
+            <input required name="author" type="text" id="comment_name">
+          </div>
+
           {% if stars %}
             <div class="c-comments__registration-label">
               {{ 'Evaluation' | translateString('Comments - Evaluation') }}* <br>
@@ -69,17 +73,20 @@
         <input type="hidden" name="comment_post_ID" value="{{ post_id }}">
         <input type="hidden" name="comment_parent" id="comment_parent" value="0">
         <input type="text" name="comment" required placeholder="{{ 'Your comment' | translateString('input - Your comment') }}">
-        <button class="u-btn is-black" type="submit" name="Submit">
+        <button class="u-btn is-black" type="submit" name="comment_submit">
           {{ 'Send' | translateString('buttons - Send') }}
         </button>
       </div>
     </form>
-    <h3 class="u-h4">{{fn('comments_number', '0') }} {{ 'Reviews' | translateString('Product - Reviews') }}</h3>
-    <div class="c-comments__box">
-      {% for comment in comments %}
-        {% include 'comment.twig' with { comment: comment } %}
-      {% endfor %}
-    </div>
+
+    {% if comments %}
+      <h3 class="u-h4">{{fn('comments_number', '0') }} {{ 'Reviews' | translateString('Product - Reviews') }}</h3>
+      <div class="c-comments__box">
+        {% for comment in comments %}
+          {% include 'comment.twig' with { comment: comment } %}
+        {% endfor %}
+      </div>
+    {% endif %}
   </div>
 </section>
 
@@ -92,7 +99,18 @@ document.addEventListener('DOMContentLoaded', function() {
       e.preventDefault();
       var commentId = this.getAttribute('data-comment-id');
       document.getElementById('comment_parent').value = commentId;
-      document.getElementById('commentform').scrollIntoView({ behavior: 'smooth' });
+      const commentForm = document.getElementById('commentform');
+
+      let yOffset = document.querySelector('.l-header').offsetHeight + 15; 
+      const y = commentForm.getBoundingClientRect().top + window.pageYOffset - yOffset;
+
+      window.scrollTo({top: y, behavior: 'smooth'});
+
+      var commentInput = commentForm.querySelector('input[name="comment"]');
+      // Если ваше поле — textarea, замените селектор на textarea[name="comment"]
+      if (commentInput) {
+        commentInput.focus();
+      }
     });
   });
 

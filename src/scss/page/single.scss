@@ -29,6 +29,20 @@
 
   .l-comments {
     margin-top: rem(60);
+
+    .c-input {
+      width: 30%;
+      margin-right: rem(20);
+      border: 0;
+
+      &:last-child {
+        margin-right: 0;
+      }
+
+      label {
+        background: #f5f5f5;
+      }
+    }
   }
   
 

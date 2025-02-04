@@ -147,6 +147,7 @@ export default class validation {
       _isValid = !specialCharsOnly.test(value);
     }
 
+    console.log(_isValid);
 
     let error_msg = value === '' ? this.strError('This field is required') : this.strError('Invalid input format');
     this.isValid(_isValid, field, error_msg);

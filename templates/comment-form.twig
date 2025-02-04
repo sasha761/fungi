@@ -3,12 +3,17 @@
     <h3 class="u-h3">{{ 'Write a review' | translateString('Comments - Write a review') }}</h3>
     <p>{{ 'Your email will not be published. * Marker for mandatory fields' | translateString('Comments - Notification') }}</p>
     <div class="c-comments__registration">
-      <label>Email* <br>
-        <input required name="email" type="email" id="email">
-      </label>
-      <label>{{ 'Name' | translateString('Comments - Name') }}* <br>
-        <input required name="author" type="text">
-      </label>
+      
+      <div class="c-input js-input-block">
+        <label for="comment_email">Email* </label>
+        <input required name="email" type="email" id="comment_email">
+      </div>
+
+      <div class="c-input js-input-block">
+        <label for="comment_name">{{ 'Name' | translateString('Comments - Name') }}* </label>
+        <input required name="author" type="text" id="comment_name">
+      </div>
+
       {% if stars %}
         <div class="c-comments__registration-label">{{ 'Evaluation' | translateString('Comments - Evaluation') }}* <br>
           <div class="comment-form-rating">

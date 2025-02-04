@@ -108,13 +108,24 @@ document.addEventListener("DOMContentLoaded", async () => {
       break;       
     case 'p-page is-page':
       break;   
-    case 'p-single':
+    case 'p-single': {
       const swiperModule = await import('./modules/swiper.js');
+      const { default: validation } = await import('./modules/validation.js');
+
+      const formValidator = new validation();
+
+      if (document.querySelector(".c-comment-form")) {
+        formValidator.validate('firstName', '.c-comment-form [name="author"]');
+        formValidator.validate('email', '.c-comment-form [name="email"]');
+        // formValidator.validate('text', '.c-comment-form [name="comment"]');
+        formValidator.validate('submit', '.c-comment-form button[name="comment_submit"]');
+      }
 
       swiperModule.initProductRowSlider();
       initializeSummarizeButtons();
       likes();
       break;  
+    } 
     case 'p-reviews':
       break; 
     default:
