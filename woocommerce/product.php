@@ -1,13 +1,21 @@
 <?php
+$main_language_code = 'en';
 $context = Timber::context();
 
 $post = get_post();
 $product = wc_get_product($post->ID);
 $product_id = $product->get_id();
+$main_product_id       = get_main_post_id( $product_id, $main_language_code );
+
 
 $thumbnail_id = get_post_thumbnail_id($product_id);
 $images_ids = $product->get_gallery_image_ids();
 $images = [];
+
+
+
+$comments = get_all_language_comments( $main_product_id );
+$nested_comments = nest_comments( $comments );
 
 foreach ($images_ids as $image_id) {
   $images[] = [
@@ -19,23 +27,25 @@ foreach ($images_ids as $image_id) {
 
 $data = [
   'id' => $product_id,
+  'main_post_id'   => $main_product_id,
   'product' => $product,
   'stock_status' => $product->get_stock_status(),
   'tags' => get_the_terms($product_id, 'product_tag'),
   'categories' => get_the_terms($product_id, 'product_cat'),
   'rating' => $product->get_average_rating(),
   'count' => $product->get_rating_count(),
-  'comments' => get_comments(['post_id' => $product_id, 'status' => 'approve']),
-  'how_to_use' => get_field('how_to_use', post_id: $product_id),
+  'comments'       => $nested_comments,
+  'total_comments' => count($comments),
+  'how_to_use' => get_field('how_to_use', $product_id),
   'composition' => get_field('composition', $product_id),
   'sertificates' => get_field('sertificates', $product_id),
   'related_products' => get_products(['posts_per_page' => 8]),
   'price_html' => $product->get_price_html(),
   'is_sale' => $product->is_on_sale(),
   'images' => $images,
-  'thumb' => get_image_data($thumbnail_id, 'full'),
-  'thumb_xl' => get_image_data($thumbnail_id, 'single_xl'),
-  'thumb_md' => get_image_data($thumbnail_id, 'archive_xl'),
+  'thumbnail' => get_image_data($thumbnail_id, 'full'),
+  'thumbnail_xl' => get_image_data($thumbnail_id, 'single_xl'),
+  'thumbnail_md' => get_image_data($thumbnail_id, 'archive_xl'),
   'permalink' => get_the_permalink($product_id),
   'price_sale' => $product->is_type('variable') ? $product->get_variation_sale_price() : $product->get_sale_price(),
   'price_regular' => $product->is_type('variable') ? $product->get_variation_regular_price() : $product->get_regular_price(),

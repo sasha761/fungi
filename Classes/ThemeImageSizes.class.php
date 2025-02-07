@@ -12,7 +12,7 @@ class ThemeImageSizes
             'medium',
             'medium_large',
             // 'thumbnail',
-            'large',
+            // 'large',
             '1536x1536',
             '2048x2048',
             'woocommerce_thumbnail',

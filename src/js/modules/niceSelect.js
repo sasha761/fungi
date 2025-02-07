@@ -26,7 +26,7 @@ export default class select {
 			selectedOptions.forEach(opt => {
 				let iconUrl = opt.dataset.icon ? opt.dataset.icon : '';
 				if (iconUrl) {
-					selectTitle += `<img src="${iconUrl}" alt=""> `;
+					selectTitle += `<img src="${iconUrl}" alt="${opt.textContent}" width="20" height="20"> `;
 				}
 				selectTitle += opt.textContent;
 			});
@@ -73,7 +73,7 @@ export default class select {
 				li.dataset.value = opt.value;
 				let iconUrl = opt.dataset.icon ? opt.dataset.icon : '';
 				if (iconUrl) {
-					li.innerHTML = `<img src="${iconUrl}" alt=""> ` + opt.textContent;
+					li.innerHTML = `<img src="${iconUrl}" alt="${opt.textContent}" width="20" height="20"> ` + opt.textContent;
 				} else {
 					li.innerText = opt.textContent;
 				}
@@ -163,7 +163,7 @@ export default class select {
 					let iconUrl = newCheckedOption?.dataset.icon || '';
 					let text = newCheckedOption?.textContent || '';
 					if (iconUrl) {
-						item.querySelector('.current').innerHTML = `<img src="${iconUrl}" alt=""> ` + text;
+						item.querySelector('.current').innerHTML = `<img src="${iconUrl}" alt="${text}" width="20" height="20"> ` + text;
 					} else {
 						item.querySelector('.current').innerText = text;
 					}

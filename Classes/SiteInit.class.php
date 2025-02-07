@@ -55,7 +55,7 @@ class BrandedSite extends Site {
 
     $ajax_url_with_lang = add_query_arg('lang', $current_lang, admin_url('admin-ajax.php'));
 
-    wp_enqueue_style( 'main-style', get_template_directory_uri() . '/dist/css/main.css', array(), _S_VERSION );
+    // wp_enqueue_style( 'main-style', get_template_directory_uri() . '/dist/css/main.css', array(), _S_VERSION );
 
     wp_enqueue_script( 'pure-js', get_template_directory_uri() . '/dist/js/index.js', array(), _S_VERSION, true );
     wp_localize_script( 'pure-js', 'ajax', array(

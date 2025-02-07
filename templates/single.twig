@@ -8,7 +8,7 @@
         {{ breadcrumbs }}
         <h1 class="u-h1">{{ data.title }}</h1>
 
-        {% if if_attention %}
+        {% if data.if_attention %}
           {% if current_lang == 'ru' %}
             <div class="c-inform"><span class="is-red">Внимание!</span>  Эта статья предоставлена исключительно в информационных целях. Мы не продаем и не продвигаем наркотики или незаконные вещества.</div>
           {% elseif current_lang == 'uk' %}
@@ -23,7 +23,7 @@
             {% if data.thumbnail %}
               <div class="p-single__image">
                 <img 
-                  src="{{ data.thumbnail.url }}" 
+                  src="{{ data.thumbnail.url|towebp }}" 
                   width="{{ data.thumbnail.width }}" 
                   height="{{ data.thumbnail.height }}" 
                   alt="{{ data.title }}" 
@@ -68,7 +68,7 @@
               {% include 'templates/partial/loader.twig' with {'class': 'is-hide'} %}
 
               <div id="article-content">
-                {{ data.content }}
+                {{ data.content|raw }}
               </div>
             </div>
 
@@ -79,7 +79,8 @@
             {# <pre>{{dump(data.comments)}}</pre> #}
 
             {% include 'templates/partial/comments.twig' with {
-              'comments': data.comments, 
+              'comments': data.comments,
+              'total_comments': data.total_comments,
               'stars': false,
               'post_id': data.main_post_id
             } %}

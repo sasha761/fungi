@@ -80,7 +80,7 @@
     </form>
 
     {% if comments %}
-      <h3 class="u-h4">{{fn('comments_number', '0') }} {{ 'Reviews' | translateString('Product - Reviews') }}</h3>
+      <h3 class="u-h4">{{total_comments}} {{ 'Reviews' | translateString('Product - Reviews') }}</h3>
       <div class="c-comments__box">
         {% for comment in comments %}
           {% include 'comment.twig' with { comment: comment } %}

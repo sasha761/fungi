@@ -89,10 +89,11 @@ export default class validation {
    */
   submitValidator(e, field) {
     let from = field.closest('form')
-
     for (let i = 0; i < from.length; i++) {
       if (from[i].hasAttribute('required') && from[i].value === "") {
-        this.isValid(false, from[i], this.strError('This field is required'))
+        this.isValid(false, from[i], this.strError('This field is required'));
+      } else {
+        this.isValid(true, from[i], '');
       }
     }
 
@@ -196,26 +197,30 @@ export default class validation {
    * @param error_type
    */
   isValid(isValid, field, error_type) {
+    // Получаем родительский элемент с классом 'js-input-block'
+    const parentBlock = field.closest('.js-input-block');
+  
     if (isValid) {
       if (field.classList.contains('invalid')) {
-        field.classList.replace('invalid', 'valid')
-        field.closest('.js-input-block').classList.replace('invalid', 'valid');
+        field.classList.replace('invalid', 'valid');
+        if (parentBlock) parentBlock.classList.replace('invalid', 'valid');
       } else {
-        field.classList.add('valid')
-        field.closest('.js-input-block').classList.add('valid');
+        field.classList.add('valid');
+        if (parentBlock) parentBlock.classList.add('valid');
       }
-      this.clearErrorMsg(field)
+      this.clearErrorMsg(field);
     } else {
       if (field.classList.contains('valid')) {
-        field.classList.replace('valid', 'invalid')
-        field.closest('.js-input-block').classList.replace('valid', 'invalid');
+        field.classList.replace('valid', 'invalid');
+        if (parentBlock) parentBlock.classList.replace('valid', 'invalid');
       } else {
-        field.classList.add('invalid')
-        field.closest('.js-input-block').classList.add('invalid');
+        field.classList.add('invalid');
+        if (parentBlock) parentBlock.classList.add('invalid');
       }
-      this.errorMsg(field, error_type)
+      this.errorMsg(field, error_type);
     }
   }
+  
 
   errorMsg(field, error_type) {
     if (field.nextElementSibling !== null && field.nextElementSibling.classList.contains('error-msg')) {

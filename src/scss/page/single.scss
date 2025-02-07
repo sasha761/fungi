@@ -368,6 +368,21 @@
       background: #F5F5F5;
     }
 
+    .l-comments {
+      // margin-top: rem(60);
+  
+      .c-input {
+        width: 100%;
+        margin-right: 0;
+        margin-bottom: 20px;
+        border: 0;
+  
+        &:last-child {
+          margin-bottom: 0;
+        }
+      }
+    }
+
     .c-inform {
       padding: 10px;
       font-size: 13px;

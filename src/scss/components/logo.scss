@@ -3,9 +3,13 @@
   display: flex;
   // flex-direction: column;
   align-items: center;
-  max-width: 200px;
+  max-width: rem(200);
   flex-shrink: 0;
 
+  img {
+    width: rem(115);
+    height: rem(39);
+  }
   @include mq('desktop') {
     max-width: 130px;
   }

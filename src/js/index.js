@@ -6,12 +6,12 @@ import quickBuy     from './modules/quick-buy.js';
 import burgerMenu   from './modules/burger.js';
 import Cart         from './modules/quick-add-to-cart';
 import inputBlock   from './modules/input-block';
-import niceSelect   from './modules/niceSelect.js';
 import headerSticky from './modules/header.js';
 
 import LazyLoad     from 'vanilla-lazyload';
 import { initializeSummarizeButtons } from './modules/summarizeButtons.js';
 
+// import niceSelect   from './modules/niceSelect.js';
 // import {Accordion, CheckedAccordion}    from './modules/accordion.js';
 
 
@@ -43,7 +43,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     initPhoneAndValidation();
   }
 
-  new niceSelect('select[name="contacts_client_messenger"]');
+  
   
   new modal('.c-modal', '.l-modal-container');
   new tabs('.js-tab-product-additional-info');
@@ -80,11 +80,13 @@ document.addEventListener("DOMContentLoaded", async () => {
       const [
         swiperModule, 
         lightboxModule,
-        ratingModule
+        ratingModule,
+        validation
       ] = await Promise.all([
         import('./modules/swiper.js'),
         import('./modules/lightbox.js'),
-        import('./modules/rating-stars.js')
+        import('./modules/rating-stars.js'),
+        import('./modules/validation.js')
       ]);
       swiperModule.initProductRowSlider();
       swiperModule.initProductGallerySlider();
@@ -92,6 +94,15 @@ document.addEventListener("DOMContentLoaded", async () => {
         reviewRatingRequired: true,
         requiredRatingText: 'Не забудьте выбрать оценку!',
       });
+
+      const formValidator = new validation.default();
+
+      if (document.querySelector(".c-comment-form")) {
+        formValidator.validate('firstName', '.c-comment-form [name="author"]');
+        formValidator.validate('email', '.c-comment-form [name="email"]');
+        // formValidator.validate('text', '.c-comment-form [name="comment"]');
+        formValidator.validate('submit', '.c-comment-form button[name="comment_submit"]');
+      }
 
       new lightboxModule.default('.js-lightbox', '.js-lightbox-modal');
       break;
@@ -110,9 +121,9 @@ document.addEventListener("DOMContentLoaded", async () => {
       break;   
     case 'p-single': {
       const swiperModule = await import('./modules/swiper.js');
-      const { default: validation } = await import('./modules/validation.js');
+      const validation = await import('./modules/validation.js');
 
-      const formValidator = new validation();
+      const formValidator = new validation.default();
 
       if (document.querySelector(".c-comment-form")) {
         formValidator.validate('firstName', '.c-comment-form [name="author"]');
@@ -136,8 +147,11 @@ document.addEventListener("DOMContentLoaded", async () => {
 async function initPhoneAndValidation() {
   await import('intl-tel-input/build/css/intlTelInput.css');
   const intlTelInput = await import('intl-tel-input');
-  const { default: validation } = await import('./modules/validation.js');
+  const validation  = await import('./modules/validation.js');
   const utils = await import("intl-tel-input/build/js/utils");
+  const niceSelect = await import('./modules/niceSelect.js');
+
+  new niceSelect.default('select[name="contacts_client_messenger"]');
 
   const input = document.querySelector(".js-input-block #phone");
   if (!input) return;
@@ -161,7 +175,7 @@ async function initPhoneAndValidation() {
     utilsScript: utils
   });
 
-  const formValidator = new validation();
+  const formValidator = new validation.default();
 
   if (document.querySelector("form[name='quick-buy']")) {
     formValidator.validate('firstName', '.js-input-block [name="name"]');

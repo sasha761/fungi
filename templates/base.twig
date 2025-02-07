@@ -13,6 +13,14 @@
   <link rel="preload" href="{{ site.theme.link }}/src/fonts/Golos/GolosText-SemiBold.ttf" as="font" type="font/woff" crossorigin="anonymous"/>
   <link rel="preload" href="{{ site.theme.link }}/src/fonts/star/star.woff2" as="font" type="font/woff" crossorigin="anonymous"/>
 
+  {# <link rel="preload" href="{{ site.theme.link }}/dist/css/main.css" as="style" onload="this.onload=null;"/> #}
+  <link rel="stylesheet preload" as="style" href="{{ site.theme.link }}/dist/css/main.css" type="text/css" crossorigin="anonymous" />
+
+
+  {% if data is defined and data.thumbnail is defined and data.thumbnail.url %}
+    <link rel="preload" href="{{ data.thumbnail.url|towebp }}" as="image">
+  {% endif %}
+
   <style>
     @font-face {
       font-family: 'star';
@@ -23,6 +31,7 @@
     }
     @font-face {
       font-family: 'Playfair Display';
+      font-display: swap;
       src: url('{{theme.link}}/src/fonts/playfairDisplay/PlayfairDisplay-MediumItalic.woff') format('woff');
       font-weight: 500;
       font-style: italic;

@@ -5,6 +5,24 @@
     background: none;
   }
 
+  .l-comments {
+    // margin-top: rem(60);
+
+    .c-input {
+      width: 30%;
+      margin-right: rem(20);
+      border: 0;
+
+      &:last-child {
+        margin-right: 0;
+      }
+
+      label {
+        background: #fff;
+      }
+    }
+  }
+
   .c-tab {
     &__container {
       h2 {
@@ -95,5 +113,20 @@
 
   @include mq('phone-large') {
     margin-top: 20px;
+
+    .l-comments {
+      // margin-top: rem(60);
+  
+      .c-input {
+        width: 100%;
+        margin-right: 0;
+        margin-bottom: 20px;
+        border: 0;
+  
+        &:last-child {
+          margin-bottom: 0;
+        }
+      }
+    }
   }
 }
