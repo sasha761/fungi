@@ -23,7 +23,7 @@
 				<button type="button" class="u-btn is-black" data-modal="#quick-buy">
 					<span>{{ 'Place an order' | translateString('Button - Place an order') }}</span>
 				</button>
-				<a href="{{ function('wc_get_cart_url') }}" class="is-cart">{{ 'Go to cart' | translateString('Cart - Go to cart') }}</a>
+				{# <a href="{{ function('wc_get_cart_url') }}" class="is-cart">{{ 'Go to cart' | translateString('Cart - Go to cart') }}</a> #}
 			{% else %}
 				{{ buttons|raw }}
 			{% endif %}

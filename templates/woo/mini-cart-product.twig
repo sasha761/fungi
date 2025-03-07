@@ -11,22 +11,16 @@
   </div>
   <div class="c-mini-cart-product__info">
     <span class="is-name">{{data.title}}</span>
-    {% if data.quantity >= 2 %}
-      <p class="is-quantity">{{ 'Quantity' | translateString('Cart - Quantity') }}: <b>{{data.quantity}}</b></p>
-    {% endif %}
+    {# {% if data.quantity >= 2 %} #}
+    <p class="is-quantity">{{ 'Quantity' | translateString('Cart - Quantity') }}: <b>{{data.quantity}}</b></p>
+    {# {% endif %} #}
 
     <p class="c-price">
       {{ data.price }}
     </p>
 
   </div>
-  <div>
-    {# <div class="c-quantity">
-      <button type="button" class="js-quantity-minus c-quantity__minus">－</button>
-      <input type="number" step="1" min="1" max="9999" value="{{product.quantity}}" class="c-quantity__input">
-      <button type="button" class="js-quantity-plus c-quantity__plus">＋</button>
-    </div> #}
-
+  <div style="text-align: right;">
     <a href="{{data.delete_permalink}}" 
       class="c-remove js-product-remove" 
       data-product-id="{{ data.delete_productid }}" 
@@ -37,5 +31,11 @@
         <path fill-rule="evenodd" clip-rule="evenodd" d="M8.02323 7.81637C7.82797 7.62111 7.51139 7.62111 7.31612 7.81637C7.12086 8.01163 7.12086 8.32821 7.31612 8.52348L11.2928 12.5001L7.31639 16.4765C7.12113 16.6718 7.12113 16.9884 7.31639 17.1836C7.51166 17.3789 7.82824 17.3789 8.0235 17.1836L11.9999 13.2072L15.9763 17.1836C16.1715 17.3789 16.4881 17.3789 16.6834 17.1836C16.8786 16.9884 16.8786 16.6718 16.6834 16.4765L12.707 12.5001L16.6836 8.52348C16.8789 8.32821 16.8789 8.01163 16.6836 7.81637C16.4884 7.62111 16.1718 7.62111 15.9765 7.81637L11.9999 11.793L8.02323 7.81637Z"/>
       </svg>
     </a>
+
+    <div class="c-quantity">
+      <button type="button" class="js-quantity-minus c-quantity__minus">－</button>
+      <input type="number" step="1" min="1" max="9999" value="{{product.quantity}}" class="c-quantity__input">
+      <button type="button" class="js-quantity-plus c-quantity__plus">＋</button>
+    </div>
   </div>
 </li>

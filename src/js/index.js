@@ -1,12 +1,11 @@
 import '../scss/main.scss';
 
-import updateCart   from './modules/cart.js';
 import modal        from './modules/modal-container.js';
 import tabs         from './modules/tabs.js';
 import likes        from './modules/likes.js';
 import quickBuy     from './modules/quick-buy.js';
 import burgerMenu   from './modules/burger.js';
-import Cart         from './modules/quick-add-to-cart';
+import Cart         from './modules/cart.js';
 import inputBlock   from './modules/input-block';
 import headerSticky from './modules/header.js';
 
@@ -61,6 +60,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   cart.addToCartHandler();
   cart.removeFromCartHandler();
+  cart.quantityCartHandler();
 
   const pageClass = document.querySelector('main').classList.value;
   switch (pageClass) {
@@ -111,7 +111,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     case 'p-shop p-search':
       break;
     case 'p-cart':
-      updateCart();
+      // updateCart();
       break;
     case 'p-thank':
       break;       
