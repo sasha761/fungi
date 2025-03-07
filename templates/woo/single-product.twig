@@ -19,12 +19,12 @@
 								<div class="l-product__img">
 									<div class="swiper js-product-image">
 										<div class="swiper-wrapper">
+										
 											{% include 'templates/woo/single-product-thumbnail.twig' 
                         with {
                           'video': video, 
                           'zoom': true, 
                           'class': 'swiper-slide',
-                          'thumb': data.thumbnail,
                           'thumb_md': data.thumbnail_md,
                           'thumb_xl': data.thumbnail_xl
                         } 
@@ -34,7 +34,9 @@
                           'video': video, 
                           'zoom': true, 
                           'class': 'swiper-slide', 
-                          'images': data.images
+                          'images': data.images,
+													'thumb_md': data.thumbnail_md,
+                          'thumb_xl': data.thumbnail_xl
                         } 
                       %}
 										</div>
@@ -45,7 +47,6 @@
 							<div class="col-lg-6 col-md-12 col-sm-12 u-col">
 								<div class="l-product__content">
 									<h1 class="u-h2">{{data.product.get_name}}</h1>
-									{# {{ function('woocommerce_output_all_notices') }} #}
 									{{ function('woocommerce_template_single_rating') }}
 
 									<p class="c-price is-big">

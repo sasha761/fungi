@@ -1,5 +1,11 @@
 import Swiper from 'swiper';
-import { Navigation, Pagination, Autoplay, Zoom, FreeMode} from 'swiper/modules';
+import { Navigation, Pagination, Autoplay, Zoom} from 'swiper/modules';
+
+import 'swiper/css';
+import 'swiper/css/navigation';
+import 'swiper/css/pagination';
+
+
 
 export const initblogCategorySlider = () => {
 	const blogCategorySlider = document.querySelectorAll('.js-blog-category');

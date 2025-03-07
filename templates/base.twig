@@ -16,9 +16,28 @@
   {# <link rel="preload" href="{{ site.theme.link }}/dist/css/main.css" as="style" onload="this.onload=null;"/> #}
   <link rel="stylesheet preload" as="style" href="{{ site.theme.link }}/dist/css/main.css" type="text/css" crossorigin="anonymous" />
 
+  {% if function('is_front_page') %}
+    <link rel="preload" as="image" href="{{ site.theme.link }}/dist/images/hero-bg.jpg" media="(min-width: 992px)" type="image/jpeg" />
+    <link rel="preload" as="image" href="{{ site.theme.link }}/dist/images/hero-bg-tablet.jpg" media="(min-width: 577px) and (max-width: 991px)" type="image/jpeg" />
+    <link rel="preload" as="image" href="{{ site.theme.link }}/dist/images/hero-bg-mobile.jpg" media="(max-width: 576px)" type="image/jpeg" />
+  {% endif %}
 
-  {% if data is defined and data.thumbnail is defined and data.thumbnail.url %}
-    <link rel="preload" href="{{ data.thumbnail.url|towebp }}" as="image">
+  {# Preload для десктопов (min-width: 520px) #}
+  {% if data is defined and data.thumbnail_xl is defined %}
+    {% if data.thumbnail_xl.webp %}
+      <link rel="preload" href="{{ data.thumbnail_xl.webp }}" as="image" type="image/webp" media="(min-width: 520px)">
+    {% else %}
+      <link rel="preload" href="{{ data.thumbnail_xl.url }}" as="image" type="image/jpeg" media="(min-width: 520px)">
+    {% endif %}
+  {% endif %}
+
+  {# Preload для мобильных (max-width: 519px) #}
+  {% if data is defined and data.thumbnail_md is defined %}
+    {% if data.thumbnail_md.webp %}
+      <link rel="preload" href="{{ data.thumbnail_md.webp }}" as="image" type="image/webp" media="(max-width: 519px)">
+    {% else %}
+      <link rel="preload" href="{{ data.thumbnail_md.url }}" as="image" type="image/jpeg" media="(max-width: 519px)">
+    {% endif %}
   {% endif %}
 
   <style>
@@ -66,7 +85,6 @@
 
 </head>
 <body class="{{body_class}}" data-template="base.twig" data-language="{{ current_lang }}">
-
   {% include 'templates/partial/icons.twig' %}
   {% include 'templates/header.twig' %}
   

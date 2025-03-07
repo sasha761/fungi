@@ -25,6 +25,7 @@ class BrandedSite extends Site {
     add_filter( 'gutenberg_use_widgets_block_editor', '__return_false' );
     add_filter( 'use_widgets_block_editor', '__return_false' );
     add_filter( 'auto_update_plugin', '__return_false' );
+    
   }
 
   public function theme_supports() {
@@ -55,19 +56,22 @@ class BrandedSite extends Site {
 
     $ajax_url_with_lang = add_query_arg('lang', $current_lang, admin_url('admin-ajax.php'));
 
-    // wp_enqueue_style( 'main-style', get_template_directory_uri() . '/dist/css/main.css', array(), _S_VERSION );
 
-    wp_enqueue_script( 'pure-js', get_template_directory_uri() . '/dist/js/index.js', array(), _S_VERSION, true );
+    wp_enqueue_script( 'pure-js', get_template_directory_uri() . '/dist/js/main.js', array(), _S_VERSION, true );
     wp_localize_script( 'pure-js', 'ajax', array(
       'url' => $ajax_url_with_lang,
-      // 'nonce' => wp_create_nonce('likes_nonce'),
       'cartCount' => WC()->cart->get_cart_contents_count(),
       'lang' => $current_lang,
     ));
-    // var_dump(get_option('thread_comments'))
-    // if (is_singular() && comments_open() && get_option('thread_comments')) {
-    //   wp_enqueue_script('comment-reply');
-    // }
+
+    add_filter("script_loader_tag", "add_module_to_my_script", 10, 3);
+    function add_module_to_my_script($tag, $handle, $src){
+      if ("pure-js" === $handle) {
+        $tag = '<script type="module" src="' . esc_url($src) . '"></script>';
+      }
+
+      return $tag;
+    }
   }
 
   public function add_to_context( $context ) {
@@ -117,45 +121,6 @@ class BrandedSite extends Site {
   public function translateString( $string, $name ) {
     return apply_filters( 'wpml_translate_single_string', $string, 'fungi', $name );
   }
-
-  // public function mini_cart() {
-  //   $data['cart_products'] = [];
-  //   $data['count'] = WC()->cart->cart_contents_count;
-
-  //   foreach ( WC()->cart->get_cart() as $cart_item_key => $cart_item ) {
-  //     $products_array = [];
-
-  //     // General vars
-  //     $_product     = apply_filters( 'woocommerce_cart_item_product', $cart_item['data'], $cart_item, $cart_item_key );
-  //     $product_id   = apply_filters( 'woocommerce_cart_item_product_id', $cart_item['product_id'], $cart_item, $cart_item_key );
-
-  //     if ( $_product && $_product->exists() && $cart_item['quantity'] > 0 && apply_filters( 'woocommerce_widget_cart_item_visible', true, $cart_item, $cart_item_key ) ) {
-
-  //       // price, title, image, url
-  //       $products_array['title']     = apply_filters( 'woocommerce_cart_item_name', $_product->get_name(), $cart_item, $cart_item_key );
-  //       $products_array['price']     = $_product->get_price_html();
-  //       $products_array['id']        = $product_id;
-  //       $products_array['url']       = apply_filters( 'woocommerce_cart_item_permalink', $_product->get_permalink( $cart_item ) , $cart_item, $cart_item_key );
-  //       $products_array['thumbnail'] = apply_filters( 'woocommerce_cart_item_thumbnail', $_product->get_image(), $cart_item, $cart_item_key );
-
-
-  //       // Delete button
-  //       $products_array['delete_permalink'] = wc_get_cart_remove_url( $cart_item_key );
-  //       $products_array['delete_productid'] = esc_attr($product_id);
-  //       $products_array['delete_sku'] = esc_attr($_product->get_sku());
-  //       $products_array['cart_item_key'] = $cart_item_key;
-
-  //       $products_array['quantity'] = $cart_item['quantity'];
-
-  //       // Merge with products
-  //       $data['cart_products'][] = $products_array;
-
-  //     }
-  //   }
-
-  //   $data['total'] = WC()->cart->get_total();
-  //   return $data;
-  // }
 }
 
 new BrandedSite();

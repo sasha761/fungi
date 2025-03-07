@@ -22,19 +22,15 @@
 	{% else %}
 		<a href="{{data.link}}" class="c-product__img">
 			<picture>
-        <source
-          data-srcset="{{data.thumb_xl.url}}"
-          media="(min-width: 426px)"
-        >
-        <source
-          data-srcset="{{data.thumb_md.url}}"
-          media="(max-width: 425px)"
-        >
+        <source data-srcset="{{ data.thumb_md.webp }}" type="image/webp">
+        <source data-srcset="{{ data.thumb_md.url }}" type="image/jpeg">
+				
         <img
-          src="{{imgPlaceholder}}"
+          data-src="{{data.thumb_md.webp}}"
           alt="{{data.title|replace({'"':'\''})|raw}}"
-          width="342"
-          height="435"
+					title="{{ data.title|replace({'"':'\''})|raw }}"
+          width="{{ data.thumb_md.width }}"
+          height="{{ data.thumb_md.height }}"
           class="lazy"
         >
 			</picture>

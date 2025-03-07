@@ -1,29 +1,30 @@
 {% if is_mobile == true %}
   {% set imgPlaceholder = 'data:image/gif;base64,R0lGODlhBAAFAIAAAP///wAAACH5BAEAAAEALAAAAAAEAAUAAAIEjI+ZBQA7' %}
-  {% set fallback = thumb_md %}
+  {% set imgSrc = thumb_md %}
 {% else %}
   {% set imgPlaceholder = 'data:image/gif;base64,R0lGODlhBwAJAIAAAP///wAAACH5BAEAAAEALAAAAAAHAAkAAAIHjI+py+1cAAA7' %}
-  {% set fallback = thumb_xl %}
+  {% set imgSrc = thumb_xl %}
 {% endif %}
+
 
 {% if video == true %}
   <div class="{{ class ? class : '' }}">
-    <a href="{{thumb.url}}" class="js-lightbox">
+    <a href="{{thumb_xl.url}}" class="js-lightbox">
       <picture>
-        <source
-          data-srcset="{{thumb_xl.url}}"
-          media="(min-width: 426px)"
-        >
-        <source
-          data-srcset="{{thumb_md.url}}"
-          media="(max-width: 425px)"
-        >
-        <img 
-          src="{{imgPlaceholder}}"
-          alt="{{post.post_title|replace({'"':'\''})|raw}}" 
-          title="{{post.post_title|replace({'"':'\''})|raw}}" 
-          width="{{fallback.width}}"
-          height="{{fallback.height}}"
+        {# WebP для десктопов #}
+        <source data-srcset="{{ thumb_xl.webp }}" media="(min-width: 520px)" type="image/webp">
+        <source data-srcset="{{ thumb_xl.url }}" media="(min-width: 520px)" type="image/jpeg">
+        
+        {# WebP для мобильных #}
+        <source data-srcset="{{ thumb_md.webp }}" media="(max-width: 519px)" type="image/webp">
+        <source data-srcset="{{ thumb_md.url }}" media="(max-width: 519px)" type="image/jpeg">
+
+        <img
+          src="{{ imgPlaceholder }}"
+          alt="{{ post.post_title|replace({'"':'\''})|raw }}"
+          title="{{ post.post_title|replace({'"':'\''})|raw }}"
+          width="{{ imgSrc.width }}"
+          height="{{ imgSrc.height }}"
           class="lazy"
         >
       </picture>
@@ -33,27 +34,27 @@
 {% if images %}
   {% for image in images %}
     {% if is_mobile %}
-      {% set fallback = image.archive_xl %}
+      {% set imgSrc = image.thumbnail_md %}
     {% else %}
-      {% set fallback = image.single_xl %}
+      {% set imgSrc = image.thumbnail_xl %}
     {% endif %}
 
     <div class="{{ class ? class : '' }}">
-      <a href="{{image.full.url}}" class="js-lightbox">
+      <a href="{{image.thumbnail_xl.url}}" class="js-lightbox">
         <picture class="js-lazy-load">
-          <source
-            data-srcset="{{image.single_xl.url}}"
-            media="(min-width: 426px)"
-          >
-          <source
-            data-srcset="{{image.archive_xl.url}}"
-            media="(max-width: 425px)"
-          >
+
+          <source data-srcset="{{ image.thumbnail_xl.webp }}" media="(min-width: 520px)" type="image/webp">
+          <source data-srcset="{{ image.thumbnail_xl.url }}" media="(min-width: 520px)" type="image/jpeg">
+          
+          {# WebP для мобильных #}
+          <source data-srcset="{{ image.thumbnail_md.webp }}" media="(max-width: 519px)" type="image/webp">
+          <source data-srcset="{{ image.thumbnail_md.url }}" media="(max-width: 519px)" type="image/jpeg">
+
           <img
-            src="{{imgPlaceholder}}"
+            data-src="{{imgPlaceholder}}"
             alt="{{ post.post_title|replace({'"':'\''})|raw }}"
-            width="{{ fallback.width }}"
-            height="{{ fallback.height }}"
+            width="{{ imgSrc.width }}"
+            height="{{ imgSrc.height }}"
             class="lazy"
           >
         </picture>

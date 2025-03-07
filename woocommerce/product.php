@@ -19,9 +19,8 @@ $nested_comments = nest_comments( $comments );
 
 foreach ($images_ids as $image_id) {
   $images[] = [
-    'full'  => get_image_data($image_id, 'full'),
-		'single_xl'  => get_image_data($image_id, 'single_xl'),
-		'archive_xl'  => get_image_data($image_id, 'archive_xl'),
+		'thumbnail_xl'  => get_image_data($image_id, 'single_product_desktop'),
+		'thumbnail_md' => get_image_data($image_id, 'single_product_phone'),
   ];
 }
 
@@ -43,9 +42,8 @@ $data = [
   'price_html' => $product->get_price_html(),
   'is_sale' => $product->is_on_sale(),
   'images' => $images,
-  'thumbnail' => get_image_data($thumbnail_id, 'full'),
-  'thumbnail_xl' => get_image_data($thumbnail_id, 'single_xl'),
-  'thumbnail_md' => get_image_data($thumbnail_id, 'archive_xl'),
+  'thumbnail_xl' => get_image_data($thumbnail_id, 'single_product_desktop'),
+  'thumbnail_md' => get_image_data($thumbnail_id, 'single_product_phone'),
   'permalink' => get_the_permalink($product_id),
   'price_sale' => $product->is_type('variable') ? $product->get_variation_sale_price() : $product->get_sale_price(),
   'price_regular' => $product->is_type('variable') ? $product->get_variation_regular_price() : $product->get_regular_price(),

@@ -2,14 +2,21 @@
 
 <div class="c-post">
 	<a href="{{data.permalink}}" class="c-post__img">
-		{% if data.archive %}
-			<img 
-				data-src="{{ data.archive.url }}" 
-				alt="{{ data.title }}" 
-				width="{{ data.archive.width }}" 
-				height="{{ data.archive.height }}" 
-				class="lazy"
-			/>
+		{% if data.thumb_md %}
+			<picture class="p-single__image">
+			
+				<source data-srcset="{{ data.thumb_md.webp }}" media="(max-width: 519px)" type="image/webp">
+				<source data-srcset="{{ data.thumb_md.url }}" media="(max-width: 519px)" type="image/jpeg">
+
+				<img
+					data-src="{{ data.thumb_md.webp }}"
+					alt="{{ data.title|replace({'"':'\''})|raw }}"
+					title="{{ data.title|replace({'"':'\''})|raw }}"
+					width="{{ data.thumb_md.width }}"
+					height="{{ data.thumb_md.height }}"
+					class="lazy"
+				>
+			</picture>
 		{% endif %}
 	</a>
 

@@ -12,15 +12,6 @@ License URI: LICENSE
 Text Domain: news
 */
 
-// @import 'vendor/nice-select.css';
-// @import 'vendor/swiper-bundle.css';
-// @import "../../node_modules/nice-select2/src/scss/nice-select2.scss";
-// @import "~nice-select2/src/scss/nice-select2.scss";
-// @import '../../node_modules/intl-tel-input/build/css/intlTelInput.css';
-
-@import '../../node_modules/swiper/swiper.css';
-@import '../../node_modules/swiper/modules/free-mode.css';
-@import '../../node_modules/swiper/modules/navigation.css';
 
 @import 'utility/style.scss';
 @import 'vendor/style.scss';
@@ -49,6 +40,10 @@ img.lazy {
 	&.loaded {
 		opacity: 1;
 	}
+}
+
+.swiper-wrapper {
+	display: flex;
 }
 
 .iti__flag-container {

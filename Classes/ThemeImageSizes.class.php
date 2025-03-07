@@ -12,7 +12,7 @@ class ThemeImageSizes
             'medium',
             'medium_large',
             // 'thumbnail',
-            // 'large',
+            'large',
             '1536x1536',
             '2048x2048',
             'woocommerce_thumbnail',
@@ -53,50 +53,45 @@ class ThemeImageSizes
      */
     public function thumbnailsSizes()
     {
-        /**
-         * Desktop archive and Product Variations
-         */
         add_image_size(
-            'archive_xl',
-            532,
-            665,
-            true
-        );
-
-        add_image_size(
-            'archive',
+            'archive_post',
             600,
-            400,
+            350,
             true
         );
 
-        /**
-         * Tablet
-         */
-        add_image_size(
-            'archive_md',
-            420,
-            504,
-            true
-        );
-
-        /**
-         * Mobile
-         */
         // add_image_size(
-        //     'archive_xs',
-        //     250,
-        //     300,
+        //     'archive_product',
+        //     600,
+        //     350,
         //     true
         // );
 
-        /**
-         * Product main
-         */
         add_image_size(
-            'single_xl',
+            'single_post_desktop',
+            1200,
+            600,
+            true
+        );
+
+        add_image_size(
+            'single_post_phone',
+            450,
+            290,
+            true
+        );
+
+        add_image_size(
+            'single_product_desktop',
             840,
             1080,
+            true
+        );
+
+        add_image_size(
+            'single_product_phone',
+            532,
+            665,
             true
         );
     }

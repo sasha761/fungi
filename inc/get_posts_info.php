@@ -72,10 +72,8 @@ function get_posts_info($args = [], $is_emoji = true) {
       'post_content' => get_the_content($post_id),
       'category' => get_the_category($post_id),
       'post_likes' => $likes_data,
-      'thumb_md'      => get_image_data($thumbnail_id, 'archive_md'),
-      'thumb_xl'      => get_image_data($thumbnail_id, 'archive_xl'),
-      'archive'       => get_image_data($thumbnail_id, 'archive'),
-      'thumb_sm'      => get_image_data($thumbnail_id, [100, 100]),
+      'thumb_md'   => get_image_data($thumbnail_id, 'archive_post'),
+      'thumb_sm'   => get_image_data($thumbnail_id, [100, 100]),
     ];
   }
 

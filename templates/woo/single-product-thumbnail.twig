@@ -1,9 +1,7 @@
 {% if is_mobile == true %}
-  {% set imgPlaceholder = 'data:image/gif;base64,R0lGODlhBAAFAIAAAP///wAAACH5BAEAAAEALAAAAAAEAAUAAAIEjI+ZBQA7' %}
-  {% set fallback = thumb_md %}
+  {% set imgSrc = thumb_md %}
 {% else %}
-  {% set imgPlaceholder = 'data:image/gif;base64,R0lGODlhBwAJAIAAAP///wAAACH5BAEAAAEALAAAAAAHAAkAAAIHjI+py+1cAAA7' %}
-  {% set fallback = thumb_xl %}
+  {% set imgSrc = thumb_xl %}
 {% endif %}
 
 <div class="{{ class ? class : '' }}">
@@ -15,23 +13,22 @@
       <video class="lazy" src="{{video}}" muted playsinline autoplay loop width="550" poster="{{thumb|resize(550, height, center)|tojpg}}"></video>
     </a>  
   {% else %}
-    <a href="{{thumb.url}}" class="js-lightbox">
+    <a href="{{thumb_xl.url}}" class="js-lightbox">
       <picture>
-        <source
-          data-srcset="{{thumb_xl.url}}"
-          media="(min-width: 426px)"
-        >
-        <source
-          data-srcset="{{thumb_md.url}}"
-          media="(max-width: 425px)"
-        >
+        {# WebP для десктопов #}
+        <source srcset="{{ thumb_xl.webp }}" media="(min-width: 520px)" type="image/webp">
+        <source srcset="{{ thumb_xl.url }}" media="(min-width: 520px)" type="image/jpeg">
+        
+        {# WebP для мобильных #}
+        <source srcset="{{ thumb_md.webp }}" media="(max-width: 519px)" type="image/webp">
+        <source srcset="{{ thumb_md.url }}" media="(max-width: 519px)" type="image/jpeg">
+
         <img
-          src="{{imgPlaceholder}}"
-          alt="{{post.post_title|replace({'"':'\''})|raw}}"
-          title="{{post.post_title|replace({'"':'\''})|raw}}"
-          width="{{ fallback.width }}"
-          height="{{ fallback.height }}"
-          class="lazy"
+          src="{{ imgSrc.url }}"
+          alt="{{ post.post_title|replace({'"':'\''})|raw }}"
+          title="{{ post.post_title|replace({'"':'\''})|raw }}"
+          width="{{ imgSrc.width }}"
+          height="{{ imgSrc.height }}"
         >
       </picture>
     </a>

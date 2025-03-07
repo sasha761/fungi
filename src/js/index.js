@@ -1,3 +1,5 @@
+import '../scss/main.scss';
+
 import updateCart   from './modules/cart.js';
 import modal        from './modules/modal-container.js';
 import tabs         from './modules/tabs.js';
@@ -11,9 +13,7 @@ import headerSticky from './modules/header.js';
 import LazyLoad     from 'vanilla-lazyload';
 import { initializeSummarizeButtons } from './modules/summarizeButtons.js';
 
-// import niceSelect   from './modules/niceSelect.js';
 // import {Accordion, CheckedAccordion}    from './modules/accordion.js';
-
 
 let modulesLoaded = false;
 
@@ -43,8 +43,6 @@ document.addEventListener("DOMContentLoaded", async () => {
     initPhoneAndValidation();
   }
 
-  
-  
   new modal('.c-modal', '.l-modal-container');
   new tabs('.js-tab-product-additional-info');
   
@@ -146,12 +144,13 @@ document.addEventListener("DOMContentLoaded", async () => {
 
 async function initPhoneAndValidation() {
   await import('intl-tel-input/build/css/intlTelInput.css');
-  const intlTelInput = await import('intl-tel-input');
-  const validation  = await import('./modules/validation.js');
+  // await import('../scss/vendor/nice-select.css');
+  const { default: intlTelInput } = await import('intl-tel-input');
+  const { default: validation } = await import('./modules/validation.js');
+  const { default: niceSelect } = await import('./modules/niceSelect.js');
   const utils = await import("intl-tel-input/build/js/utils");
-  const niceSelect = await import('./modules/niceSelect.js');
 
-  new niceSelect.default('select[name="contacts_client_messenger"]');
+  new niceSelect('select[name="contacts_client_messenger"]');
 
   const input = document.querySelector(".js-input-block #phone");
   if (!input) return;
@@ -175,7 +174,7 @@ async function initPhoneAndValidation() {
     utilsScript: utils
   });
 
-  const formValidator = new validation.default();
+  const formValidator = new validation();
 
   if (document.querySelector("form[name='quick-buy']")) {
     formValidator.validate('firstName', '.js-input-block [name="name"]');

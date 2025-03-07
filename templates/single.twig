@@ -1,7 +1,13 @@
 {% extends "base.twig" %}
 
-{% block content %}
+{% if is_mobile == true %}
+  {% set imgSrc = data.thumbnail_md %}
+{% else %}
+  {% set imgSrc = data.thumbnail_xl %}
+{% endif %}
 
+
+{% block content %}
   <main class="p-single">
     <section class="l-article">
       <div class="u-container">
@@ -20,15 +26,24 @@
 
         <div class="p-single__flex">
           <div class="p-single__box">
-            {% if data.thumbnail %}
-              <div class="p-single__image">
-                <img 
-                  src="{{ data.thumbnail.url|towebp }}" 
-                  width="{{ data.thumbnail.width }}" 
-                  height="{{ data.thumbnail.height }}" 
-                  alt="{{ data.title }}" 
-                />
-              </div>
+            {% if data.thumbnail_xl or data.thumbnail_md %}
+              <picture class="p-single__image">
+                {# WebP для десктопов #}
+                <source srcset="{{ data.thumbnail_xl.webp }}" media="(min-width: 520px)" type="image/webp">
+                <source srcset="{{ data.thumbnail_xl.url }}" media="(min-width: 520px)" type="image/jpeg">
+                
+                {# WebP для мобильных #}
+                <source srcset="{{ data.thumbnail_md.webp }}" media="(max-width: 519px)" type="image/webp">
+                <source srcset="{{ data.thumbnail_md.url }}" media="(max-width: 519px)" type="image/jpeg">
+
+                <img
+                  src="{{ data.thumbnail_md.webp }}"
+                  alt="{{ data.title|replace({'"':'\''})|raw }}"
+                  title="{{ data.title|replace({'"':'\''})|raw }}"
+                  width="{{ imgSrc.width }}"
+                  height="{{ imgSrc.height }}"
+                >
+              </picture>
             {% endif %}
 
             <div class="p-single__info">
@@ -75,8 +90,6 @@
             <div class="p-single__bottom">
               {% include 'templates/partial/social.twig' with {'share': true} %}
             </div>
-
-            {# <pre>{{dump(data.comments)}}</pre> #}
 
             {% include 'templates/partial/comments.twig' with {
               'comments': data.comments,

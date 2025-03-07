@@ -98,6 +98,7 @@
 	}
 
 	@include mq('tablet') {
+		background-image: url(../img/hero-bg-tablet.jpg);
 		&__left {
 			padding: rem(100) rem(15) rem(100) rem(15);
 			text-align: center;
@@ -114,6 +115,7 @@
 	}
 
 	@include mq('phone-large') {
+		background-image: url(../img/hero-bg-mobile.jpg);
 		.u-h1 {
 			font-size: 32px;
 		}

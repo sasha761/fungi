@@ -33,6 +33,9 @@ function custom_dequeue()
   wp_deregister_style('wpml-legacy-horizontal-list-0');
   wp_dequeue_style('wcml-dropdown-0');
   wp_deregister_style('wcml-dropdown-0');
+  wp_dequeue_style('brands-styles');
+  wp_deregister_style('brands-styles');
+  
 
 
 
