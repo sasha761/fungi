@@ -8,17 +8,19 @@
       {% if questions %}
         <div class="c-accordion js-accordion">
           {% for item in questions %}
-          <div class="c-accordion__block js-accordion__item">
-            <div class="c-accordion__block-title js-accordion__heading">
-              <span>{{item.title}}</span>
-              <svg width="44px" height="26px">
-                <use xlink:href="#icon-arrow-bottom"></use>
-              </svg>
-            </div>
-            <div class="c-accordion__block-content js-accordion__list">
-              <p>{{item.text}}</p>
-            </div>
-          </div>
+            {% if item.title and item.text %}
+              <div class="c-accordion__block js-accordion__item">
+                <div class="c-accordion__block-title js-accordion__heading">
+                  <span>{{item.title}}</span>
+                  <svg width="44px" height="26px">
+                    <use xlink:href="#icon-arrow-bottom"></use>
+                  </svg>
+                </div>
+                <div class="c-accordion__block-content js-accordion__list">
+                  <p>{{item.text|raw}}</p>
+                </div>
+              </div>
+            {% endif %}
           {% endfor %}
         </div>
       {% endif %}

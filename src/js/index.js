@@ -1,5 +1,6 @@
 import '../scss/main.scss';
 
+import Accordion    from './modules/accordion.js';
 import modal        from './modules/modal-container.js';
 import tabs         from './modules/tabs.js';
 import likes        from './modules/likes.js';
@@ -11,8 +12,6 @@ import headerSticky from './modules/header.js';
 
 import LazyLoad     from 'vanilla-lazyload';
 import { initializeSummarizeButtons } from './modules/summarizeButtons.js';
-
-// import {Accordion, CheckedAccordion}    from './modules/accordion.js';
 
 let modulesLoaded = false;
 
@@ -47,9 +46,9 @@ document.addEventListener("DOMContentLoaded", async () => {
   
   burgerMenu();
   inputBlock();
-
-
   quickBuy();
+
+  const accordion = new Accordion('.js-accordion__item', '.js-accordion');
 
   const cart = new Cart({
     addToCartBtn: '.js-add-to-cart',
@@ -114,7 +113,10 @@ document.addEventListener("DOMContentLoaded", async () => {
       // updateCart();
       break;
     case 'p-thank':
-      break;       
+      break;     
+    case 'p-faq':
+      accordion.init(); 
+      break;   
     case 'p-page is-page':
       break;   
     case 'p-single': {

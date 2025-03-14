@@ -1,10 +1,10 @@
 import {slideUp, slideDown} from './slideToggle.js';
 
-class Accordion {
+export default class Accordion {
 	constructor(block, container) {
 		this.mainContainer = document.querySelector(container);
 		this.blocks        = document.querySelectorAll(block);
-		this.init();
+		// this.init();
 	}
 
 	init() {
@@ -13,14 +13,14 @@ class Accordion {
 			const list = item.querySelector('.js-accordion__list');
 
 			if (item.classList.contains('is-active')) {
-				slideDown(list);
+				slideDown(list, 0);
 			} else {
 				slideUp(list);
 			}
 
-			head.addEventListener('click', () => {
-				// event.preventDefault();
-				// console.log(item);
+			head.addEventListener('click', (event) => {
+				event.preventDefault();
+
 	  		if (item.classList.contains('is-active')) {
 		        item.classList.remove('is-active');
 		        slideUp(list);
@@ -46,38 +46,3 @@ class Accordion {
     slideDown(block.querySelector('.js-accordion__list'));
 	}
 }
-
-class CheckedAccordion extends Accordion {
-	constructor(block, container) {
-		super(block, container); 
-	}
-
-	init() {
-		this.blocks.forEach(item => {
-			const head = item.querySelector('.js-accordion__heading');
-			const list = item.querySelector('.js-accordion__list');
-
-			if (item.classList.contains('is-active')) {
-				slideDown(list);
-			} else {
-				slideUp(list);
-			}
-
-			head.addEventListener('click', (event) => {
-				event.stopPropagation();
-
-	  		if (item.classList.contains('is-active')) {
-					item.querySelector('input[type="radio"]').checked = false;
-					item.classList.remove('is-active');
-					slideUp(list);
-		    } else {
-					item.querySelector('input[type="radio"]').checked = true;
-		    	this.close();
-		    	this.open(item);
-		    }
-			});
-		});
-	}
-}
-
-export {Accordion, CheckedAccordion};
