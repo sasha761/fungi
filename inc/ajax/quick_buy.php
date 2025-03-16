@@ -11,7 +11,18 @@ function contactForm() {
   $text = !empty($_POST['text']) ? sanitize_text_field($_POST['text']) : '';
   $products = !empty($_POST['products']) ? $_POST['products'] : [];
 
+  $allowed_mime_types = [
+    'application/msword', 
+    'application/vnd.openxmlformats-officedocument.wordprocessingml.document', // doc, docx
+    'text/xml', // xml
+    'image/jpeg', 'image/png', 'image/webp', 'image/heic', // jpg, jpeg, png, webp, heic
+    'video/quicktime', 'video/mp4' // видео
+  ];
+  $max_file_size = 10 * 1024 * 1024;
+
   $user_mail_body = '';
+
+  // var_dump($name);
 
   if (empty($name) && empty($email) && !is_email($email)) {
     wp_send_json_error(['message' => 'Пожалуйста, заполните обязательные поля или неправильный формат email']);
@@ -43,29 +54,69 @@ function contactForm() {
 
   $user_mail_body = implode("\n", $user_mail_body);
 
-  $subject = 'Contact form | order';
+  $subject = !empty($products) ? 'Contact form | order' : 'Contact form';
   $to_admin = get_option('admin_email');
   $headers = [
     'Content-Type: text/html; charset=UTF-8;',
     'From: ' . get_bloginfo('name') . ' <' . $to_admin . '>',
   ];
 
-  // Отправка письма
-  $mailResult = wp_mail($to_admin, $subject, $user_mail_body, $headers);
+  $attachments = [];
+  // var_dump($_FILES['files']);
+  if (!empty($_FILES['files'])) {
+    foreach ($_FILES['files']['name'] as $key => $filename) {
+      if ($_FILES['files']['error'][$key] !== UPLOAD_ERR_OK) {
+        continue; // Пропускаем файлы с ошибками загрузки
+      }
 
-  if ($mailResult) {
+      $file_tmp = $_FILES['files']['tmp_name'][$key];
+      $file_size = $_FILES['files']['size'][$key];
+      $file_type = $_FILES['files']['type'][$key];
+
+      // Проверка размера файла
+      if ($file_size > $max_file_size) {
+          wp_send_json_error(['message' => 'Один или несколько файлов превышают 10MB.']);
+          wp_die();
+      }
+
+      // Проверка типа файла
+      if (!in_array($file_type, $allowed_mime_types)) {
+          wp_send_json_error(['message' => 'Один или несколько файлов имеют недопустимый формат.']);
+          wp_die();
+      }
+
+      // Сохранение файла во временную папку
+      $upload_dir = wp_upload_dir();
+      $upload_path = $upload_dir['path'] . '/' . basename($filename);
+
+      if (move_uploaded_file($file_tmp, $upload_path)) {
+          $attachments[] = $upload_path;
+      }
+    }
+  }
+
+  // Отправка письма
+  // $mailResult = wp_mail($to_admin, $subject, $user_mail_body, $headers);
+  $mailResult = wp_mail($to_admin, $subject, $user_mail_body, $headers, $attachments);
+
+  // Очистка загруженных файлов
+  foreach ($attachments as $file) {
+    @unlink($file);
+  }
+
+  if ($mailResult && !empty($products)) {
     $order_result = create_order($name, $email, $phone, $messenger, $messenger_value, $products);
 
     if ($order_result['success']) {
-
-      WC()->cart->empty_cart();
-      
-      wp_send_json_success(['message' => 'Сообщение успешно отправлено!']);
+        WC()->cart->empty_cart();
+        wp_send_json_success(['message' => 'Сообщение успешно отправлено!']);
     } else {
-      wp_send_json_error(['message' => $order_result['message']]);
+        wp_send_json_error(['message' => $order_result['message']]);
     }
+  } elseif ($mailResult) {
+      wp_send_json_success(['message' => 'Сообщение успешно отправлено!']);
   } else {
-    wp_send_json_error(['message' => 'Ошибка при отправке сообщения. Попробуйте позже.']);
+      wp_send_json_error(['message' => 'Ошибка при отправке сообщения. Попробуйте позже.']);
   }
 
   wp_die();

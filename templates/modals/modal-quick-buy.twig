@@ -9,7 +9,7 @@
     <div class="c-modal__left">
       <div class="c-modal__title">{{options.modal_order.title}}</div>
       <p class="c-modal__text">{{options.modal_order.text}}</p>
-      <p class="c-inform">
+      <p class="c-inform is-orange has-image-center">
         <svg width="24" height="30" viewBox="0 0 24 30" fill="none" xmlns="http://www.w3.org/2000/svg">
           <g clip-path="url(#clip0_2006_3202)">
             <path d="M0.258946 11.4421C-0.0656066 10.8527 -0.0637306 10.2492 0.146384 9.63342C0.44092 8.76602 1.02249 8.07279 1.67347 7.42707C2.75031 6.36085 3.99974 5.4952 5.35798 4.77383C6.02585 4.41842 6.5774 3.96448 7.06704 3.40849C7.60922 2.79269 8.19078 2.19623 8.81925 1.65608C10.2694 0.408632 11.9072 0.19222 13.6707 1.035C14.2729 1.32355 14.8638 1.63497 15.436 1.97102C17.0925 2.94224 18.7491 3.9117 20.3793 4.91986C21.3661 5.53039 22.2516 6.26232 22.9457 7.17371C23.6173 8.0552 24.0826 9.00882 23.9869 10.1313C23.9813 10.1894 23.9682 10.2492 23.9569 10.3073C23.9194 10.2985 23.8856 10.2967 23.8837 10.2915C23.7918 9.61231 23.2928 9.2745 22.6662 9.1179C21.64 8.86279 20.6063 8.60415 19.5576 8.45987C18.2763 8.28393 16.9781 8.19419 15.6836 8.12382C14.6387 8.06751 13.6031 8.21179 12.5826 8.44052C12.0122 8.56896 11.7534 8.41237 11.6427 7.86166C11.4982 7.13677 11.365 6.40835 11.1981 5.67994C11.1493 6.32038 11.0892 6.96082 11.0517 7.60302C11.0161 8.23818 10.9129 8.35079 10.2525 8.37366C7.41974 8.46691 4.65823 8.91733 1.98301 9.80937C1.69223 9.90614 1.4127 10.0399 1.14443 10.1841C0.525342 10.5167 0.341491 10.7999 0.25707 11.4439L0.258946 11.4421Z" fill="#666666"/>
@@ -70,7 +70,7 @@
       {% set button_text = "Proceed the form" | translateString("button - Proceed the form") %}
       {% include 'templates/woo/mini-cart.twig' with {
           'minicart': minicart,
-          'buttons': '<button type="submit" name="quick-buy-submit" class="u-btn is-black is-medium js-quick-buy">' ~ button_text ~ '</button>'
+          'buttons': '<button type="submit" name="quick-buy-submit" class="u-btn is-black is-medium js-quick-buy js-submit-btn">' ~ button_text ~ '</button>'
       } %}
     </div>
   </form>    

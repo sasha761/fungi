@@ -15,13 +15,15 @@
         <h1 class="u-h1">{{ data.title }}</h1>
 
         {% if data.if_attention %}
-          {% if current_lang == 'ru' %}
-            <div class="c-inform"><span class="is-red">Внимание!</span>  Эта статья предоставлена исключительно в информационных целях. Мы не продаем и не продвигаем наркотики или незаконные вещества.</div>
-          {% elseif current_lang == 'uk' %}
-            <div class="c-inform"><span class="is-red">Увага!</span>  Ця стаття надана виключно в інформаційних цілях. Ми не продаємо і не просуваємо наркотики чи незаконні речовини.</div>
-          {% else %}
-            <div class="c-inform"><span class="is-red">Attention!</span> This article is provided for informational purposes only. We do not sell or promote drugs or illegal substances.</div>
+          <div class="c-inform is-red">
+            {% if current_lang == 'ru' %}
+              <span class="is-red">Внимание!</span>  Эта статья предоставлена исключительно в информационных целях. Мы не продаем и не продвигаем наркотики или незаконные вещества.</div>
+            {% elseif current_lang == 'uk' %}
+              <span class="is-red">Увага!</span>  Ця стаття надана виключно в інформаційних цілях. Ми не продаємо і не просуваємо наркотики чи незаконні речовини.</div>
+            {% else %}
+              <span class="is-red">Attention!</span> This article is provided for informational purposes only. We do not sell or promote drugs or illegal substances.
           {% endif %}
+          </div>
         {% endif %}
 
         <div class="p-single__flex">

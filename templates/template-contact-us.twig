@@ -1,0 +1,57 @@
+{% extends 'templates/base.twig' %}
+{% block content %}
+	<main class="p-contact-us">
+    <div class="u-container">
+      {{ breadcrumbs }}
+      <h1 class="u-h1">{{ post.title }}</h1>
+
+      <div class="row">
+        <div class="col-lg-6">
+          <form action="" class="c-form is-contact-us js-contact-us-form" name="contact-us" method="POST">
+            <h3>Надіслати повідомлення</h3>
+            <div class="c-inform is-blue has-img">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path opacity="0.15" d="M22 12C22 17.5228 17.5228 22 12 22C6.47715 22 2 17.5228 2 12C2 6.47715 6.47715 2 12 2C17.5228 2 22 6.47715 22 12Z" fill="#276EF7"/>
+                <path d="M12.9659 8.348H11.0339V6.5H12.9659V8.348Z" fill="#276EF7"/>
+                <path d="M12.502 10H10.5V11.5L11.502 11.5L11.502 15.5H10.5V17H14L14 15.5H13.002L13.002 10.5C13.002 10.2239 12.7781 10 12.502 10Z" fill="#276EF7"/>
+              </svg>
+              <p>Ми не продаємо техніку та запчастини, з усіх питань звертайтеся безпосередньо до продавців, контактну інформацію вказано в кожному оголошенні.</p>
+            </div>
+
+            <div class="c-input js-input-block">
+              <label for="client_name">{{ 'Name' | translateString('input - Name') }}</label>
+              <input type="text" name="name" required id="client_name" >
+            </div>
+            <div class="c-input js-input-block">
+              <input type="tel" name="phone" required id="phone" >
+            </div>
+            <div class="c-input js-input-block">
+              <label for="client_email">Email</label>
+              <input type="email" name="email" required id="client_email">
+            </div>
+            <div class="c-input">
+              <textarea type="text" rows="5" cols="30" name="text" placeholder="Повідомлення"></textarea>
+            </div>
+            {# <input type="file" name="file-input22"> #}
+            <div class="c-input js-input-block is-file js-drag-and-drop">
+              <input id="file-input" type="file" name="files[]" class="js-drag-and-drop-input" multiple accept=".doc,.docx,.xml,.jpg,.jpeg,.png,.webp,.heic,.mov,.mp4">
+
+              <div class="c-input__file-area">
+                <svg width="40" height="41" viewBox="0 0 40 41" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <rect x="0.5" y="1" width="39" height="39" rx="19.5" stroke="#D7D7D7"/>
+                  <path fill-rule="evenodd" clip-rule="evenodd" d="M19.25 21.25V29.5H20.75V21.25H29V19.75H20.75V11.5H19.25V19.75H11V21.25H19.25Z" fill="#276EF7"/>
+                </svg>
+                <p>Перетягнути файл, зображення або документ. Доступные форматы (jpg, jpeg, png, webp, heic, doc, docx, mov, mp4)</p>
+              </div>
+            </div>
+            <div id="file-preview-container" class="c-file-preview-container"></div>
+
+            <input type="hidden" name="action" value="contactForm">
+            <button class="u-btn is-black js-submit-btn" type="submit" name="submit">{{ 'Send' | translateString('buttons - Send') }}</button>
+          </form>
+        </div>
+        <div class="col-lg-7"></div>
+      </div>
+    </div>
+  </main>
+{% endblock %}

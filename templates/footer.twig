@@ -21,14 +21,15 @@
           <button type="submit" class="u-btn is-black">{{ 'Subscribe now' | translateString('Button - Subscribe now') }}</button>
         </form>
         <p>*{{ 'You may withdraw your consent at any time!' | translateString('Footer - noties under subscribe') }}</p>
-
-        {% if current_lang == 'ru' %}
-          <div class="c-inform"><span class="is-red">Внимание!</span>  Мы не продаем и не продвигаем наркотики или незаконные вещества. Вся продукция, представленная на сайте, не содержит наркотических веществ, не вызывает зависимости и не является лекарственным средством.</div>
-        {% elseif current_lang == 'uk' %}
-          <div class="c-inform"><span class="is-red">Увага!</span>  Ми не продаємо і не просуваємо наркотики чи незаконні речовини. Уся продукція, представлена на сайті, не містить наркотичних речовин, не викликає залежності та не є лікарським засобом.</div>
-        {% else %}
-          <div class="c-inform"><span class="is-red">Attention!</span> We do not sell or promote drugs or illegal substances. All products presented on the website do not contain narcotic substances, do not cause addiction, and are not medicinal products.</div>
-        {% endif %}
+        <div class="c-attention">
+          {% if current_lang == 'ru' %}
+            <span class="is-red">Внимание!</span>  Мы не продаем и не продвигаем наркотики или незаконные вещества. Вся продукция, представленная на сайте, не содержит наркотических веществ, не вызывает зависимости и не является лекарственным средством.
+          {% elseif current_lang == 'uk' %}
+            <span class="is-red">Увага!</span>  Ми не продаємо і не просуваємо наркотики чи незаконні речовини. Уся продукція, представлена на сайті, не містить наркотичних речовин, не викликає залежності та не є лікарським засобом.
+          {% else %}
+            <span class="is-red">Attention!</span> We do not sell or promote drugs or illegal substances. All products presented on the website do not contain narcotic substances, do not cause addiction, and are not medicinal products.
+          {% endif %}
+        </div>
 
       </div>  
     </div>

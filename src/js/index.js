@@ -4,22 +4,23 @@ import Accordion    from './modules/accordion.js';
 import modal        from './modules/modal-container.js';
 import tabs         from './modules/tabs.js';
 import likes        from './modules/likes.js';
-import quickBuy     from './modules/quick-buy.js';
+// import quickBuy     from './modules/quick-buy.js';
+// import sendContactForm     from './modules/sendContactForm.js';
 import burgerMenu   from './modules/burger.js';
 import Cart         from './modules/cart.js';
 import inputBlock   from './modules/input-block';
 import headerSticky from './modules/header.js';
+
 
 import LazyLoad     from 'vanilla-lazyload';
 import { initializeSummarizeButtons } from './modules/summarizeButtons.js';
 
 let modulesLoaded = false;
 
-document.addEventListener('cartUpdated', (e) => {
+document.addEventListener('cartUpdated', async (e) => {
   const { count } = e.detail;
   if (count > 0 && !modulesLoaded) {
-    modulesLoaded = true;
-    initPhoneAndValidation(); 
+    await initCartScripts();
   }
 });
 
@@ -37,8 +38,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   
   
   if (ajax.cartCount > 0) {
-    modulesLoaded = true;
-    initPhoneAndValidation();
+    await initCartScripts();
   }
 
   new modal('.c-modal', '.l-modal-container');
@@ -46,9 +46,10 @@ document.addEventListener("DOMContentLoaded", async () => {
   
   burgerMenu();
   inputBlock();
-  quickBuy();
+  // quickBuy();
 
   const accordion = new Accordion('.js-accordion__item', '.js-accordion');
+
 
   const cart = new Cart({
     addToCartBtn: '.js-add-to-cart',
@@ -117,20 +118,91 @@ document.addEventListener("DOMContentLoaded", async () => {
     case 'p-faq':
       accordion.init(); 
       break;   
+
+    case 'p-contact-us':
+      const FileDropZone = await import('./modules/fileDropZone.js');
+      const itiPhone = await initPhone('.js-contact-us-form input[name="phone"]');
+      
+      const formValidator = await initValidation({
+        formSelector: ".js-contact-us-form",
+        itiPhone: itiPhone,
+        validateFields: {
+          'name': '.js-contact-us-form input[name="name"]',
+          'email': '.js-contact-us-form input[name="email"]',
+          'phone': '.js-contact-us-form input[name="phone"]',
+          'file': '.js-contact-us-form input.js-drag-and-drop-input',
+          'submit': '.js-contact-us-form .js-submit-btn',
+        }
+      });
+      
+      const formFiles = new FileDropZone.default({
+        dropArea: ".js-drag-and-drop",
+        fileInput: ".js-drag-and-drop-input",
+        previewContainer: "#file-preview-container",
+        activeClass: "is-active",
+        maxFileSizeMB: 10,
+        allowedFileTypes: [
+          'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document', // doc, docx
+          'text/xml', // xml
+          'image/jpeg', 'image/png', 'image/webp', 'image/heic', // jpg, jpeg, png, webp, heic
+          'video/quicktime', 'video/mp4' // mov, mp4
+        ]
+      });
+
+      const contactUsForm = document.querySelector('.js-contact-us-form');
+
+      if (!contactUsForm) return;
+
+      contactUsForm.addEventListener("submit", (event) => {
+        event.preventDefault();
+        console.log('formValidator: ', formValidator);
+
+
+        const isValid = Object.values(formValidator).every(value => value !== false);
+        if (!isValid) return;
+        
+        const formData = new FormData(contactUsForm);
+        ajax(formData);
+      });
+
+      const ajax = async (data) => {
+        // const cartContainer = document.querySelector('.js-quick-buy-form .js-cart-container');
+        // cartContainer.classList.add('is-loading');
+
+        const response = await fetch(`${window.ajax.url}?action=contactForm`, {
+          method: 'POST',
+          body: data, // Отправка данных в формате FormData
+        });
+
+        // cartContainer.classList.remove('is-loading');
+
+        const result = await response.json();
+        if (result.success) {
+          document.querySelector('[data-modal="#successful"]').click();
+          contactUsForm.reset();
+          formFiles.removeAllFiles();
+        } else {
+          document.querySelector('[data-modal="#error"]').click();
+        }
+      };
+
+      // sendContactForm();
+      break;
     case 'p-page is-page':
       break;   
     case 'p-single': {
       const swiperModule = await import('./modules/swiper.js');
-      const validation = await import('./modules/validation.js');
 
-      const formValidator = new validation.default();
+      const formValidator = await initValidation({
+        formSelector: ".c-comment-form",
+        validateFields: {
+          'name': '.c-comment-form [name="author"]',
+          'email': '.c-comment-form [name="email"]',
+          // 'submit': '.c-comment-form button[name="comment_submit"]',
+        }
+      });
 
-      if (document.querySelector(".c-comment-form")) {
-        formValidator.validate('firstName', '.c-comment-form [name="author"]');
-        formValidator.validate('email', '.c-comment-form [name="email"]');
-        // formValidator.validate('text', '.c-comment-form [name="comment"]');
-        formValidator.validate('submit', '.c-comment-form button[name="comment_submit"]');
-      }
+      console.log(formValidator);
 
       swiperModule.initProductRowSlider();
       initializeSummarizeButtons();
@@ -144,17 +216,79 @@ document.addEventListener("DOMContentLoaded", async () => {
   }
 });
 
-async function initPhoneAndValidation() {
-  await import('intl-tel-input/build/css/intlTelInput.css');
-  // await import('../scss/vendor/nice-select.css');
-  const { default: intlTelInput } = await import('intl-tel-input');
-  const { default: validation } = await import('./modules/validation.js');
-  const { default: niceSelect } = await import('./modules/niceSelect.js');
-  const utils = await import("intl-tel-input/build/js/utils");
+async function initCartScripts() {
+  modulesLoaded = true;
 
+  const { default: niceSelect } = await import('./modules/niceSelect.js');
   new niceSelect('select[name="contacts_client_messenger"]');
 
-  const input = document.querySelector(".js-input-block #phone");
+  const itiPhone = await initPhone('.js-quick-buy-form input[name="phone"]');
+  const validationCart = await initValidation({
+    formSelector: ".js-quick-buy-form",
+    itiPhone: itiPhone,
+    validateFields: {
+      'name': '.js-quick-buy-form [name="name"]',
+      'email': '.js-quick-buy-form [name="email"]',
+      'phone': '.js-quick-buy-form input[name="phone"]',
+      'text': '.js-quick-buy-form [name="contactInfo"]',
+      'submit': '.js-quick-buy-form .js-submit-btn',
+    }
+  });
+
+
+  const quickBuyForm = document.querySelector('.js-quick-buy-form');
+
+  if (!quickBuyForm) return;
+
+  quickBuyForm.addEventListener("submit", (event) => {
+    event.preventDefault();
+    console.log('validationCart: ', validationCart);
+
+
+    const isValid = Object.values(validationCart).every(value => value !== false);
+    if (!isValid) return;
+    
+    const formData = new FormData(quickBuyForm);
+
+    // Добавляем список продуктов вручную в formData
+    const productElements = quickBuyForm.querySelectorAll('.c-mini-cart-product');
+    productElements.forEach((product, index) => {
+      formData.append(`products[${index}][id]`, product.dataset.id);
+      formData.append(`products[${index}][quantity]`, product.dataset.quantity);
+      formData.append(`products[${index}][name]`, product.dataset.name);
+      formData.append(`products[${index}][link]`, product.dataset.link);
+    });
+
+    ajax(formData);
+  });
+
+  const ajax = async (data) => {
+    // const cartContainer = document.querySelector('.js-quick-buy-form .js-cart-container');
+    // cartContainer.classList.add('is-loading');
+
+    const response = await fetch(`${window.ajax.url}?action=contactForm`, {
+      method: 'POST',
+      body: data, // Отправка данных в формате FormData
+    });
+
+    // cartContainer.classList.remove('is-loading');
+
+    const result = await response.json();
+    if (result.success) {
+      document.querySelector('[data-modal="#successful"]').click();
+      quickBuyForm.reset();
+    } else {
+      document.querySelector('[data-modal="#error"]').click();
+    }
+  };
+}
+
+async function initPhone(phoneSelector) {
+  await import('intl-tel-input/build/css/intlTelInput.css');
+  const { default: intlTelInput } = await import('intl-tel-input');
+  const utils = await import("intl-tel-input/build/js/utils");
+
+  const input = document.querySelector(phoneSelector);
   if (!input) return;
 
   const iti = intlTelInput(input, {
@@ -176,13 +310,22 @@ async function initPhoneAndValidation() {
     utilsScript: utils
   });
 
-  const formValidator = new validation();
+  return iti;
+}
 
-  if (document.querySelector("form[name='quick-buy']")) {
-    formValidator.validate('firstName', '.js-input-block [name="name"]');
-    formValidator.validate('email', '.js-input-block [name="email"]');
-    formValidator.validate('phone', iti);
-    formValidator.validate('text', '.js-input-block [name="contactInfo"]');
-    formValidator.validate('submit', 'button[name="quick-buy-submit"]');
+async function initValidation({ formSelector, itiPhone = null, validateFields }) {
+  const form = document.querySelector(formSelector);
+  if (!form) return;
+
+  const { default: Validation } = await import('./modules/validation.js');
+  const formValidator = new Validation();
+  
+  for (const [fieldType, selector] of Object.entries(validateFields)) {
+    if (itiPhone && fieldType === 'phone') {
+      formValidator.validate(fieldType, selector, itiPhone);
+    }
+    formValidator.validate(fieldType, selector);
   }
+
+  return formValidator.getResults();
 }

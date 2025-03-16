@@ -2,32 +2,49 @@ import validator from 'validator';
 
 export default class validation {
   disallow_nums = /[0-9\/]+/;
+  maxFileSize = 10 * 1024 * 1024; // 10MB
+  allowedFileTypes = [
+    'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document', // doc, docx
+    'text/xml', // xml
+    'image/jpeg', 'image/png', 'image/webp', 'image/heic', // jpg, jpeg, png, webp, heic
+    'video/quicktime', 'video/mp4' // mov, mp4
+  ];
+  validationResults = {};
 
   /**
-   *
-   * @param type
-   * @param selector
+   * @param {string} type - Тип валидации (email, phone, text и т. д.)
+   * @param {string | object} selector - Селектор поля или объект (для телефона)
+   * @returns {boolean} - Результат валидации
    */
-  validate(type, selector) {
+  validate(type, selector, itiPhone) {
+    this.validationResults[type] = null;
     switch (type) {
+      case 'file':
+        this.file(selector, type);
+        break;
+      case 'name':
       case 'firstName':
       case 'lastName':
-        this.firstName(selector)
+        this.name(selector, type)
         break
       case 'text':
-        this.text(selector)
+        this.text(selector, type)
         break
       case 'email':
-        this.email(selector)
+        this.email(selector, type)
         break
       case 'phone':
-        this.phone(selector)
+        this.phone(selector, type, itiPhone)
         break  
       case 'submit':
-        this.submit(selector)
-
+        this.submit(selector, type)
     }
   }
+
+  updateValidationResult = (type, isValid) => {
+    this.validationResults[type] = isValid;
+    // console.log(selector, isValid);
+  };
 
   strError(errorText) {
     const lang = document.documentElement.getAttribute('lang');
@@ -40,6 +57,8 @@ export default class validation {
         'Too short': 'Занадто коротке',
         'Too long': 'Занадто довге',
         'Password must be at least 6 characters long': 'Пароль повинен містити щонайменше 6 символів',
+        'Invalid file type': 'Недопустимий тип файлу',
+        'File is too large': 'Файл занадто великий (макс. 10MB)',
       },
       'ru-RU': {
         'This field is required': 'Это поле обязательно',
@@ -49,6 +68,8 @@ export default class validation {
         'Too short': 'Слишком короткое',
         'Too long': 'Слишком длинное',
         'Password must be at least 6 characters long': 'Пароль должен содержать не менее 6 символов',
+        'Invalid file type': 'Недопустимый тип файла',
+        'File is too large': 'Файл слишком большой (макс. 10MB)',
       },
       'en-GB': {
         'This field is required': 'This field is required',
@@ -58,6 +79,8 @@ export default class validation {
         'Too short': 'Too short', 
         'Too long': 'Too long',
         'Password must be at least 6 characters long': 'Password must be at least 6 characters long',
+        'Invalid file type': 'Invalid file type',
+        'File is too large': 'File is too large (max 10MB)',
       },
       'en-US': {
         'This field is required': 'This field is required',
@@ -67,6 +90,8 @@ export default class validation {
         'Too short': 'Too short', 
         'Too long': 'Too long',
         'Password must be at least 6 characters long': 'Password must be at least 6 characters long',
+        'Invalid file type': 'Invalid file type',
+        'File is too large': 'File is too large (max 10MB)',
       }
     }
     return str[lang][errorText];
@@ -75,11 +100,9 @@ export default class validation {
   /**
    * Validate the empty fields before submit
    */
-  submit(selector) {
+  submit(selector, type) {
     let checkout_form_submit = document.querySelector(selector)
-
-    this.boundSubmitValidator = e => this.submitValidator(e, checkout_form_submit)
-    checkout_form_submit.addEventListener('click', this.boundSubmitValidator);
+    checkout_form_submit.addEventListener('click', (e) => this.submitValidator(e, checkout_form_submit, type));
   }
 
   /**
@@ -90,55 +113,91 @@ export default class validation {
   submitValidator(e, field) {
     let from = field.closest('form')
     for (let i = 0; i < from.length; i++) {
+      let _isValid = false;
       if (from[i].hasAttribute('required') && from[i].value === "") {
-        this.isValid(false, from[i], this.strError('This field is required'));
+        _isValid = false;
+        this.isValid(_isValid, from[i], this.strError('This field is required'));
+      } else if (from[i].classList.contains('invalid') && from[i].value !== "") {
+        _isValid = false;
+        this.isValid(_isValid, from[i], this.strError('Invalid input format'));
       } else {
-        this.isValid(true, from[i], '');
+        _isValid = true;
+        this.isValid(_isValid, from[i], '');
+      }
+
+      // this.validationResults[type] = _isValid;
+    }
+    
+    // if (from.querySelectorAll('.invalid').length) {
+    //   e.preventDefault()
+    // }
+  }
+
+  /**
+   * Валидация файлов
+   * @param selector - input[type=file]
+   */
+  file(selector, type) {
+    let fileInput = document.querySelector(selector);
+    fileInput.addEventListener('change', (e) => this.fileValidator(e, fileInput, type));
+  }
+
+  fileValidator(e, field, type) {
+    const files = e.target.files;
+    let _isValid = true;
+    let errorMsg = '';
+
+    for (let file of files) {
+      if (!this.allowedFileTypes.includes(file.type)) {
+        _isValid = false;
+        errorMsg = this.strError('Invalid file type');
+        break;
+      }
+
+      if (file.size > this.maxFileSize) {
+        _isValid = false;
+        errorMsg = this.strError('File is too large');
+        break;
       }
     }
 
-    if (from.querySelectorAll('.invalid').length) {
-      e.preventDefault()
-    }
+    this.isValid(_isValid, field, errorMsg);
+    this.updateValidationResult(type, _isValid);
   }
+  
 
   /**
    * Field interaction handler: keydown, keyup
    * @param selector
    */
-  firstName(selector) {
+  name(selector, type) {
     let field = document.querySelector(selector)
-    field.addEventListener("keydown", event => {
-      if (this.disallow_nums.test(event.key)) {
-        event.preventDefault()
-      }
-    })
-    if (field.name === 'name') {
-      field.setAttribute("maxlength", "40");
-    } else {
-      field.setAttribute("maxlength", "20");
+    field.addEventListener('keyup', (e) => this.nameStringValidator(e, field, type));
+  }
+
+  nameStringValidator(e, field, type) {
+    const value = e.target.value;
+    const specialCharsOnly = /^[a-zA-Z\u0400-\u04FF\s-]+$/;
+
+    let _isValid = !this.disallow_nums.test(value);
+    if (_isValid) {
+      _isValid = specialCharsOnly.test(value);
     }
-    this.boundFirstNameValidator = e => this.firstNameStringValidator(e, field)
-    field.addEventListener('keyup', this.boundFirstNameValidator);
+
+    let error_msg = value === '' 
+      ? this.strError('This field is required') 
+      : this.strError('Invalid input format');
+
+    this.isValid(_isValid, field, error_msg);
+    this.updateValidationResult(type, _isValid);
   }
 
-  firstNameStringValidator(e, field) {
-    // Проверка на валидность введённых данных
-    let value = e.target.value;
-    let isValid = /^[a-zA-Z\u0400-\u04FF\s-]+$/.test(value); // Регулярное выражение для проверки всех букв кириллицы и латиницы, а также пробелов и дефисов
-
-    // Формирование сообщения об ошибке
-    let error_msg = value === '' ? this.strError('This field is required') : this.strError('Invalid input format');
-    this.isValid(isValid, field, error_msg);
-  }
-
-  text(selector) {
+  text(selector, type) {
     let field = document.querySelector(selector)
-    this.boundTextValidator = e => this.textStringValidator(e, field)
-    field.addEventListener('keyup', this.boundTextValidator);
+    field.addEventListener('keyup', (e) => this.textStringValidator(e, field, type));
   }
 
-  textStringValidator(e, field) {
+  textStringValidator(e, field, type) {
     const value = e.target.value;
     const forbiddenChars = /[<>{}%&)(]/; 
     const specialCharsOnly = /^[^a-zA-Z\u0400-\u04FF0-9]{5,}$/;
@@ -148,47 +207,70 @@ export default class validation {
       _isValid = !specialCharsOnly.test(value);
     }
 
-    console.log(_isValid);
+    let error_msg = value === '' 
+      ? this.strError('This field is required') 
+      : this.strError('Invalid input format');
 
-    let error_msg = value === '' ? this.strError('This field is required') : this.strError('Invalid input format');
     this.isValid(_isValid, field, error_msg);
+    this.updateValidationResult(type, _isValid);
   }
 
 
   /**
    * Email validation
    */
-  email(selector) {
+
+  email(selector, type) {
     let field = document.querySelector(selector)    
-    this.boundEmailStringValidation = e => this.emailStringValidation(e, field)
-    field.addEventListener('keyup', this.boundEmailStringValidation);
+    field.addEventListener('keyup', (e) => this.emailStringValidation(e, field, type));
   }
 
-  emailStringValidation(e, field) {
-    let _isValid = validator.isEmail(e.target.value)
-    let error_msg = e.target.value === '' ? this.strError('This field is required') : this.strError('Invalid input format')
-    this.isValid(_isValid, field, error_msg)
+  emailStringValidation(e, field, type) {
+    if (!field) return false; // Предохранитель
+  
+    let _isValid = validator.isEmail(e.target.value);
+    let error_msg = e.target.value === '' 
+      ? this.strError('This field is required') 
+      : this.strError('Invalid input format');
+  
+    this.isValid(_isValid, field, error_msg);
+    this.updateValidationResult(type, _isValid);
   }
 
   /**
    * Phone number masking and validation
    * @param selector
    */
-  phone(telInstance) {
-    let field = telInstance.telInput
-    this.boundPhoneStringValidator = e => this.phoneStringValidator(e, field, telInstance)
-    field.addEventListener('keyup', this.boundPhoneStringValidator);
+  phone(selector, type, itiPhone = null) {
+    let field = document.querySelector(selector);
+    field.addEventListener('keyup', (e) => this.phoneStringValidator(e, field, type, itiPhone));
   }
-
-  phoneStringValidator(e, field, telInstance) {
+  
+  phoneStringValidator(e, field, type, telInstance = null) {
     const errorMap = ["Invalid number", "Invalid country code", "Too short", "Too long", "Invalid number"];
-    let _isValid = telInstance.isValidNumber()
-    const errorCode = telInstance.getValidationError();
-    const errorText = errorMap[errorCode] || "Invalid number";
-    let error_msg = field.value === '' ? this.strError(errorText) : this.strError(errorText);
-    this.isValid(_isValid, field, error_msg)
+    let _isValid = false;
+    let errorCode = '';
+    let error_msg = '';
+  
+    if (telInstance) {
+      // Если передан telInstance, используем его методы для проверки
+      _isValid = telInstance.isValidNumber();
+      errorCode = telInstance.getValidationError();
+      error_msg = field.value === '' ? this.strError('This field is required') : this.strError(errorMap[errorCode] || 'Invalid number');
+    } else {
+      // Если telInstance не передан, используем старую проверку
+      _isValid = validator.isMobilePhone(field.value, ['sq-AL', 'ca-AD', 'de-AT', 'be-BY', 'fr-BE', 'bg-BG', 'cs-CZ', 'da-DK', 'et-EE', 'fi-FI', 
+      'fr-FR', 'de-DE', 'el-GR', 'hu-HU', 'en-IE', 'it-IT', 'lt-LT', 'de-LU', 'en-MT', 'ro-Md', 
+      'nl-NL', 'nb-NO', 'pl-PL', 'pt-PT', 'ro-RO', 'it-SM', 'sr-RS', 'sk-SK', 'sl-SI', 'es-ES', 
+      'sv-SE', 'de-CH', 'uk-UA', 'en-GB', 'ka-GE', 'az-AZ', 'kk-KZ', 'tr-TR', 'en-US', 'en-CA', 
+      'pt-BR', 'en-ZA', 'ar-EG', 'en-NG', 'en-KE', 'en-GH', 'ar-DZ', 'ar-TN'], { strict: true });
+      error_msg = field.value === '' ? this.strError('This field is required') : this.strError('Invalid input format');
+    }
+  
+    // Обновление результата валидации
+    this.isValid(_isValid, field, error_msg);
+    this.updateValidationResult(type, _isValid);
   }
-
 
   /**
    * manage status classes and form submit
@@ -221,11 +303,11 @@ export default class validation {
     }
   }
   
-
   errorMsg(field, error_type) {
-    if (field.nextElementSibling !== null && field.nextElementSibling.classList.contains('error-msg')) {
-      field.nextElementSibling.remove()
-    }
+    // if (field.nextElementSibling !== null && field.nextElementSibling.classList.contains('error-msg')) {
+    //   field.nextElementSibling.remove()
+    // }
+    this.clearErrorMsg(field);
     let error_node = document.createElement("span")
     error_node.innerHTML = error_type
     error_node.classList.add('error-msg')
@@ -237,5 +319,13 @@ export default class validation {
     if (field.nextElementSibling !== null && field.nextElementSibling.classList.contains('error-msg')) {
       field.nextElementSibling.remove()
     }
+  }
+
+  /**
+   * Получить текущий статус валидации
+   * @returns {Object} - Объект с результатами всех проверок
+   */
+  getResults() {
+    return this.validationResults;
   }
 }
