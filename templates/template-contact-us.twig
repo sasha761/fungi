@@ -7,50 +7,94 @@
 
       <div class="row">
         <div class="col-lg-6">
-          <form action="" class="c-form is-contact-us js-contact-us-form" name="contact-us" method="POST">
-            <h3>Надіслати повідомлення</h3>
-            <div class="c-inform is-blue has-img">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path opacity="0.15" d="M22 12C22 17.5228 17.5228 22 12 22C6.47715 22 2 17.5228 2 12C2 6.47715 6.47715 2 12 2C17.5228 2 22 6.47715 22 12Z" fill="#276EF7"/>
-                <path d="M12.9659 8.348H11.0339V6.5H12.9659V8.348Z" fill="#276EF7"/>
-                <path d="M12.502 10H10.5V11.5L11.502 11.5L11.502 15.5H10.5V17H14L14 15.5H13.002L13.002 10.5C13.002 10.2239 12.7781 10 12.502 10Z" fill="#276EF7"/>
-              </svg>
-              <p>Ми не продаємо техніку та запчастини, з усіх питань звертайтеся безпосередньо до продавців, контактну інформацію вказано в кожному оголошенні.</p>
-            </div>
-
-            <div class="c-input js-input-block">
-              <label for="client_name">{{ 'Name' | translateString('input - Name') }}</label>
-              <input type="text" name="name" required id="client_name" >
-            </div>
-            <div class="c-input js-input-block">
-              <input type="tel" name="phone" required id="phone" >
-            </div>
-            <div class="c-input js-input-block">
-              <label for="client_email">Email</label>
-              <input type="email" name="email" required id="client_email">
-            </div>
-            <div class="c-input">
-              <textarea type="text" rows="5" cols="30" name="text" placeholder="Повідомлення"></textarea>
-            </div>
-            {# <input type="file" name="file-input22"> #}
-            <div class="c-input js-input-block is-file js-drag-and-drop">
-              <input id="file-input" type="file" name="files[]" class="js-drag-and-drop-input" multiple accept=".doc,.docx,.xml,.jpg,.jpeg,.png,.webp,.heic,.mov,.mp4">
-
-              <div class="c-input__file-area">
-                <svg width="40" height="41" viewBox="0 0 40 41" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <rect x="0.5" y="1" width="39" height="39" rx="19.5" stroke="#D7D7D7"/>
-                  <path fill-rule="evenodd" clip-rule="evenodd" d="M19.25 21.25V29.5H20.75V21.25H29V19.75H20.75V11.5H19.25V19.75H11V21.25H19.25Z" fill="#276EF7"/>
+          <div class="c-block">
+            <form action="" class="c-form is-contact-us js-contact-us-form" name="contact-us" method="POST">
+              <h2>Надіслати повідомлення</h2>
+              <div class="c-inform is-blue has-img">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path opacity="0.15" d="M22 12C22 17.5228 17.5228 22 12 22C6.47715 22 2 17.5228 2 12C2 6.47715 6.47715 2 12 2C17.5228 2 22 6.47715 22 12Z" fill="#276EF7"/>
+                  <path d="M12.9659 8.348H11.0339V6.5H12.9659V8.348Z" fill="#276EF7"/>
+                  <path d="M12.502 10H10.5V11.5L11.502 11.5L11.502 15.5H10.5V17H14L14 15.5H13.002L13.002 10.5C13.002 10.2239 12.7781 10 12.502 10Z" fill="#276EF7"/>
                 </svg>
-                <p>Перетягнути файл, зображення або документ. Доступные форматы (jpg, jpeg, png, webp, heic, doc, docx, mov, mp4)</p>
+                <p>Ми не продаємо техніку та запчастини, з усіх питань звертайтеся безпосередньо до продавців, контактну інформацію вказано в кожному оголошенні.</p>
               </div>
-            </div>
-            <div id="file-preview-container" class="c-file-preview-container"></div>
 
-            <input type="hidden" name="action" value="contactForm">
-            <button class="u-btn is-black js-submit-btn" type="submit" name="submit">{{ 'Send' | translateString('buttons - Send') }}</button>
-          </form>
+              <div class="c-input js-input-block">
+                <label for="client_name">{{ 'Name' | translateString('input - Name') }}</label>
+                <input type="text" name="name" required id="client_name" >
+              </div>
+              <div class="c-input js-input-block">
+                <input type="tel" name="phone" required class="js-phone" id="phone" >
+              </div>
+              <div class="c-input js-input-block">
+                <label for="client_email">Email</label>
+                <input type="email" name="email" required id="client_email">
+              </div>
+              <div class="c-input">
+                <textarea type="text" rows="5" cols="30" name="text" placeholder="Повідомлення"></textarea>
+              </div>
+              <div class="c-input js-input-block is-file js-drag-and-drop">
+                <input id="file-input" type="file" name="files[]" class="js-drag-and-drop-input" multiple accept=".doc,.docx,.xml,.jpg,.jpeg,.png,.webp,.heic,.mov,.mp4">
+
+                <div class="c-input__file-area">
+                  <svg width="40" height="41" viewBox="0 0 40 41" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect x="0.5" y="1" width="39" height="39" rx="19.5" stroke="#D7D7D7"/>
+                    <path fill-rule="evenodd" clip-rule="evenodd" d="M19.25 21.25V29.5H20.75V21.25H29V19.75H20.75V11.5H19.25V19.75H11V21.25H19.25Z" fill="#276EF7"/>
+                  </svg>
+                  <p>Перетягнути файл, зображення або документ. Доступные форматы (jpg, jpeg, png, webp, heic, doc, docx, mov, mp4)</p>
+                </div>
+              </div>
+              <div id="file-preview-container" class="c-file-preview-container"></div>
+
+              <input type="hidden" name="action" value="contactForm">
+              <button class="u-btn is-black js-submit-btn" type="submit" name="submit">{{ 'Send' | translateString('buttons - Send') }}</button>
+            </form>
+          </div>
         </div>
-        <div class="col-lg-7"></div>
+        <div class="col-lg-6">
+          <div class="c-block">
+            <div class="c-block__title">
+              <h2>Замовити зворотній дзвінок</h2>
+            </div>
+            <form class="c-form js-callback-form" name="contact-us" method="POST">
+              <div class="c-input js-input-block">
+                <input type="tel" name="phone" required class="js-phone" >
+              </div>
+              <input type="hidden" name="action" value="callbackForm">
+              <button class="u-btn is-black js-submit-btn" type="submit" name="submit">{{ 'Send' | translateString('buttons - Send') }}</button>
+            </form>
+          </div>
+
+          <div class="c-block">
+            <div class="c-block__title">
+              <h2>Адреса</h2>
+              {% include 'templates/partial/social.twig' with {'share': false} %}
+            </div>
+            
+              <div class="c-address">
+                <div class="c-address__item">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path fill-rule="evenodd" clip-rule="evenodd" d="M18.5 9.48264C18.5 11.156 18.2433 12.324 17.339 13.8289C16.4097 15.3756 14.8032 17.2663 12.0033 20.2688C9.19984 17.2661 7.59173 15.3752 6.66161 13.8286C5.75667 12.3238 5.5 11.1559 5.5 9.48264C5.5 6.42376 8.33729 3.5 12 3.5C15.6627 3.5 18.5 6.42376 18.5 9.48264ZM20 9.48264C20 13.2921 18.7554 15.2558 12.732 21.6858C12.3389 22.1055 11.6687 22.1057 11.2753 21.6862C5.24465 15.2559 4 13.2922 4 9.48264C4 5.5243 7.58172 2 12 2C16.4183 2 20 5.5243 20 9.48264ZM13.5 10C13.5 10.8284 12.8284 11.5 12 11.5C11.1716 11.5 10.5 10.8284 10.5 10C10.5 9.17157 11.1716 8.5 12 8.5C12.8284 8.5 13.5 9.17157 13.5 10ZM15 10C15 11.6569 13.6569 13 12 13C10.3431 13 9 11.6569 9 10C9 8.34315 10.3431 7 12 7C13.6569 7 15 8.34315 15 10Z" fill="#0E1117" />
+                  </svg>
+                  Україна, Київ
+                </div>
+                
+                <div class="c-address__item">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path fill-rule="evenodd" clip-rule="evenodd" d="M12.75 3.02639C13.2872 3.06004 13.8228 3.12988 14.3529 3.23591L14.6471 1.76504C12.8997 1.41556 11.1003 1.41556 9.35291 1.76504L9.64709 3.23591C10.1772 3.12988 10.7128 3.06004 11.25 3.02639V4.03128C9.3282 4.18983 7.57761 4.95218 6.18837 6.12819L5.03033 4.97015L3.96967 6.03081L5.12771 7.18885C3.80037 8.75686 3 10.7852 3 13.0005C3 17.971 7.02944 22.0005 12 22.0005C16.9706 22.0005 21 17.971 21 13.0005C21 10.7852 20.1996 8.75686 18.8723 7.18885L20.0303 6.03081L18.9697 4.97015L17.8116 6.12819C16.4224 4.95218 14.6718 4.18983 12.75 4.03128V3.02639ZM19.5 13.0005C19.5 17.1426 16.1421 20.5005 12 20.5005C7.85786 20.5005 4.5 17.1426 4.5 13.0005C4.5 8.85834 7.85786 5.50048 12 5.50048C16.1421 5.50048 19.5 8.85834 19.5 13.0005ZM11.25 14.0005V8.00048H12.75V14.0005H11.25Z" fill="#0E1117" />
+                  </svg>
+                  Пн. - Пт. 9.00 - 18.00
+                </div>
+
+                <div class="c-address__item">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path fill-rule="evenodd" clip-rule="evenodd" d="M9 4.5H15C15.8284 4.5 16.5 5.17157 16.5 6V18C16.5 18.8284 15.8284 19.5 15 19.5H9C8.17157 19.5 7.5 18.8284 7.5 18V6C7.5 5.17157 8.17157 4.5 9 4.5ZM6 6C6 4.34315 7.34315 3 9 3H15C16.6569 3 18 4.34315 18 6V18C18 19.6569 16.6569 21 15 21H9C7.34315 21 6 19.6569 6 18V6ZM14 16.5H10V18H14V16.5Z" fill="#0E1117" />
+                  </svg>
+                  <a href="tel:+38 (044) 575 15 15">+38 (044) 575 15 15</a>
+                </div>
+              </div>
+          </div>
+        </div>
       </div>
     </div>
   </main>

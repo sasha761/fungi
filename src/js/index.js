@@ -128,11 +128,14 @@ async function singlePage() {
 }
 
 async function contactUsPage() {
-  const formSelector = document.querySelector('.js-contact-us-form');
+  const contactUsFormSelector = document.querySelector('.js-contact-us-form');
+  const callbackFormSelector = document.querySelector('.js-callback-form');
   const FileDropZone = await import('./modules/fileDropZone.js');
   const itiPhone = await initPhone('.js-contact-us-form input[name="phone"]');
+  const itiPhoneCallback = await initPhone('.js-callback-form input[name="phone"]');
   
-  const formValidator = await initValidation({
+  // contact us form
+  const contactUsFormValidator = await initValidation({
     formSelector: ".js-contact-us-form",
     itiPhone: itiPhone,
     validateFields: {
@@ -144,6 +147,7 @@ async function contactUsPage() {
     }
   });
   
+  // console.log('itiPhone: ', itiPhone);
   const formFiles = new FileDropZone.default({
     dropArea: ".js-drag-and-drop",
     fileInput: ".js-drag-and-drop-input",
@@ -159,12 +163,34 @@ async function contactUsPage() {
   });
 
   submitFormData({
-    formElement: formSelector,
-    formValidation: formValidator,
+    formElement: contactUsFormSelector,
+    formValidation: contactUsFormValidator,
     onSuccess: () => { 
       document.querySelector('[data-modal="#successful"]').click();
-      formSelector.reset();
+      contactUsFormSelector.reset();
       formFiles.removeAllFiles();
+    },
+    onError: () => {
+      document.querySelector('[data-modal="#error"]').click();
+    }
+  });
+
+  // callback form
+  const callbackFormValidator = await initValidation({
+    formSelector: ".js-callback-form",
+    itiPhone: itiPhoneCallback,
+    validateFields: {
+      'phone': '.js-callback-form input[name="phone"]',
+      'submit': '.js-callback-form .js-submit-btn',
+    }
+  });
+
+  submitFormData({
+    formElement: callbackFormSelector,
+    formValidation: callbackFormValidator,
+    onSuccess: () => { 
+      document.querySelector('[data-modal="#successful"]').click();
+      callbackFormSelector.reset();
     },
     onError: () => {
       document.querySelector('[data-modal="#error"]').click();
@@ -261,6 +287,9 @@ async function initPhone(phoneSelector) {
 
   const iti = intlTelInput(input, {
     initialCountry: "auto",
+    strictMode: true,
+    // nationalMode: true,
+    hiddenInput: () => ({ phone: "full_phone", country: "country_code" }),
     onlyCountries: [
       "al", "ad", "at", "by", "be", "bg", "hr", "cz", "dk", "ee", "fi", "fr",
       "de", "gi", "gr", "va", "hu", "is", "ie", "it", "lv", "li", "lt", "lu", "mk",
@@ -275,7 +304,8 @@ async function initPhone(phoneSelector) {
         .then(data => callback(data.country_code))
         .catch(() => callback("us"));
     },
-    utilsScript: utils
+    loadUtils: () => utils,
+    // utilsScript: utils
   });
 
   return iti;
@@ -291,8 +321,10 @@ async function initValidation({ formSelector, itiPhone = null, validateFields })
   for (const [fieldType, selector] of Object.entries(validateFields)) {
     if (itiPhone && fieldType === 'phone') {
       formValidator.validate(fieldType, selector, itiPhone);
+    } else {
+      formValidator.validate(fieldType, selector);
     }
-    formValidator.validate(fieldType, selector);
+    
   }
 
   return formValidator.getResults();

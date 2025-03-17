@@ -2,10 +2,50 @@
 add_action( 'wp_ajax_contactForm', 'contactForm' );
 add_action( 'wp_ajax_nopriv_contactForm', 'contactForm' );
 
+add_action( 'wp_ajax_callbackForm', 'callbackForm' );
+add_action( 'wp_ajax_nopriv_callbackForm', 'callbackForm' );
+
+function callbackForm() {
+  $phone = !empty($_POST['full_phone']) ? esc_html($_POST['full_phone']) : esc_html($_POST['phone']);
+
+  if (empty($phone)) {
+    wp_send_json_error(['message' => 'Пожалуйста, заполните обязательные поля или неправильный формат email']);
+    wp_die();
+  }
+
+  $lines = [];
+  $lines[] = 'Форма обратного звонка.';
+  $lines[] = 'Телефон: ' . $phone;
+
+  $user_mail_body = implode("\n", $lines);
+  // $user_mail_body = 'Телефон: ' . $phone;
+
+
+  $subject = 'call back form';
+  $to_admin = get_option('admin_email');
+  $headers = [
+    'Content-Type: text/html; charset=UTF-8;',
+    'From: ' . get_bloginfo('name') . ' <' . $to_admin . '>',
+  ];
+
+  // Отправка письма
+  $mailResult = wp_mail($to_admin, $subject, $user_mail_body, $headers);
+  send_telegram_message( $user_mail_body, TG_ID_CHAT, TG_TOKEN );
+
+  if ($mailResult) {
+      wp_send_json_success(['message' => 'Сообщение успешно отправлено!']);
+  } else {
+      wp_send_json_error(['message' => 'Ошибка при отправке сообщения. Попробуйте позже.']);
+  }
+
+  wp_die();
+}
+
 function contactForm() {
   $name = !empty($_POST['name']) ? sanitize_text_field($_POST['name']) : '';
   $email = !empty($_POST['email']) ? sanitize_email($_POST['email']) : '';
-  $phone = !empty($_POST['phone']) ? $_POST['phone'] : '';
+  $phone = !empty($_POST['full_phone']) ? esc_html($_POST['full_phone']) : esc_html($_POST['phone']);
+  // $phone = !empty($_POST['phone']) ? esc_html($_POST['phone']) : '';
   $messenger = !empty($_POST['contacts_client_messenger']) ? sanitize_text_field($_POST['contacts_client_messenger']) : '';
   $messenger_value = !empty($_POST['contactInfo']) ? sanitize_text_field($_POST['contactInfo']) : '';
   $text = !empty($_POST['text']) ? sanitize_text_field($_POST['text']) : '';
@@ -120,7 +160,6 @@ function contactForm() {
 
   wp_die();
 }
-
 
 function create_order($name, $email, $phone, $messenger, $messenger_value, $products) {
   if (empty($email) || empty($name) || empty($products)) {
