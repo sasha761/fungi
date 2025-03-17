@@ -4,27 +4,26 @@ import Accordion    from './modules/accordion.js';
 import modal        from './modules/modal-container.js';
 import tabs         from './modules/tabs.js';
 import likes        from './modules/likes.js';
-// import quickBuy     from './modules/quick-buy.js';
-// import sendContactForm     from './modules/sendContactForm.js';
 import burgerMenu   from './modules/burger.js';
 import Cart         from './modules/cart.js';
 import inputBlock   from './modules/input-block';
 import headerSticky from './modules/header.js';
 
+import {submitFormData, sendAjax} from './modules/sendFormData.js';
 
 import LazyLoad     from 'vanilla-lazyload';
 import { initializeSummarizeButtons } from './modules/summarizeButtons.js';
 
 let modulesLoaded = false;
 
-document.addEventListener('cartUpdated', async (e) => {
+document.addEventListener('cartUpdated', (e) => {
   const { count } = e.detail;
   if (count > 0 && !modulesLoaded) {
-    await initCartScripts();
+    initCartScripts();
   }
 });
 
-document.addEventListener("DOMContentLoaded", async () => {
+document.addEventListener("DOMContentLoaded", () => {
   window.lazyLoadInstance = new LazyLoad({
     cancel_on_exit: false,
     threshold: 150,
@@ -36,9 +35,8 @@ document.addEventListener("DOMContentLoaded", async () => {
     hiddenClass: 'scrolled-down'
   })
   
-  
   if (ajax.cartCount > 0) {
-    await initCartScripts();
+    initCartScripts();
   }
 
   new modal('.c-modal', '.l-modal-container');
@@ -46,7 +44,6 @@ document.addEventListener("DOMContentLoaded", async () => {
   
   burgerMenu();
   inputBlock();
-  // quickBuy();
 
   const accordion = new Accordion('.js-accordion__item', '.js-accordion');
 
@@ -65,9 +62,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   const pageClass = document.querySelector('main').classList.value;
   switch (pageClass) {
     case 'p-main': {
-      const swiperModule = await import('./modules/swiper.js');
-      swiperModule.initblogCategorySlider();
-      swiperModule.initProductRowSlider();
+      homePage();
       break;
     }
     case 'p-shop': {
@@ -75,138 +70,24 @@ document.addEventListener("DOMContentLoaded", async () => {
       break;
     }  
     case 'p-product': {
-      const [
-        swiperModule, 
-        lightboxModule,
-        ratingModule,
-        validation
-      ] = await Promise.all([
-        import('./modules/swiper.js'),
-        import('./modules/lightbox.js'),
-        import('./modules/rating-stars.js'),
-        import('./modules/validation.js')
-      ]);
-      swiperModule.initProductRowSlider();
-      swiperModule.initProductGallerySlider();
-      ratingModule.initRatingModule({
-        reviewRatingRequired: true,
-        requiredRatingText: 'Не забудьте выбрать оценку!',
-      });
-
-      const formValidator = new validation.default();
-
-      if (document.querySelector(".c-comment-form")) {
-        formValidator.validate('firstName', '.c-comment-form [name="author"]');
-        formValidator.validate('email', '.c-comment-form [name="email"]');
-        // formValidator.validate('text', '.c-comment-form [name="comment"]');
-        formValidator.validate('submit', '.c-comment-form button[name="comment_submit"]');
-      }
-
-      new lightboxModule.default('.js-lightbox', '.js-lightbox-modal');
+      productPage();
       break;
     }
     case 'p-checkout':
-
       break;   
     case 'p-shop p-search':
-      break;
-    case 'p-cart':
-      // updateCart();
-      break;
-    case 'p-thank':
-      break;     
+      break;  
     case 'p-faq':
       accordion.init(); 
       break;   
-
-    case 'p-contact-us':
-      const FileDropZone = await import('./modules/fileDropZone.js');
-      const itiPhone = await initPhone('.js-contact-us-form input[name="phone"]');
-      
-      const formValidator = await initValidation({
-        formSelector: ".js-contact-us-form",
-        itiPhone: itiPhone,
-        validateFields: {
-          'name': '.js-contact-us-form input[name="name"]',
-          'email': '.js-contact-us-form input[name="email"]',
-          'phone': '.js-contact-us-form input[name="phone"]',
-          'file': '.js-contact-us-form input.js-drag-and-drop-input',
-          'submit': '.js-contact-us-form .js-submit-btn',
-        }
-      });
-      
-      const formFiles = new FileDropZone.default({
-        dropArea: ".js-drag-and-drop",
-        fileInput: ".js-drag-and-drop-input",
-        previewContainer: "#file-preview-container",
-        activeClass: "is-active",
-        maxFileSizeMB: 10,
-        allowedFileTypes: [
-          'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document', // doc, docx
-          'text/xml', // xml
-          'image/jpeg', 'image/png', 'image/webp', 'image/heic', // jpg, jpeg, png, webp, heic
-          'video/quicktime', 'video/mp4' // mov, mp4
-        ]
-      });
-
-      const contactUsForm = document.querySelector('.js-contact-us-form');
-
-      if (!contactUsForm) return;
-
-      contactUsForm.addEventListener("submit", (event) => {
-        event.preventDefault();
-        console.log('formValidator: ', formValidator);
-
-
-        const isValid = Object.values(formValidator).every(value => value !== false);
-        if (!isValid) return;
-        
-        const formData = new FormData(contactUsForm);
-        ajax(formData);
-      });
-
-      const ajax = async (data) => {
-        // const cartContainer = document.querySelector('.js-quick-buy-form .js-cart-container');
-        // cartContainer.classList.add('is-loading');
-
-        const response = await fetch(`${window.ajax.url}?action=contactForm`, {
-          method: 'POST',
-          body: data, // Отправка данных в формате FormData
-        });
-
-        // cartContainer.classList.remove('is-loading');
-
-        const result = await response.json();
-        if (result.success) {
-          document.querySelector('[data-modal="#successful"]').click();
-          contactUsForm.reset();
-          formFiles.removeAllFiles();
-        } else {
-          document.querySelector('[data-modal="#error"]').click();
-        }
-      };
-
-      // sendContactForm();
+    case 'p-contact-us': {
+      contactUsPage();
       break;
+    }
     case 'p-page is-page':
       break;   
     case 'p-single': {
-      const swiperModule = await import('./modules/swiper.js');
-
-      const formValidator = await initValidation({
-        formSelector: ".c-comment-form",
-        validateFields: {
-          'name': '.c-comment-form [name="author"]',
-          'email': '.c-comment-form [name="email"]',
-          // 'submit': '.c-comment-form button[name="comment_submit"]',
-        }
-      });
-
-      console.log(formValidator);
-
-      swiperModule.initProductRowSlider();
-      initializeSummarizeButtons();
-      likes();
+      singlePage();
       break;  
     } 
     case 'p-reviews':
@@ -215,6 +96,118 @@ document.addEventListener("DOMContentLoaded", async () => {
       break;
   }
 });
+
+async function singlePage() {
+  const formSelector = document.querySelector('.c-comment-form');
+  const swiperModule = await import('./modules/swiper.js');
+
+  const formValidator = await initValidation({
+    formSelector: ".c-comment-form",
+    validateFields: {
+      'name': '.c-comment-form [name="author"]',
+      'email': '.c-comment-form [name="email"]',
+      'submit': '.c-comment-form button[name="comment_submit"]',
+    }
+  });
+
+  submitFormData({
+    formElement: formSelector,
+    formValidation: formValidator,
+    onSuccess: () => { 
+      document.querySelector('[data-modal="#successful"]').click();
+      formSelector.reset();
+    },
+    onError: () => {
+      document.querySelector('[data-modal="#error"]').click();
+    }
+  });
+
+  swiperModule.initProductRowSlider();
+  initializeSummarizeButtons();
+  likes();
+}
+
+async function contactUsPage() {
+  const formSelector = document.querySelector('.js-contact-us-form');
+  const FileDropZone = await import('./modules/fileDropZone.js');
+  const itiPhone = await initPhone('.js-contact-us-form input[name="phone"]');
+  
+  const formValidator = await initValidation({
+    formSelector: ".js-contact-us-form",
+    itiPhone: itiPhone,
+    validateFields: {
+      'name': '.js-contact-us-form input[name="name"]',
+      'email': '.js-contact-us-form input[name="email"]',
+      'phone': '.js-contact-us-form input[name="phone"]',
+      'file': '.js-contact-us-form input.js-drag-and-drop-input',
+      'submit': '.js-contact-us-form .js-submit-btn',
+    }
+  });
+  
+  const formFiles = new FileDropZone.default({
+    dropArea: ".js-drag-and-drop",
+    fileInput: ".js-drag-and-drop-input",
+    previewContainer: "#file-preview-container",
+    activeClass: "is-active",
+    maxFileSizeMB: 10,
+    allowedFileTypes: [
+      'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document', // doc, docx
+      'text/xml', // xml
+      'image/jpeg', 'image/png', 'image/webp', 'image/heic', // jpg, jpeg, png, webp, heic
+      'video/quicktime', 'video/mp4' // mov, mp4
+    ]
+  });
+
+  submitFormData({
+    formElement: formSelector,
+    formValidation: formValidator,
+    onSuccess: () => { 
+      document.querySelector('[data-modal="#successful"]').click();
+      formSelector.reset();
+      formFiles.removeAllFiles();
+    },
+    onError: () => {
+      document.querySelector('[data-modal="#error"]').click();
+    }
+  });
+}
+
+async function productPage() {
+  const [
+    swiperModule, 
+    lightboxModule,
+    ratingModule,
+    validation
+  ] = await Promise.all([
+    import('./modules/swiper.js'),
+    import('./modules/lightbox.js'),
+    import('./modules/rating-stars.js'),
+    import('./modules/validation.js')
+  ]);
+  swiperModule.initProductRowSlider();
+  swiperModule.initProductGallerySlider();
+  ratingModule.initRatingModule({
+    reviewRatingRequired: true,
+    requiredRatingText: 'Не забудьте выбрать оценку!',
+  });
+
+  const formValidator = new validation.default();
+
+  if (document.querySelector(".c-comment-form")) {
+    formValidator.validate('firstName', '.c-comment-form [name="author"]');
+    formValidator.validate('email', '.c-comment-form [name="email"]');
+    // formValidator.validate('text', '.c-comment-form [name="comment"]');
+    formValidator.validate('submit', '.c-comment-form button[name="comment_submit"]');
+  }
+
+  new lightboxModule.default('.js-lightbox', '.js-lightbox-modal');
+}
+
+async function homePage() {
+  const swiperModule = await import('./modules/swiper.js');
+  swiperModule.initblogCategorySlider();
+  swiperModule.initProductRowSlider();
+}
 
 async function initCartScripts() {
   modulesLoaded = true;
@@ -235,52 +228,27 @@ async function initCartScripts() {
     }
   });
 
-
-  const quickBuyForm = document.querySelector('.js-quick-buy-form');
-
-  if (!quickBuyForm) return;
-
-  quickBuyForm.addEventListener("submit", (event) => {
-    event.preventDefault();
-    console.log('validationCart: ', validationCart);
-
-
-    const isValid = Object.values(validationCart).every(value => value !== false);
-    if (!isValid) return;
-    
-    const formData = new FormData(quickBuyForm);
-
-    // Добавляем список продуктов вручную в formData
-    const productElements = quickBuyForm.querySelectorAll('.c-mini-cart-product');
-    productElements.forEach((product, index) => {
-      formData.append(`products[${index}][id]`, product.dataset.id);
-      formData.append(`products[${index}][quantity]`, product.dataset.quantity);
-      formData.append(`products[${index}][name]`, product.dataset.name);
-      formData.append(`products[${index}][link]`, product.dataset.link);
-    });
-
-    ajax(formData);
-  });
-
-  const ajax = async (data) => {
-    // const cartContainer = document.querySelector('.js-quick-buy-form .js-cart-container');
-    // cartContainer.classList.add('is-loading');
-
-    const response = await fetch(`${window.ajax.url}?action=contactForm`, {
-      method: 'POST',
-      body: data, // Отправка данных в формате FormData
-    });
-
-    // cartContainer.classList.remove('is-loading');
-
-    const result = await response.json();
-    if (result.success) {
+  const formSelector = document.querySelector('.js-quick-buy-form');
+  submitFormData({
+    formElement: formSelector,
+    formValidation: validationCart,
+    onSuccess: () => { 
       document.querySelector('[data-modal="#successful"]').click();
-      quickBuyForm.reset();
-    } else {
+      formSelector.reset();
+    },
+    onError: () => {
       document.querySelector('[data-modal="#error"]').click();
+    },
+    onBeforeSubmit: (formData) => {
+      const productElements = document.querySelectorAll('.js-quick-buy-form .c-mini-cart-product');
+      productElements.forEach((product, index) => {
+        formData.append(`products[${index}][id]`, product.dataset.id);
+        formData.append(`products[${index}][quantity]`, product.dataset.quantity);
+        formData.append(`products[${index}][name]`, product.dataset.name);
+        formData.append(`products[${index}][link]`, product.dataset.link);
+      });
     }
-  };
+  });
 }
 
 async function initPhone(phoneSelector) {

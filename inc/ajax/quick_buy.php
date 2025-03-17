@@ -22,7 +22,6 @@ function contactForm() {
 
   $user_mail_body = '';
 
-  // var_dump($name);
 
   if (empty($name) && empty($email) && !is_email($email)) {
     wp_send_json_error(['message' => 'Пожалуйста, заполните обязательные поля или неправильный формат email']);
@@ -135,7 +134,7 @@ function create_order($name, $email, $phone, $messenger, $messenger_value, $prod
       $product_id = intval($product['id']);
       $quantity = intval($product['quantity']);
       
-      $order->add_product(get_product($product_id), $quantity);
+      $order->add_product(wc_get_product($product_id), $quantity);
     }
 
     $billing_address = [
