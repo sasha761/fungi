@@ -105,12 +105,30 @@
 		margin-right: rem(6);
 		cursor: pointer;
 		background-color: white;
+		border: 0;
     border-radius: rem(20);
+		color: inherit;
+		font: inherit;
+		line-height: 1.4;
     padding: rem(3) rem(8);
 		font-size: rem(14);
+		transition: background-color 0.2s ease, color 0.2s ease, opacity 0.2s ease;
 
 		&:last-child {
 			margin-right: 0;
+		}
+
+		&.selected,
+		&.is-selected {
+			background-color: #FFA819;
+			color: #FFF;
+		}
+	}
+
+	&.is-loading {
+		.c-likes__item {
+			pointer-events: none;
+			opacity: 0.7;
 		}
 	}
 

@@ -135,6 +135,7 @@ export default class Cart {
 
   #updateMiniCart(data) {
     const cartContainer = document.querySelectorAll(`${this.cartContainer}`);
+    const quantityLabel = window.ajax?.labels?.quantity || 'Quantity';
     cartContainer.forEach(cart => {
       let cartList = cart.querySelector('.js-mini-cart-list');
       const cartTotal = cart.querySelector('.js-cart-total');
@@ -167,7 +168,7 @@ export default class Cart {
             </div>
             <div class="c-mini-cart-product__info">
               <span class="is-name">${product.title}</span>
-              <p class="is-quantity">Quantity: <b>${product.quantity}</b></p>
+              <p class="is-quantity">${quantityLabel}: <b>${product.quantity}</b></p>
               <p class="c-price">${product.price}</p>  
             </div>
             <div style="text-align: right;">

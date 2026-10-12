@@ -30,8 +30,10 @@ if ( ! defined( '_S_VERSION' ) ) {
 
 require_once get_template_directory() . '/Classes/SiteInit.class.php';
 require_once get_template_directory() . '/Classes/ThemeImageSizes.class.php';
+require_once get_template_directory() . '/Classes/GutenbergBlocks.php';
 
 require_once get_template_directory() . '/inc/config.php';
+require_once get_template_directory() . '/inc/localization.php';
 require_once get_template_directory() . '/inc/language.php';
 require_once get_template_directory() . '/inc/telegram_notification.php';
 require_once get_template_directory() . '/inc/template-functions.php';
@@ -44,6 +46,8 @@ require_once get_template_directory() . '/inc/get_posts_info.php'; // get_posts_
 
 require_once get_template_directory() . '/inc/rest/likes_rest.php';
 require_once get_template_directory() . '/inc/rest/summarize_rest.php';
+require_once get_template_directory() . '/inc/rest/layout_rest.php';
+require_once get_template_directory() . '/inc/rest/home_rest.php';
 
 require_once get_template_directory() . '/inc/ajax/quick_buy.php';
 require_once get_template_directory() . '/inc/ajax/add_to_cart.php';

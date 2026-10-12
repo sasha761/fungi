@@ -18,30 +18,27 @@ export default class FileDropZone {
   }
 
   strError(errorText) {
-    const lang = document.documentElement.getAttribute('lang');
+    const lang = (window.ajax?.lang || document.documentElement.lang || 'en')
+      .split('-')[0]
+      .replace('ua', 'uk');
     const str = {
-      'ua-UA': {
+      'uk': {
         'Invalid input format': 'Неправильний формат введення',
         'Invalid file type': 'Недопустимий тип файлу',
         'File is too large': 'Файл занадто великий (макс. 10MB)',
       },
-      'ru-RU': {
+      'ru': {
         'Invalid input format': 'Неверный формат ввода',
         'Invalid file type': 'Недопустимый тип файла',
         'File is too large': 'Файл слишком большой (макс. 10MB)',
       },
-      'en-GB': {
-        'Invalid input format': 'Invalid input format',
-        'Invalid file type': 'Invalid file type',
-        'File is too large': 'File is too large (max 10MB)',
-      },
-      'en-US': {
+      'en': {
         'Invalid input format': 'Invalid input format',
         'Invalid file type': 'Invalid file type',
         'File is too large': 'File is too large (max 10MB)',
       }
     }
-    return str[lang][errorText];
+    return (str[lang] || str.en)[errorText] || errorText;
   }
 
   init() {

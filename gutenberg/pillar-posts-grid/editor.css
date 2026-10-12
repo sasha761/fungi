@@ -1,0 +1,17 @@
+.editor-styles-wrapper .c-pillar-posts-grid {
+  box-sizing: border-box;
+  max-width: 100%;
+}
+
+.c-pillar-posts-grid__notice {
+  margin: 0;
+  padding: 1.25rem;
+  border: 1px dashed #f59d19;
+  border-radius: 5px;
+  background-color: #fff7ef;
+  color: #323232;
+  font-size: 0.9375rem;
+  font-weight: 500;
+  line-height: 1.5;
+  text-align: center;
+}

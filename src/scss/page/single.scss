@@ -29,20 +29,6 @@
 
   .l-comments {
     margin-top: rem(60);
-
-    .c-input {
-      width: 30%;
-      margin-right: rem(20);
-      border: 0;
-
-      &:last-child {
-        margin-right: 0;
-      }
-
-      label {
-        background: #f5f5f5;
-      }
-    }
   }
   
 
@@ -170,32 +156,106 @@
       border: 1px solid #E2E2E2;
     }
 
-    figure.wp-block-table {
-      overflow-x: auto;
-    }
-
     figcaption {
       margin: rem(30) 0;
     }
 
-    table {
-      border-collapse: collapse;
-      width: 100%;
+    figure.wp-block-table {
+      max-width: 100%;
       margin: rem(30) 0;
       overflow-x: auto;
+      border: 1px solid #e2e2e2;
+      border-radius: 8px;
+      background-color: #fff;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: thin;
+      scrollbar-color: $primary #f5f5f5;
+
+      &::-webkit-scrollbar {
+        height: 6px;
+      }
+
+      &::-webkit-scrollbar-track {
+        background-color: #f5f5f5;
+      }
+
+      &::-webkit-scrollbar-thumb {
+        border-radius: 999px;
+        background-color: $primary;
+      }
+
+      table {
+        margin: 0;
+        border: 0;
+        border-radius: 0;
+      }
+
+      figcaption {
+        margin: 0;
+        padding: rem(10) rem(14);
+        border-top: 1px solid #e2e2e2;
+        color: #666;
+        font-size: rem(13);
+        line-height: 1.4;
+        text-align: left;
+      }
+    }
+
+    table {
+      border-collapse: separate;
+      border-spacing: 0;
+      width: 100%;
+      margin: rem(30) 0;
+      overflow: hidden;
+      border: 1px solid #e2e2e2;
+      border-radius: 8px;
+      background-color: #fff;
+      color: #323232;
+      font-size: rem(14);
+      line-height: 1.45;
       
       th, td {
-        border: 1px solid #dddddd;
+        min-width: rem(120);
+        padding: rem(12) rem(14);
+        border-right: 1px solid #e2e2e2;
+        border-bottom: 1px solid #e2e2e2;
         text-align: left;
-        padding: rem(8);
+        vertical-align: top;
+        overflow-wrap: anywhere;
+      }
+
+      tr > :last-child {
+        border-right: 0;
+      }
+
+      tbody tr:last-child td {
+        border-bottom: 0;
       }
   
       th {
-        background-color: #f2f2f2;
+        background-color: #f5e2d1;
+        color: #202020;
+        font-weight: 600;
       }
   
       tbody tr:nth-child(even) {
         background-color: #f9f9f9;
+      }
+
+      tbody tr {
+        transition: background-color .2s ease;
+      }
+
+      tbody tr:hover {
+        background-color: #fff7ef;
+      }
+
+      caption {
+        padding-top: rem(10);
+        color: #666;
+        font-size: rem(13);
+        line-height: 1.4;
+        text-align: left;
       }
     }
   }
@@ -208,13 +268,31 @@
     margin-bottom: rem(24);
 
     &-left {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
       color: #666666;
       .c-date,
-      .c-author {
+      .c-author,
+      .p-single__views {
         margin-right: rem(10);
         padding-right: rem(10);
         border-right: 1px solid #E2E2E2;
         font-size: rem(14);
+      }
+
+      .p-single__views {
+        display: inline-flex;
+        align-items: center;
+        gap: rem(5);
+        color: #666666;
+
+        svg {
+          width: rem(16);
+          height: rem(16);
+          color: #F55B03;
+          flex-shrink: 0;
+        }
       }
     }
   }
@@ -323,6 +401,57 @@
           margin-bottom: rem(20);
         }
       }
+
+      figure.wp-block-table {
+        margin: rem(24) 0;
+        overscroll-behavior-inline: contain;
+
+        table {
+          display: table;
+          width: max-content;
+          min-width: rem(600);
+          max-width: none;
+          overflow: visible;
+          table-layout: auto;
+        }
+      }
+
+      table {
+        display: block;
+        width: 100%;
+        max-width: 100%;
+        overflow-x: auto;
+        border-radius: 6px;
+        -webkit-overflow-scrolling: touch;
+        overscroll-behavior-inline: contain;
+        scrollbar-width: thin;
+        scrollbar-color: $primary #f5f5f5;
+
+        &::-webkit-scrollbar {
+          height: 6px;
+        }
+
+        &::-webkit-scrollbar-track {
+          background-color: #f5f5f5;
+        }
+
+        &::-webkit-scrollbar-thumb {
+          border-radius: 999px;
+          background-color: $primary;
+        }
+      }
+
+      table {
+        th, td {
+          min-width: rem(130);
+          padding: rem(10) rem(12);
+          font-size: rem(14);
+        }
+
+        th {
+          white-space: nowrap;
+        }
+      }
     }
   }
 
@@ -361,18 +490,7 @@
     }
 
     .l-comments {
-      // margin-top: rem(60);
-  
-      .c-input {
-        width: 100%;
-        margin-right: 0;
-        margin-bottom: 20px;
-        border: 0;
-  
-        &:last-child {
-          margin-bottom: 0;
-        }
-      }
+      margin-top: rem(40);
     }
 
     .c-inform {

@@ -26,32 +26,38 @@ function get_posts_info($args = [], $is_emoji = true) {
 
   foreach ($get_posts_ids as $post_id) {
     if ($is_emoji) {
-      $translations = $wpdb->get_col($wpdb->prepare(
-        "SELECT element_id FROM {$wpdb->prefix}icl_translations WHERE trid = (SELECT trid FROM {$wpdb->prefix}icl_translations WHERE element_id = %d)",
-        $post_id
-      ));
+      if (function_exists('get_likes_counts_for_post')) {
+        $likes_data = get_likes_counts_for_post($post_id);
+      } else {
+        $translations = $wpdb->get_col($wpdb->prepare(
+          "SELECT element_id FROM {$wpdb->prefix}icl_translations WHERE trid = (SELECT trid FROM {$wpdb->prefix}icl_translations WHERE element_id = %d)",
+          $post_id
+        ));
 
-      if (empty($translations)) {
-        $translations = [$post_id];
-      }
+        if (empty($translations)) {
+          $translations = [$post_id];
+        }
 
-      $placeholders = implode(',', array_fill(0, count($translations), '%d'));
+        $placeholders = implode(',', array_fill(0, count($translations), '%d'));
 
-      $query = $wpdb->prepare(
-        "SELECT like_type, COUNT(*) as count FROM {$wpdb->prefix}post_likes WHERE post_id IN ($placeholders) GROUP BY like_type",
-        ...$translations
-      );
-      
-      $likes = $wpdb->get_results($query);
+        $query = $wpdb->prepare(
+          "SELECT like_type, COUNT(*) as count FROM {$wpdb->prefix}post_likes WHERE post_id IN ($placeholders) GROUP BY like_type",
+          ...$translations
+        );
+        
+        $likes = $wpdb->get_results($query);
 
-      $likes_data = [
-        'like' => 0,
-        'fire' => 0,
-        'heart' => 0,
-      ];
+        $likes_data = [
+          'like' => 0,
+          'fire' => 0,
+          'heart' => 0,
+          'swearing' => 0,
+          'clown' => 0,
+        ];
 
-      foreach ($likes as $like) {
-        $likes_data[$like->like_type] = $like->count;
+        foreach ($likes as $like) {
+          $likes_data[$like->like_type] = $like->count;
+        }
       }
     } else {
       $likes_data = NULL;

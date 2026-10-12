@@ -47,9 +47,11 @@ export default class validation {
   };
 
   strError(errorText) {
-    const lang = document.documentElement.getAttribute('lang');
+    const lang = (window.ajax?.lang || document.documentElement.lang || 'en')
+      .split('-')[0]
+      .replace('ua', 'uk');
     const str = {
-      'ua-UA': {
+      'uk': {
         'This field is required': 'Це поле обов’язкове',
         'Invalid input format': 'Неправильний формат введення',
         'Invalid number': 'Невірний номер',
@@ -60,7 +62,7 @@ export default class validation {
         'Invalid file type': 'Недопустимий тип файлу',
         'File is too large': 'Файл занадто великий (макс. 10MB)',
       },
-      'ru-RU': {
+      'ru': {
         'This field is required': 'Это поле обязательно',
         'Invalid input format': 'Неверный формат ввода',
         'Invalid number': 'Неверный номер',
@@ -71,18 +73,7 @@ export default class validation {
         'Invalid file type': 'Недопустимый тип файла',
         'File is too large': 'Файл слишком большой (макс. 10MB)',
       },
-      'en-GB': {
-        'This field is required': 'This field is required',
-        'Invalid input format': 'Invalid input format',
-        'Invalid number': 'Invalid number',
-        'Invalid country code': 'Invalid country code',
-        'Too short': 'Too short', 
-        'Too long': 'Too long',
-        'Password must be at least 6 characters long': 'Password must be at least 6 characters long',
-        'Invalid file type': 'Invalid file type',
-        'File is too large': 'File is too large (max 10MB)',
-      },
-      'en-US': {
+      'en': {
         'This field is required': 'This field is required',
         'Invalid input format': 'Invalid input format',
         'Invalid number': 'Invalid number',
@@ -94,7 +85,7 @@ export default class validation {
         'File is too large': 'File is too large (max 10MB)',
       }
     }
-    return str[lang][errorText];
+    return (str[lang] || str.en)[errorText] || errorText;
   }
 
   /**
@@ -112,6 +103,7 @@ export default class validation {
    */
   submitValidator(e, field) {
     let from = field.closest('form')
+    
     for (let i = 0; i < from.length; i++) {
       let _isValid = false;
       if (from[i].hasAttribute('required') && from[i].value === "") {
@@ -124,13 +116,11 @@ export default class validation {
         _isValid = true;
         this.isValid(_isValid, from[i], '');
       }
-
-      // this.validationResults[type] = _isValid;
     }
     
-    // if (from.querySelectorAll('.invalid').length) {
-    //   e.preventDefault()
-    // }
+    if (from.querySelectorAll('.invalid').length) {
+      e.preventDefault()
+    }
   }
 
   /**

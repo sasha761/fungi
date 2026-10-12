@@ -9,7 +9,7 @@ function callbackForm() {
   $phone = !empty($_POST['full_phone']) ? esc_html($_POST['full_phone']) : esc_html($_POST['phone']);
 
   if (empty($phone)) {
-    wp_send_json_error(['message' => 'Пожалуйста, заполните обязательные поля или неправильный формат email']);
+    wp_send_json_error(['message' => news_translate_string('Please enter a valid phone number.', 'AJAX - Phone required')]);
     wp_die();
   }
 
@@ -33,9 +33,9 @@ function callbackForm() {
   send_telegram_message( $user_mail_body, TG_ID_CHAT, TG_TOKEN );
 
   if ($mailResult) {
-      wp_send_json_success(['message' => 'Сообщение успешно отправлено!']);
+      wp_send_json_success(['message' => news_translate_string('Message sent successfully!', 'AJAX - Message sent')]);
   } else {
-      wp_send_json_error(['message' => 'Ошибка при отправке сообщения. Попробуйте позже.']);
+      wp_send_json_error(['message' => news_translate_string('Could not send the message. Please try again later.', 'AJAX - Message failed')]);
   }
 
   wp_die();
@@ -63,8 +63,8 @@ function contactForm() {
   $user_mail_body = '';
 
 
-  if (empty($name) && empty($email) && !is_email($email)) {
-    wp_send_json_error(['message' => 'Пожалуйста, заполните обязательные поля или неправильный формат email']);
+  if (empty($name) || empty($email) || !is_email($email)) {
+    wp_send_json_error(['message' => news_translate_string('Please fill in the required fields and enter a valid email address.', 'AJAX - Required fields')]);
     wp_die();
   }
 
@@ -114,13 +114,13 @@ function contactForm() {
 
       // Проверка размера файла
       if ($file_size > $max_file_size) {
-          wp_send_json_error(['message' => 'Один или несколько файлов превышают 10MB.']);
+          wp_send_json_error(['message' => news_translate_string('One or more files exceed 10 MB.', 'AJAX - File too large')]);
           wp_die();
       }
 
       // Проверка типа файла
       if (!in_array($file_type, $allowed_mime_types)) {
-          wp_send_json_error(['message' => 'Один или несколько файлов имеют недопустимый формат.']);
+          wp_send_json_error(['message' => news_translate_string('One or more files have an unsupported format.', 'AJAX - Invalid file type')]);
           wp_die();
       }
 
@@ -148,14 +148,14 @@ function contactForm() {
 
     if ($order_result['success']) {
         WC()->cart->empty_cart();
-        wp_send_json_success(['message' => 'Сообщение успешно отправлено!']);
+        wp_send_json_success(['message' => news_translate_string('Message sent successfully!', 'AJAX - Message sent')]);
     } else {
         wp_send_json_error(['message' => $order_result['message']]);
     }
   } elseif ($mailResult) {
-      wp_send_json_success(['message' => 'Сообщение успешно отправлено!']);
+      wp_send_json_success(['message' => news_translate_string('Message sent successfully!', 'AJAX - Message sent')]);
   } else {
-      wp_send_json_error(['message' => 'Ошибка при отправке сообщения. Попробуйте позже.']);
+      wp_send_json_error(['message' => news_translate_string('Could not send the message. Please try again later.', 'AJAX - Message failed')]);
   }
 
   wp_die();
@@ -163,7 +163,7 @@ function contactForm() {
 
 function create_order($name, $email, $phone, $messenger, $messenger_value, $products) {
   if (empty($email) || empty($name) || empty($products)) {
-    return ['success' => false, 'message' => 'Некорректные данные для создания заказа.'];
+    return ['success' => false, 'message' => news_translate_string('Invalid data for order creation.', 'AJAX - Invalid order data')];
   }
 
   try {
@@ -204,11 +204,11 @@ function create_order($name, $email, $phone, $messenger, $messenger_value, $prod
 
     return [
       'success' => true,
-      'message' => 'Заказ успешно создан.',
+      'message' => news_translate_string('Order created successfully.', 'AJAX - Order created'),
       'order_id' => $order_id,
       'thank_you_url' => $order->get_checkout_order_received_url(),
     ];
   } catch (Exception $e) {
-    return ['success' => false, 'message' => 'Ошибка при создании заказа: ' . $e->getMessage()];
+    return ['success' => false, 'message' => news_translate_string('Could not create the order.', 'AJAX - Order creation failed')];
   }
 }

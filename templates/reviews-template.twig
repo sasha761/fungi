@@ -16,6 +16,38 @@
           {% for review in reviews %}
             <div class="col-lg-4">
               <div class="c-reviews" itemscope itemtype="https://schema.org/Review">
+                <meta itemprop="datePublished" content="{{ review.comment_date }}">
+                
+                <div itemprop="reviewRating" itemscope itemtype="https://schema.org/Rating">
+                  <meta itemprop="worstRating" content="1">
+                  <meta itemprop="bestRating" content="5">
+                  <meta itemprop="ratingValue" content="{{ review.rating }}">
+                  <div class="star-rating" role="img">
+                    <span style="width:{{ (review.rating / 5) * 100 }}%"></span>
+                  </div>
+                </div>
+
+                <div itemprop="itemReviewed" itemscope itemtype="https://schema.org/Product">
+                  <a href="{{ review.product_link }}" class="u-h6" itemprop="name">{{ review.product_title }}</a>
+                </div>
+
+                <p itemprop="reviewBody">{{ review.comment_content }}</p>
+
+                <div class="c-reviews__user">
+                  <div class="c-reviews__user-img">
+                    <img
+                      class="lazy"
+                      src="data:image/png;base64,TEVITGhbV0IyeWs4cHlvSmFkUiouN2tDTWRuag=="
+                      data-src="{{ theme.link }}/src/img/user.jpg"
+                      alt="user icon"
+                    >
+                  </div>
+                  <div class="c-reviews__user-name" itemprop="author" itemscope itemtype="https://schema.org/Person">
+                    <span itemprop="name">{{ review.comment_author }}</span>
+                  </div>
+                </div>
+              </div>
+              {# <div class="c-reviews" itemscope itemtype="https://schema.org/Review">
                 <div class="star-rating" role="img">
                   <span style="width:{{ (review.rating / 5) * 100 }}%"></span>
                 </div>
@@ -35,19 +67,11 @@
                     <span itemprop="name">{{ review.comment_author }}</span>
                   </div>
                 </div>
-              </div>
+              </div> #}
             </div>
           {% endfor %}
         </div>
       </section>
-
-      {# JSON-LD микроразметка #}
-      {# {% if json_ld %}
-        <script type="application/ld+json">
-          {{ json_ld|raw }}
-        </script>
-      {% endif %} #}
-
     </div>
   </main>
 

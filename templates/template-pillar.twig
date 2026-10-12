@@ -1,0 +1,32 @@
+{% extends "base.twig" %}
+
+{% block content %}
+	<main class="p-single p-pillar">
+		<div class="u-container">
+			{{ breadcrumbs }}
+
+			<div class="p-single__flex">
+				<article class="p-single__box">
+					<h1 class="u-h1">{{ pillar.title|e }}</h1>
+					<div class="p-single__content p-pillar__content">
+						{{ pillar.content|raw }}
+					</div>
+
+					{% if cluster_posts %}
+						<section class="p-pillar__cluster" aria-labelledby="pillar-cluster-heading">
+							<h2 id="pillar-cluster-heading" class="u-h2">{{ cluster_heading|e }}</h2>
+							<div class="p-pillar__grid">
+								{% for cluster_post in cluster_posts %}
+									{% include 'templates/partial/guide-card.twig' with {
+										'guide_item': cluster_post,
+										'heading_level': 3
+									} %}
+								{% endfor %}
+							</div>
+						</section>
+					{% endif %}
+				</article>
+			</div>
+		</div>
+	</main>
+{% endblock %}

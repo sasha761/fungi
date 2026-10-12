@@ -1,0 +1,45 @@
+{% extends 'base.twig' %}
+
+{% block content %}
+	<main class="p-sitemap">
+		<div class="u-container">
+			{{ breadcrumbs }}
+
+			<header class="p-sitemap__header">
+				<h1 class="u-h1">{{ post.title|e }}</h1>
+
+				{% if post.content %}
+					<div class="p-sitemap__intro">{{ post.content|raw }}</div>
+				{% else %}
+					<p class="p-sitemap__intro">
+						{{ 'A quick index of the main pages, categories, and posts published on the site.'|translateString('Sitemap - Intro')|e }}
+					</p>
+				{% endif %}
+			</header>
+
+			<div class="p-sitemap__sections">
+				{% for section in sitemap_sections %}
+					{% if section.items %}
+						<section class="p-sitemap__section" aria-labelledby="{{ section.id|e('html_attr') }}">
+							<div class="p-sitemap__section-heading">
+								<h2 id="{{ section.id|e('html_attr') }}" class="u-h2">{{ section.title|e }}</h2>
+								<span class="p-sitemap__count" aria-hidden="true">{{ section.items|length }}</span>
+							</div>
+
+							<ul class="p-sitemap__list">
+								{% for item in section.items %}
+									<li class="p-sitemap__item">
+										<a class="p-sitemap__link" href="{{ item.url|e('html_attr') }}">
+											<span class="p-sitemap__link-label">{{ item.label|e }}</span>
+											<span class="p-sitemap__link-arrow" aria-hidden="true">→</span>
+										</a>
+									</li>
+								{% endfor %}
+							</ul>
+						</section>
+					{% endif %}
+				{% endfor %}
+			</div>
+		</div>
+	</main>
+{% endblock %}

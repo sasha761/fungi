@@ -1,0 +1,17 @@
+{
+  "name": "acf/faq",
+  "title": "Faq section",
+  "description": "Faq section",
+  "category": "fungi-category",
+  "icon": "media-archive",
+  "supports": {},
+  "example": {},
+  "render": "file:./gutenberg/faq/faq.php",
+  "viewScriptModule": "file:../../dist/gutenberg/faq/faq.js",
+  "style": "file:../../dist/gutenberg/faq/faq.css",
+  "mode": "preview",
+  "acf": {
+    "mode": "preview",
+    "renderTemplate": "faq.php"
+  }
+}

@@ -1,149 +1,170 @@
-{# <section class="l-comments">
-  <div class="c-comments comment-respond" id="respond">
-    <h3 class="u-h4">{{ 'Reviews' | translateString('Product - Reviews') }}: {{comments|length}}
-    </h3>
-    <div class="c-comments__box">
-      {% for comment in comments %}
-        {% include 'comment.twig' %}
-      {% endfor %}
-    </div>
-    {% include "comment-form.twig" %}
-  </div>
-</section> #}
-
-
 <section class="l-comments">
-  <div class="c-comments comment-respond" id="respond">
-  {# Форма отправки нового комментария #}
-    <form class="c-comment-form" id="commentform" method="post" action="{{ site.site_url }}/wp-comments-post.php">
+  <div class="c-comments comment-respond" id="respond" aria-labelledby="comments-title">
+    {% set isReviewForm = stars | default(false) %}
+    {% set formTitle = isReviewForm
+      ? 'Write a review' | translateString('Comments - Write a review')
+      : 'Write a comment' | translateString('Comments - Write a comment')
+    %}
+    {% set listTitle = isReviewForm
+      ? 'Reviews' | translateString('Product - Reviews')
+      : 'Comments' | translateString('Comments - Comments')
+    %}
+    {% set commentsCount = total_comments | default(0) %}
+
+    <div class="c-comments__header">
+      <h3 class="u-h3 c-comments__heading" id="comments-title">{{ listTitle }} ({{ commentsCount }})</h3>
+    </div>
+
+    <form class="c-comment-form js-comment-form" id="commentform" method="post" action="{{ site.site_url }}/wp-comments-post.php" aria-label="{{ formTitle }}">
       {% if not user %}
-        <h3 class="u-h3">{{ 'Write a review' | translateString('Comments - Write a review') }}</h3>
-        <p>{{ 'Your email will not be published. * Marker for mandatory fields' | translateString('Comments - Notification') }}</p>
+        <p class="c-comment-form__notice">{{ 'Your email will not be published. * Marker for mandatory fields' | translateString('Comments - Notification') }}</p>
+
         <div class="c-comments__registration">
-          <div class="c-input js-input-block">
-            <label for="comment_email">Email* </label>
-            <input required name="email" type="email" id="comment_email">
-          </div>
-
-          <div class="c-input js-input-block">
-            <label for="comment_name">{{ 'Name' | translateString('Comments - Name') }}* </label>
-            <input required name="author" type="text" id="comment_name">
-          </div>
-
-          {% if stars %}
-            <div class="c-comments__registration-label">
-              {{ 'Evaluation' | translateString('Comments - Evaluation') }}* <br>
-              <div class="comment-form-rating">
-                <select name="rating" id="rating" required>
-                  <option value="">Оценка…</option>
-                  <option value="5">Отлично</option>
-                  <option value="4">Хорошо</option>
-                  <option value="3">Средне</option>
-                  <option value="2">Неплохо</option>
-                  <option value="1">Очень плохо</option>
-                </select>
+          <div class="c-comments__grid">
+            <div class="c-comments__field">
+              <div class="c-input js-input-block">
+                <label for="comment_email">{{ 'Email' | translateString('Input - Email') }}*</label>
+                <input required name="email" type="email" id="comment_email">
               </div>
             </div>
-          {% endif %}
+
+            <div class="c-comments__field">
+              <div class="c-input js-input-block">
+                <label for="comment_name">{{ 'Name' | translateString('Comments - Name') }}*</label>
+                <input required name="author" type="text" id="comment_name">
+              </div>
+            </div>
+
+            {% if isReviewForm %}
+              <div class="c-comments__field c-comments__field--rating">
+                <div class="c-comments__registration-label">
+                  {{ 'Evaluation' | translateString('Comments - Evaluation') }}*
+                  <div class="comment-form-rating">
+                    <select name="rating" id="rating" required>
+                      <option value="">{{ 'Rate...' | translateString('Comments - Rate') }}</option>
+                      <option value="5">{{ 'Excellent' | translateString('Comments - Excellent') }}</option>
+                      <option value="4">{{ 'Good' | translateString('Comments - Good') }}</option>
+                      <option value="3">{{ 'Average' | translateString('Comments - Average') }}</option>
+                      <option value="2">{{ 'Not bad' | translateString('Comments - Not bad') }}</option>
+                      <option value="1">{{ 'Very poor' | translateString('Comments - Very poor') }}</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+            {% endif %}
+          </div>
         </div>
       {% endif %}
-      {% if user and stars %}
+
+      {% if user and isReviewForm %}
         <div class="c-comments__registration">
           <div class="c-comments__registration-label">
-            {{ 'Evaluation' | translateString('Comments - Evaluation') }}* <br>
+            {{ 'Evaluation' | translateString('Comments - Evaluation') }}*
             <div class="comment-form-rating">
               <select name="rating" id="rating" required>
-                <option value="">Оценка…</option>
-                <option value="5">Отлично</option>
-                <option value="4">Хорошо</option>
-                <option value="3">Средне</option>
-                <option value="2">Неплохо</option>
-                <option value="1">Очень плохо</option>
+                <option value="">{{ 'Rate...' | translateString('Comments - Rate') }}</option>
+                <option value="5">{{ 'Excellent' | translateString('Comments - Excellent') }}</option>
+                <option value="4">{{ 'Good' | translateString('Comments - Good') }}</option>
+                <option value="3">{{ 'Average' | translateString('Comments - Average') }}</option>
+                <option value="2">{{ 'Not bad' | translateString('Comments - Not bad') }}</option>
+                <option value="1">{{ 'Very poor' | translateString('Comments - Very poor') }}</option>
               </select>
             </div>
           </div>
         </div>
       {% endif %}
-      <div class="c-comments__submit c-subscribe">
-        {% if user %}
-          <input type="hidden" name="email" value="{{ user.email }}">
-          <input type="hidden" name="author" value="{{ user.name }}">
-          <input type="hidden" name="url" value="{{ user.link }}">
-        {% endif %}
-        <input type="hidden" name="comment_post_ID" value="{{ post_id }}">
-        <input type="hidden" name="comment_parent" id="comment_parent" value="0">
-        <input type="text" name="comment" required placeholder="{{ 'Your comment' | translateString('input - Your comment') }}">
-        <button class="u-btn is-black" type="submit" name="comment_submit">
-          {{ 'Send' | translateString('buttons - Send') }}
+
+      {% if user %}
+        <input type="hidden" name="email" value="{{ user.email }}">
+        <input type="hidden" name="author" value="{{ user.name }}">
+        <input type="hidden" name="url" value="{{ user.link }}">
+      {% endif %}
+
+      <input type="hidden" name="comment_post_ID" value="{{ post_id }}">
+      <input type="hidden" name="comment_parent" id="comment_parent" value="0">
+
+      <div class="c-comment-form__body">
+        <div class="c-input c-input--textarea c-comment-form__textarea js-input-block">
+          <label for="comment">{{ 'Your comment' | translateString('input - Your comment') }}*</label>
+          <textarea name="comment" id="comment" rows="6" placeholder="{{ 'Write a comment...' | translateString('Comments - Write a comment placeholder') }}" required></textarea>
+        </div>
+
+        <button class="u-btn is-black c-comment-form__submit" type="submit" name="comment_submit">
+          {{ 'Post comment' | translateString('Comments - Post comment') }}
         </button>
       </div>
     </form>
 
     {% if comments %}
-      <h3 class="u-h4">{{total_comments}} {{ 'Reviews' | translateString('Product - Reviews') }}</h3>
       <div class="c-comments__box">
         {% for comment in comments %}
-          {% include 'comment.twig' with { comment: comment } %}
+          {% include 'comment.twig' with { comment: comment, depth: 0 } %}
         {% endfor %}
       </div>
+    {% else %}
+      <p class="c-comments__empty">{{ 'No comments yet.' | translateString('Comments - No comments yet') }}</p>
     {% endif %}
   </div>
 </section>
 
-{# JavaScript для обработки ответа и лайков/дизлайков #}
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-  // Функционал для "Ответить" — установка ID родительского комментария
   document.querySelectorAll('.reply-link').forEach(function(link) {
     link.addEventListener('click', function(e) {
       e.preventDefault();
+
       var commentId = this.getAttribute('data-comment-id');
-      document.getElementById('comment_parent').value = commentId;
-      const commentForm = document.getElementById('commentform');
+      var commentParent = document.getElementById('comment_parent');
+      var commentForm = document.getElementById('commentform');
 
-      let yOffset = document.querySelector('.l-header').offsetHeight + 15; 
-      const y = commentForm.getBoundingClientRect().top + window.pageYOffset - yOffset;
+      if (!commentParent || !commentForm) {
+        return;
+      }
 
-      window.scrollTo({top: y, behavior: 'smooth'});
+      commentParent.value = commentId;
 
-      var commentInput = commentForm.querySelector('input[name="comment"]');
-      // Если ваше поле — textarea, замените селектор на textarea[name="comment"]
+      var header = document.querySelector('.l-header');
+      var yOffset = (header ? header.offsetHeight : 0) + 15;
+      var y = commentForm.getBoundingClientRect().top + window.pageYOffset - yOffset;
+
+      window.scrollTo({ top: y, behavior: 'smooth' });
+
+      var commentInput = commentForm.querySelector('textarea[name="comment"], input[name="comment"]');
+
       if (commentInput) {
         commentInput.focus();
       }
     });
   });
 
-  // Функционал для лайков/дизлайков комментариев
   document.querySelectorAll('.like-btn, .dislike-btn').forEach(function(button) {
     button.addEventListener('click', function(e) {
       e.preventDefault();
+
       var commentId = this.getAttribute('data-comment-id');
       var actionType = this.getAttribute('data-action');
       var btn = this;
-      
       var data = new FormData();
+
       data.append('action', 'comment_reaction');
       data.append('comment_id', commentId);
       data.append('action_type', actionType);
-      
-      fetch("{{ site.site_url }}/wp-admin/admin-ajax.php", {
+
+      fetch("{{ ajax_url }}", {
         method: 'POST',
         body: data
       })
-      .then(response => response.json())
-      .then(result => {
-        if(result.success) {
-          if(actionType === 'like') {
-            btn.querySelector('.like-count').textContent = result.data.count;
-          } else {
-            btn.querySelector('.dislike-count').textContent = result.data.count;
+        .then(response => response.json())
+        .then(result => {
+          if (result.success) {
+            if (actionType === 'like') {
+              btn.querySelector('.like-count').textContent = result.data.count;
+            } else {
+              btn.querySelector('.dislike-count').textContent = result.data.count;
+            }
           }
-        } else {
-          console.error('Ошибка обновления реакции', result.data || result);
-        }
-      })
-      .catch(error => console.error('Ошибка запроса:', error));
+        })
+        .catch(error => console.error('Comment reaction request failed:', error));
     });
   });
 });

@@ -43,7 +43,7 @@
 
         <div class="col-sm-12 col-12 u-col">
           <div class="c-input js-input-block">
-            <label for="client_email">Email</label>
+            <label for="client_email">{{ 'Email' | translateString('Input - Email') }}</label>
             <input type="email" required id="client_email" name="email">
           </div>
         </div>
@@ -59,7 +59,7 @@
               <option value="instagram" data-icon="{{theme.link}}/src/img/icons8-instagram-logo.svg">Instagram</option>
             </select>
             <label for="contactInfo">{{ '@your_nickname' | translateString('input - Contacts') }}</label>
-            <input type="text" required id="contactInfo" name="contactInfo">
+            <input type="text" id="contactInfo" name="contactInfo">
           </div>
         </div>
       </div>

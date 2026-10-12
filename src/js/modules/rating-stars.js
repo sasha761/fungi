@@ -12,7 +12,7 @@ export function initRatingModule(options = {}) {
   // Распакуем нужные параметры:
   const {
     reviewRatingRequired = false,
-    requiredRatingText = 'Выберите рейтинг', // на случай, если ничего не передадим
+    requiredRatingText = window.ajax?.labels?.ratingRequired || 'Please select a rating!',
   } = options;
 
   // --- 1. Обработчик "init" для #rating ---
@@ -63,9 +63,10 @@ export function initRatingModule(options = {}) {
       // Находим скрытый <select id="rating">
       const rating = respond.querySelector('#rating');
       if (!rating) return;
-
+      console.log(star.textContent);
       // Ставим выбранную оценку (число от 1 до 5)
       rating.value = star.textContent;
+      rating.dispatchEvent(new Event('change', { bubbles: true }));
 
       // Убираем класс active у всех звёзд и ставим у текущей
       const container = star.closest('.stars');
