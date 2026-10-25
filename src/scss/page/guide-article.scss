@@ -23,3 +23,91 @@
     color: #9b9b9b;
   }
 }
+
+.c-guide-nav {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: rem(16);
+  margin: rem(32) 0;
+
+  &__card {
+    display: flex;
+    gap: rem(14);
+    align-items: flex-start;
+    padding: rem(14);
+    border: 1px solid #e2e2e2;
+    border-radius: 5px;
+    background-color: #fff;
+    color: #323232;
+    text-decoration: none;
+    transition: border-color 0.2s ease;
+
+    &:hover,
+    &:focus-visible {
+      border-color: $primary;
+    }
+
+    &.is-next {
+      flex-direction: row-reverse;
+      text-align: right;
+    }
+  }
+
+  &__image {
+    flex: 0 0 rem(96);
+    aspect-ratio: 4 / 3;
+    overflow: hidden;
+    border-radius: 4px;
+
+    img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      margin: 0;
+      object-fit: cover;
+    }
+  }
+
+  &__body {
+    display: flex;
+    flex-direction: column;
+    gap: rem(4);
+    min-width: 0;
+  }
+
+  &__label {
+    color: #9b9b9b;
+    font-size: rem(13);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+
+  &__title {
+    font-size: rem(16);
+    font-weight: 600;
+    line-height: 1.35;
+  }
+
+  &__text {
+    display: -webkit-box;
+    overflow: hidden;
+    color: #666;
+    font-size: rem(14);
+    line-height: 1.5;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+  }
+
+  @include mq('tablet') {
+    grid-template-columns: 1fr;
+
+    &__card.is-next {
+      flex-direction: row;
+      text-align: left;
+    }
+
+    &__image {
+      flex-basis: rem(80);
+    }
+  }
+}

@@ -992,6 +992,10 @@ function news_ui_labels() {
 		'share_tweet'      => __( 'Share on X', 'news' ),
 		'health_goal'      => __( 'Health goal:', 'news' ),
 		'category'         => __( 'Category:', 'news' ),
+		'guide_navigation' => __( 'Guide navigation', 'news' ),
+		'guide_previous'   => __( 'Previous article', 'news' ),
+		'guide_next'       => __( 'Next article', 'news' ),
+		'guide_back'       => __( 'Back to the guide', 'news' ),
 	);
 }
 

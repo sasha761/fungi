@@ -112,6 +112,7 @@ $data = [
     'selected_reaction' => function_exists( 'get_current_user_like_for_post' ) ? get_current_user_like_for_post( $post_id ) : null,
     'parent_pillar'     => $parent_pillar_link,
     'trust'             => fh_article_trust( $post_id ),
+    'guide_nav'         => fh_guide_neighbours( $post_id ),
     'part_of_guide_label' => esc_html__( 'Part of guide:', 'news' ),
     'content'        => apply_filters( 'the_content', get_the_content( null, false, $post_id ) ),
 ];

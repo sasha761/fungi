@@ -114,6 +114,10 @@
               {% include 'templates/partial/social.twig' with {'share': true} %}
             </div>
 
+            {% if data.guide_nav %}
+              {% include 'templates/partial/guide-nav.twig' with { 'items': data.guide_nav } %}
+            {% endif %}
+
             {% include 'templates/partial/comments.twig' with {
               'comments': data.comments,
               'total_comments': data.total_comments,

@@ -1,0 +1,31 @@
+<nav class="c-guide-nav" aria-label="{{ ui.guide_navigation|e('html_attr') }}">
+	{% for item in items %}
+		<a
+			class="c-guide-nav__card is-{{ item.direction }}"
+			href="{{ item.permalink|e('html_attr') }}"
+			{% if item.rel %}rel="{{ item.rel }}"{% endif %}
+		>
+			{% if item.thumbnail %}
+				<picture class="c-guide-nav__image">
+					{% if item.thumbnail.webp %}
+						<source srcset="{{ item.thumbnail.webp|e('html_attr') }}" type="image/webp">
+					{% endif %}
+					<img
+						src="{{ item.thumbnail.url|e('html_attr') }}"
+						alt=""
+						width="{{ item.thumbnail.width|e('html_attr') }}"
+						height="{{ item.thumbnail.height|e('html_attr') }}"
+						loading="lazy"
+					>
+				</picture>
+			{% endif %}
+			<span class="c-guide-nav__body">
+				<span class="c-guide-nav__label">{{ item.label|e }}</span>
+				<span class="c-guide-nav__title">{{ item.title|e }}</span>
+				{% if item.excerpt %}
+					<span class="c-guide-nav__text">{{ item.excerpt|e }}</span>
+				{% endif %}
+			</span>
+		</a>
+	{% endfor %}
+</nav>
