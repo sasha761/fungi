@@ -69,7 +69,16 @@ if (is_product_category()) {
       'terms' => [$term_id],
     ],
   ];
-  $context['description'] = wp_kses_post(term_description($term_id, 'product_cat'));
+  $description = wp_kses_post(term_description($term_id, 'product_cat'));
+
+  // The first paragraph of the category text is the intro above the products; the rest stays under the grid.
+  if (preg_match('~^\s*(<p\b[^>]*>.*?</p>)~s', $description, $intro)) {
+    $context['intro'] = $intro[1];
+    $description      = substr($description, strlen($intro[0]));
+  }
+
+  $context['description']    = trim($description) !== '' ? $description : '';
+  $context['category_guide'] = fh_shop_category_guide($term_id);
 }
 
 $context['products'] = get_products($product_args);

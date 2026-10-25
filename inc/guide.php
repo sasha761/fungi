@@ -498,3 +498,104 @@ function fh_guide_more( $post_id, $limit = 3 ) {
 
 	return $cards;
 }
+
+/**
+ * Return species product categories (EN IDs) with the main guide post of each species (EN ID).
+ *
+ * @return array
+ */
+function fh_shop_species_map() {
+	return apply_filters(
+		'fh_shop_species_map',
+		array(
+			224 => array( 'article' => 1638, 'amanita' => false ), // Lion's mane.
+			227 => array( 'article' => 1396, 'amanita' => false ), // Cordyceps militaris.
+			230 => array( 'article' => 682, 'amanita' => true ),   // Red fly agaric.
+			233 => array( 'article' => 1437, 'amanita' => true ),  // Panther amanita.
+			236 => array( 'article' => 1306, 'amanita' => true ),  // Royal amanita.
+		)
+	);
+}
+
+/**
+ * Return a link to a published post or page in the current language.
+ *
+ * @param int    $post_id Original post ID.
+ * @param string $type    Post type.
+ * @return array|null
+ */
+function fh_guide_translated_link( $post_id, $type ) {
+	$post_id = fh_translated_id( $post_id, $type );
+
+	if ( ! $post_id || $type !== get_post_type( $post_id ) || 'publish' !== get_post_status( $post_id ) ) {
+		return null;
+	}
+
+	return array(
+		'id'    => $post_id,
+		'url'   => get_permalink( $post_id ),
+		'title' => wp_specialchars_decode( get_the_title( $post_id ), ENT_QUOTES ),
+	);
+}
+
+/**
+ * Return the guide blocks under the products of a species category: main article of the
+ * species, the "How to choose a supplement" guide, other species and, for amanitas,
+ * a safety note without doses.
+ *
+ * @param int $term_id Product category ID.
+ * @return array|null
+ */
+function fh_shop_category_guide( $term_id ) {
+	$map         = fh_shop_species_map();
+	$original_id = absint( apply_filters( 'wpml_object_id', $term_id, 'product_cat', true, 'en' ) );
+
+	if ( ! isset( $map[ $original_id ] ) ) {
+		return null;
+	}
+
+	$cards   = array();
+	$article = fh_guide_translated_link( $map[ $original_id ]['article'], 'post' );
+	$guides  = fh_guide_map();
+	$choose  = fh_guide_translated_link( $guides['G2']['page'], 'page' );
+
+	if ( $article ) {
+		$cards[] = fh_guide_card( $article['id'] ) + array( 'label' => __( 'Main article about this species', 'news' ) );
+	}
+
+	if ( $choose ) {
+		$cards[] = fh_guide_card( $choose['id'] ) + array( 'label' => __( 'How to choose a supplement', 'news' ) );
+	}
+
+	$neighbours = array();
+
+	foreach ( array_keys( $map ) as $species_id ) {
+		$species_term = $species_id === $original_id ? null : get_term( fh_translated_id( $species_id, 'product_cat' ), 'product_cat' );
+
+		if ( $species_term instanceof WP_Term && $species_term->count ) {
+			$neighbours[] = array(
+				'url'   => get_term_link( $species_term ),
+				'title' => $species_term->name,
+			);
+		}
+	}
+
+	$safety = null;
+
+	if ( $map[ $original_id ]['amanita'] ) {
+		// M4: microdosing dosages compared; N17: how Amanita muscaria is prepared.
+		$safety = array(
+			'heading'     => __( 'Amanita safety', 'news' ),
+			'text'        => __( 'Amanita mushrooms contain ibotenic acid and muscimol. Their amount differs from one mushroom to another, so the effect is hard to predict. Do not combine them with alcohol, sedatives or other psychoactive substances, and talk to a doctor first if you take medicines or have heart, liver, kidney or mental health conditions. Avoid them during pregnancy and breastfeeding and keep them away from children and pets. Vomiting, confusion, agitation, seizures or trouble breathing need emergency medical help.', 'news' ),
+			'links_label' => __( 'Read before use:', 'news' ),
+			'links'       => array_values( array_filter( array( fh_guide_translated_link( 1815, 'post' ), fh_guide_translated_link( 2416, 'post' ) ) ) ),
+		);
+	}
+
+	return array(
+		'cards'            => $cards,
+		'neighbours_label' => __( 'Other species:', 'news' ),
+		'neighbours'       => $neighbours,
+		'safety'           => $safety,
+	);
+}

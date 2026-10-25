@@ -507,3 +507,76 @@
     text-underline-offset: 3px;
   }
 }
+
+.c-guide-card__label {
+  margin: rem(18) rem(20) 0;
+  color: #9b9b9b;
+  font-size: rem(13);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+
+  + .c-guide-card__title {
+    margin-top: rem(6);
+  }
+}
+
+// Product category: intro above the products, guide blocks under the grid.
+.l-shop {
+  &__intro {
+    max-width: 72ch;
+    margin: rem(-8) 0 rem(24);
+
+    p {
+      margin-bottom: 0;
+    }
+  }
+
+  &__guides {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: rem(24);
+    margin-top: rem(32);
+
+    @include mq('tablet') {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  &__safety {
+    margin-top: rem(32);
+    padding: rem(18) rem(22);
+    border: 1px solid #f2c4bd;
+    border-left: 4px solid #d6453d;
+    border-radius: 5px;
+    background-color: #fff4f2;
+    color: #4a4a4a;
+    font-size: rem(15);
+    line-height: 1.7;
+
+    p {
+      margin: 0 0 rem(10);
+    }
+  }
+
+  &__safety-title {
+    color: #9f2a23;
+    font-size: rem(18);
+    font-weight: 600;
+  }
+
+  &__safety-links a,
+  &__neighbours a {
+    color: #323232;
+    font-weight: 600;
+    text-decoration: underline;
+    text-decoration-color: $primary;
+    text-underline-offset: 3px;
+  }
+
+  &__neighbours {
+    margin-top: rem(28);
+    color: #666;
+    font-size: rem(15);
+    line-height: 1.8;
+  }
+}

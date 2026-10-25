@@ -7,6 +7,11 @@
       {{breadcrumbs}}
       
       <h1 class="u-h2">{{title}}</h1>
+      {% if intro %}
+        <div class="l-shop__intro p-single__content">
+          {{ intro|raw }}
+        </div>
+      {% endif %}
       <div class="p-shop__flex">
         <div class="p-shop__catalog"> 
           <section 
@@ -72,6 +77,40 @@
               <div class="l-shop__text p-single__content" style="max-width: 72ch; margin-top: 2rem; overflow-wrap: anywhere;">
                 {{ description|raw }}
               </div>
+            {% endif %}
+
+            {% if category_guide %}
+              {% if category_guide.cards %}
+                <div class="l-shop__guides">
+                  {% for guide_item in category_guide.cards %}
+                    {% include 'templates/partial/guide-card.twig' with { 'guide_item': guide_item, 'heading_level': 3 } %}
+                  {% endfor %}
+                </div>
+              {% endif %}
+
+              {% if category_guide.safety %}
+                <aside class="l-shop__safety">
+                  <p class="l-shop__safety-title">{{ category_guide.safety.heading|e }}</p>
+                  <p>{{ category_guide.safety.text|e }}</p>
+                  {% if category_guide.safety.links %}
+                    <p class="l-shop__safety-links">
+                      {{ category_guide.safety.links_label|e }}
+                      {% for link in category_guide.safety.links %}
+                        <a href="{{ link.url|e('html_attr') }}">{{ link.title|e }}</a>{% if not loop.last %}, {% endif %}
+                      {% endfor %}
+                    </p>
+                  {% endif %}
+                </aside>
+              {% endif %}
+
+              {% if category_guide.neighbours %}
+                <p class="l-shop__neighbours">
+                  {{ category_guide.neighbours_label|e }}
+                  {% for link in category_guide.neighbours %}
+                    <a href="{{ link.url|e('html_attr') }}">{{ link.title|e }}</a>{% if not loop.last %} · {% endif %}
+                  {% endfor %}
+                </p>
+              {% endif %}
             {% endif %}
 
           </section>

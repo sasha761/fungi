@@ -16,6 +16,10 @@
 		</a>
 	{% endif %}
 
+	{% if guide_item.label %}
+		<p class="c-guide-card__label">{{ guide_item.label|e }}</p>
+	{% endif %}
+
 	{% if heading_level == 2 %}
 		<h2 class="c-guide-card__title">
 			<a href="{{ guide_item.permalink|e('html_attr') }}">{{ guide_item.title|e }}</a>
