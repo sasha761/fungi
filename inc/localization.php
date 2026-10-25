@@ -1069,46 +1069,6 @@ function fh_translated_id( $post_id, $type = 'post' ) {
 }
 
 /**
- * Insert the assigned pillar page into Yoast breadcrumbs for blog posts.
- *
- * @param array $links Yoast breadcrumb links.
- * @return array
- */
-function fh_add_parent_pillar_breadcrumb( $links ) {
-	if ( ! is_array( $links ) || ! is_singular( 'post' ) || ! function_exists( 'get_field' ) ) {
-		return $links;
-	}
-
-	$parent_pillar = get_field( 'parent_pillar', get_queried_object_id() );
-
-	if ( ! $parent_pillar ) {
-		return $links;
-	}
-
-	$parent_pillar_id = $parent_pillar instanceof WP_Post ? $parent_pillar->ID : absint( $parent_pillar );
-	$parent_pillar_id = fh_translated_id( $parent_pillar_id, 'page' );
-
-	if ( ! $parent_pillar_id || 'page' !== get_post_type( $parent_pillar_id ) ) {
-		return $links;
-	}
-
-	array_splice(
-		$links,
-		1,
-		0,
-		array(
-			array(
-				'text' => get_the_title( $parent_pillar_id ),
-				'url'  => get_permalink( $parent_pillar_id ),
-			),
-		)
-	);
-
-	return $links;
-}
-add_filter( 'wpseo_breadcrumb_links', 'fh_add_parent_pillar_breadcrumb', 20 );
-
-/**
  * Proposed staging-only addition to the News theme.
  * Append the contents AFTER this opening PHP tag to inc/localization.php.
  * Does not change accounts, roles, passwords, email addresses or plugins.
@@ -1199,25 +1159,3 @@ function fh_trust_author_seo_description( $description ) {
 }
 add_filter( 'wpseo_metadesc', 'fh_trust_author_seo_description', 20 );
 
-function fh_trust_pillar_breadcrumbs( $links ) {
-	if ( ! is_array( $links ) || count( $links ) < 2 || ! is_singular( 'post' ) || ! function_exists( 'get_field' ) ) {
-		return $links;
-	}
-	$pillar = get_field( 'parent_pillar', get_queried_object_id() );
-	$pillar_id = $pillar instanceof WP_Post ? $pillar->ID : absint( $pillar );
-	$pillar_id = fh_translated_id( $pillar_id, 'page' );
-	$guides = get_page_by_path( 'guide', OBJECT, 'page' );
-	$guides_id = $guides ? fh_translated_id( $guides->ID, 'page' ) : 0;
-	if ( ! $pillar_id || ! $guides_id || 'page' !== get_post_type( $pillar_id ) || 'publish' !== get_post_status( $pillar_id ) || 'publish' !== get_post_status( $guides_id ) ) {
-		return $links;
-	}
-	$last = end( $links );
-	return array(
-		reset( $links ),
-		array( 'text' => get_the_title( $guides_id ), 'url' => get_permalink( $guides_id ) ),
-		array( 'text' => get_the_title( $pillar_id ), 'url' => get_permalink( $pillar_id ) ),
-		$last,
-	);
-}
-remove_filter( 'wpseo_breadcrumb_links', 'fh_add_parent_pillar_breadcrumb', 20 );
-add_filter( 'wpseo_breadcrumb_links', 'fh_trust_pillar_breadcrumbs', 20 );

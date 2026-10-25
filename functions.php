@@ -34,6 +34,7 @@ require_once get_template_directory() . '/Classes/GutenbergBlocks.php';
 
 require_once get_template_directory() . '/inc/config.php';
 require_once get_template_directory() . '/inc/localization.php';
+require_once get_template_directory() . '/inc/guide.php';
 require_once get_template_directory() . '/inc/language.php';
 require_once get_template_directory() . '/inc/telegram_notification.php';
 require_once get_template_directory() . '/inc/template-functions.php';
