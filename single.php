@@ -122,14 +122,19 @@ $context['reaction_endpoint'] = rest_url( 'custom/v1/handle_like' );
 $context['reaction_nonce'] = wp_create_nonce( 'wp_rest' );
 
 
-$context['related'] = get_posts_info([
-  'numberposts' => 6,
-  'ignore_sticky_posts' => true,
-  'orderby' => 'rand',
-  'post_status' => 'publish',
-  'post_type' => 'post', 
-  'post__not_in' => [$post_id] 
-]);
+// Posts of a guide show the next posts of the same guide; random related posts only for the rest.
+$context['guide_more'] = fh_guide_more( $post_id, 3 );
+
+if ( ! $context['guide_more'] ) {
+  $context['related'] = get_posts_info([
+    'numberposts' => 6,
+    'ignore_sticky_posts' => true,
+    'orderby' => 'rand',
+    'post_status' => 'publish',
+    'post_type' => 'post',
+    'post__not_in' => [$post_id]
+  ]);
+}
 
 
 Timber::render( array( 'single-' . $post_id . '.twig', 'single-' . $post_type . '.twig', 'single.twig' ), $context );

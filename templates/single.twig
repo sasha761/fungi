@@ -131,6 +131,21 @@
       </div>
     </section>  
 
+    {% if guide_more %}
+    <section class="l-related c-guide-more" aria-labelledby="guide-more-heading">
+      <div class="u-container">
+        <h2 id="guide-more-heading" class="u-h2">{{ ui.guide_more|e }}</h2>
+        <div class="c-guide-more__grid">
+          {% for guide_item in guide_more %}
+            {% include 'templates/partial/guide-card.twig' with { 'guide_item': guide_item, 'heading_level': 3 } %}
+          {% endfor %}
+        </div>
+        <p class="c-guide-more__all">
+          {{ ui.guide_all|e }} <a href="{{ data.parent_pillar.url|e('html_attr') }}">{{ data.parent_pillar.title|e }}</a>
+        </p>
+      </div>
+    </section>
+    {% else %}
     <section class="l-related js-slider-container">
       <div class="u-container">
         <h2 class="u-h2">{{ 'Related Posts' | translateString('Strings - related Posts') }}</h2>
@@ -156,8 +171,9 @@
         </div> 
         {% if related|length > 3 %}
           {% include 'templates/partial/arrow.twig' %}
-        {% endif %} 
+        {% endif %}
       </div>
     </section>
+    {% endif %}
   </main>
 {% endblock %}

@@ -996,6 +996,8 @@ function news_ui_labels() {
 		'guide_previous'   => __( 'Previous article', 'news' ),
 		'guide_next'       => __( 'Next article', 'news' ),
 		'guide_back'       => __( 'Back to the guide', 'news' ),
+		'guide_more'       => __( 'More in this guide', 'news' ),
+		'guide_all'        => __( 'Full guide:', 'news' ),
 	);
 }
 

@@ -111,3 +111,45 @@
     }
   }
 }
+
+.c-guide-more {
+  &__grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: rem(24);
+    margin-top: rem(24);
+  }
+
+  &__all {
+    margin-top: rem(24);
+    color: #666;
+    font-size: rem(16);
+
+    a {
+      color: #323232;
+      font-weight: 600;
+      text-decoration: underline;
+      text-decoration-color: $primary;
+      text-underline-offset: 3px;
+    }
+  }
+
+  .c-guide-card__excerpt {
+    display: -webkit-box;
+    overflow: hidden;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+  }
+
+  @include mq('tablet-medium') {
+    &__grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @include mq('tablet') {
+    &__grid {
+      grid-template-columns: 1fr;
+    }
+  }
+}

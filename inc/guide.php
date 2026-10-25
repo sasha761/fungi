@@ -464,3 +464,37 @@ function fh_guide_neighbours( $post_id ) {
 			: $pillar + array( 'direction' => 'next', 'rel' => '', 'label' => $labels['guide_back'] ),
 	);
 }
+
+/**
+ * Return the next posts of the same guide, wrapping to the start of the guide.
+ *
+ * @param int $post_id Post ID.
+ * @param int $limit   Number of posts.
+ * @return array Cards of partial/guide-card.twig.
+ */
+function fh_guide_more( $post_id, $limit = 3 ) {
+	$guide = fh_guide_for_post( $post_id );
+
+	if ( ! $guide || ! $guide['key'] ) {
+		return array();
+	}
+
+	$post_ids = fh_guide_posts( $guide['key'] );
+	$position = array_search( (int) $post_id, $post_ids, true );
+	$count    = count( $post_ids );
+	$cards    = array();
+
+	if ( false === $position ) {
+		$position = -1;
+	}
+
+	for ( $step = 1; $step < $count + 1 && count( $cards ) < $limit; $step++ ) {
+		$next_id = $post_ids[ ( $position + $step ) % $count ];
+
+		if ( (int) $post_id !== $next_id ) {
+			$cards[] = fh_guide_card( $next_id );
+		}
+	}
+
+	return $cards;
+}
