@@ -37,6 +37,7 @@ require_once get_template_directory() . '/inc/localization.php';
 require_once get_template_directory() . '/inc/guide.php';
 require_once get_template_directory() . '/inc/article.php';
 require_once get_template_directory() . '/inc/seo.php';
+require_once get_template_directory() . '/inc/content.php';
 require_once get_template_directory() . '/inc/language.php';
 require_once get_template_directory() . '/inc/telegram_notification.php';
 require_once get_template_directory() . '/inc/template-functions.php';

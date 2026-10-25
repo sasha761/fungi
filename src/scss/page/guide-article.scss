@@ -234,3 +234,121 @@
     flex-direction: column;
   }
 }
+
+// Formatted content blocks (inc/content.php).
+.p-single__content {
+  .fh-keypoints {
+    margin: rem(8) 0 rem(28);
+    padding: rem(18) rem(22) rem(8);
+    border: 1px solid #f3d3a3;
+    border-left: 4px solid $primary;
+    border-radius: 5px;
+    background-color: #fff7ef;
+
+    .fh-keypoints__title {
+      margin-bottom: rem(8);
+      color: #323232;
+      font-size: rem(16);
+    }
+
+    ul,
+    ol {
+      color: #4a4a4a;
+    }
+  }
+
+  .fh-sources {
+    margin-top: rem(32);
+    padding-top: rem(20);
+    border-top: 1px solid #e2e2e2;
+
+    h2 {
+      font-size: rem(18);
+    }
+
+    ol,
+    ul {
+      padding-left: rem(4);
+      font-size: rem(13);
+      line-height: 1.6;
+      overflow-wrap: anywhere;
+    }
+
+    ol {
+      list-style: decimal;
+      list-style-position: inside;
+    }
+
+    li {
+      margin-bottom: rem(6);
+    }
+  }
+
+  .fh-disclaimer {
+    margin-top: rem(24);
+    padding-top: rem(16);
+    border-top: 1px solid #e2e2e2;
+    color: #8a8a8a;
+    font-size: rem(13);
+    font-style: italic;
+    line-height: 1.6;
+
+    em {
+      font-style: italic;
+    }
+  }
+
+  // Existing table styles (header, zebra) stay; the wrapper adds horizontal scrolling,
+  // also for tables that are not inside figure.wp-block-table.
+  .fh-table-scroll {
+    max-width: 100%;
+    margin: rem(30) 0;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+
+    > table,
+    > figure.wp-block-table {
+      margin: 0;
+    }
+
+    @include mq('tablet') {
+      table {
+        min-width: rem(560);
+      }
+    }
+  }
+
+  .fh-quote {
+    cite {
+      display: block;
+      margin-top: rem(12);
+      color: #666;
+      font-family: inherit;
+      font-size: rem(14);
+      font-style: normal;
+      font-weight: 400;
+      line-height: 1.5;
+    }
+  }
+
+  .fh-safety {
+    margin: rem(28) 0;
+    padding: rem(20) rem(22) rem(6);
+    border: 1px solid #f2c4bd;
+    border-left: 4px solid #d6453d;
+    border-radius: 5px;
+    background-color: #fff4f2;
+
+    h2 {
+      color: #9f2a23;
+    }
+  }
+
+  @include mq('tablet') {
+    .fh-keypoints,
+    .fh-safety {
+      padding-right: rem(14);
+      padding-left: rem(14);
+    }
+  }
+}
