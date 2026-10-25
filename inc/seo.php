@@ -1,9 +1,32 @@
 <?php
 /**
- * SEO additions on top of Yoast SEO: Product schema.
+ * SEO additions on top of Yoast SEO: Product schema and canonical fixes.
  *
  * @package News
  */
+
+/**
+ * Keep the self-referencing canonical on RU/UK "Reviews" and "Sitemap" pages.
+ *
+ * Those pages are WPML duplicates of the English page (_icl_lang_duplicate_of), and
+ * for duplicates WPML SEO replaces the Yoast canonical with the original's URL. The
+ * templates render language-specific content, so each version is its own canonical.
+ *
+ * @param bool              $should_translate Whether WPML may rewrite the canonical URL.
+ * @param WPML_Post_Element $post_element     Current post element.
+ * @return bool
+ */
+function fh_keep_canonical_of_localized_duplicates( $should_translate, $post_element ) {
+	$post_id   = is_object( $post_element ) && method_exists( $post_element, 'get_element_id' ) ? (int) $post_element->get_element_id() : 0;
+	$templates = array( 'template-pages/reviews-template.php', 'template-pages/sitemap-template.php' );
+
+	if ( $post_id && in_array( get_page_template_slug( $post_id ), $templates, true ) ) {
+		return false;
+	}
+
+	return $should_translate;
+}
+add_filter( 'wpml_must_translate_canonical_url', 'fh_keep_canonical_of_localized_duplicates', 20, 2 );
 
 /**
  * Return the plain-text description of a product for schema.
