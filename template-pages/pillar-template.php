@@ -32,9 +32,13 @@ foreach ( (array) $cluster_posts as $cluster_post ) {
 	);
 }
 
+$pillar_content = wp_kses_post( apply_filters( 'the_content', get_post_field( 'post_content', $pillar_id ) ) );
+
 $context['pillar']          = array(
 	'title'   => get_the_title( $pillar_id ),
-	'content' => wp_kses_post( apply_filters( 'the_content', get_post_field( 'post_content', $pillar_id ) ) ),
+	'content' => $pillar_content,
+	// Collected by the_content (inc/content.php): sidebar table of contents, sticky on desktop.
+	'toc'     => fh_content_toc_html( fh_content_toc( $pillar_id ), true ),
 );
 $context['cluster_posts']   = $cluster_data;
 $context['cluster_heading'] = __( 'Articles in this guide', 'news' );

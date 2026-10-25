@@ -117,11 +117,78 @@ function fh_content_is_em_paragraph( $paragraph ) {
 }
 
 /**
+ * Return a unique anchor for a heading.
+ *
+ * @param string $text  Heading text.
+ * @param array  $taken Anchors already in use.
+ * @return string
+ */
+function fh_content_anchor( $text, array &$taken ) {
+	$anchor = sanitize_title( $text );
+
+	if ( '' === $anchor || false !== strpos( $anchor, '%' ) ) {
+		$anchor = 'section';
+	}
+
+	$base   = rtrim( substr( $anchor, 0, 60 ), '-' );
+	$anchor = $base;
+
+	for ( $i = 2; isset( $taken[ $anchor ] ); $i++ ) {
+		$anchor = $base . '-' . $i;
+	}
+
+	$taken[ $anchor ] = true;
+
+	return $anchor;
+}
+
+/**
+ * Store or read the table of contents collected for a post.
+ *
+ * @param int        $post_id Post ID.
+ * @param array|null $items   Items to store; null to read.
+ * @return array
+ */
+function fh_content_toc( $post_id, $items = null ) {
+	static $registry = array();
+
+	if ( null !== $items ) {
+		$registry[ $post_id ] = $items;
+	}
+
+	return isset( $registry[ $post_id ] ) ? $registry[ $post_id ] : array();
+}
+
+/**
+ * Render the table of contents.
+ *
+ * @param array $items  Items with 'id' and 'text'.
+ * @param bool  $sticky Sidebar version of pillar pages (sticky on desktop).
+ * @return string
+ */
+function fh_content_toc_html( array $items, $sticky = false ) {
+	if ( ! $items ) {
+		return '';
+	}
+
+	return Timber::compile(
+		'partial/toc.twig',
+		array(
+			'items'  => $items,
+			'label'  => __( 'Contents', 'news' ),
+			'sticky' => $sticky,
+		)
+	);
+}
+
+/**
  * Format the content of a post or a pillar page.
  *
  * @param string $content HTML.
  * @param int    $post_id Post or page ID.
- * @param array  $options 'safety' (bool) wraps safety sections.
+ * @param array  $options 'safety' (bool) wraps safety sections; 'toc' is 'inline'
+ *                        (table of contents before the first H2), 'collect' (only
+ *                        anchors, the template prints it) or '' (none).
  * @return string
  */
 function fh_content_format( $content, $post_id, array $options ) {
@@ -244,11 +311,61 @@ function fh_content_format( $content, $post_id, array $options ) {
 		}
 	}
 
+	// Table of contents: an anchor on every H2; IDs that already exist are kept.
+	$toc = array();
+
+	if ( ! empty( $options['toc'] ) ) {
+		$taken = array();
+		$first = null;
+
+		foreach ( $doc->getElementsByTagName( '*' ) as $element ) {
+			if ( $element->hasAttribute( 'id' ) ) {
+				$taken[ $element->getAttribute( 'id' ) ] = true;
+			}
+		}
+
+		foreach ( $doc->getElementsByTagName( 'h2' ) as $heading ) {
+			$text = trim( preg_replace( '/\s+/u', ' ', $heading->textContent ) );
+
+			if ( '' === $text ) {
+				continue;
+			}
+
+			if ( '' === trim( $heading->getAttribute( 'id' ) ) ) {
+				$heading->setAttribute( 'id', fh_content_anchor( $text, $taken ) );
+			}
+
+			$toc[] = array(
+				'id'   => $heading->getAttribute( 'id' ),
+				'text' => $text,
+			);
+			$first = $first ? $first : $heading;
+		}
+
+		if ( count( $toc ) < 2 ) {
+			$toc = array();
+		} elseif ( 'inline' === $options['toc'] ) {
+			$anchor = $first;
+
+			while ( $anchor->parentNode !== $root ) {
+				$anchor = $anchor->parentNode;
+			}
+
+			$root->insertBefore( $doc->createComment( 'fh-toc' ), $anchor );
+		}
+	}
+
 	$html = '';
 
 	foreach ( $root->childNodes as $child ) {
 		$html .= $doc->saveHTML( $child );
 	}
+
+	if ( $toc && 'inline' === $options['toc'] ) {
+		$html = str_replace( '<!--fh-toc-->', fh_content_toc_html( $toc ), $html );
+	}
+
+	fh_content_toc( $post_id, $toc );
 
 	// Safety net: if the parser lost text, keep the original markup.
 	$text_length = static function ( $markup ) {
@@ -278,14 +395,19 @@ function fh_content_filter( $content ) {
 		return $content;
 	}
 
+	// A table of contents that is already in the content is not added twice.
+	$has_toc = false !== strpos( $content, 'class="fh-toc' );
+
 	if ( is_singular( 'post' ) ) {
 		$guide = fh_guide_for_post( $post_id );
+		$words = preg_match_all( '/[\p{L}\p{N}]+/u', wp_strip_all_tags( $content ) );
 
 		return fh_content_format(
 			$content,
 			$post_id,
 			array(
 				'safety' => $guide && in_array( $guide['key'], array( 'G3', 'G4', 'G5' ), true ),
+				'toc'    => ! $has_toc && $words >= 1500 ? 'inline' : '',
 			)
 		);
 	}
@@ -296,6 +418,7 @@ function fh_content_filter( $content ) {
 			$post_id,
 			array(
 				'safety' => in_array( fh_guide_key_by_page( $post_id ), array( 'G3', 'G4', 'G5' ), true ),
+				'toc'    => 'collect',
 			)
 		);
 	}

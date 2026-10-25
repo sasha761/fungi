@@ -352,3 +352,107 @@
     }
   }
 }
+
+// Table of contents (inc/content.php, partial/toc.twig).
+.fh-toc {
+  margin: rem(8) 0 rem(28);
+  border: 1px solid #e2e2e2;
+  border-radius: 5px;
+  background-color: #fff;
+
+  &__title {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: rem(14) rem(18);
+    color: #323232;
+    font-size: rem(16);
+    font-weight: 600;
+    list-style: none;
+    cursor: pointer;
+
+    &::-webkit-details-marker {
+      display: none;
+    }
+
+    &::after {
+      content: '';
+      width: rem(8);
+      height: rem(8);
+      margin-left: rem(12);
+      border-right: 2px solid $primary;
+      border-bottom: 2px solid $primary;
+      transform: rotate(45deg) translateY(-2px);
+      transition: transform 0.2s ease;
+    }
+  }
+
+  &__details[open] &__title::after {
+    transform: rotate(-135deg) translateY(-2px);
+  }
+
+  &__list {
+    margin: 0 !important;
+    padding: 0 rem(18) rem(14) rem(36) !important;
+    list-style: decimal !important;
+    list-style-position: outside !important;
+    font-size: rem(15) !important;
+  }
+
+  &__item {
+    margin-bottom: rem(6) !important;
+    line-height: 1.45;
+
+    a {
+      color: #4a4a4a;
+      text-decoration: none;
+
+      &:hover,
+      &:focus-visible {
+        color: #000;
+        text-decoration: underline;
+        text-decoration-color: $primary;
+      }
+    }
+  }
+}
+
+.p-single__content h2[id] {
+  scroll-margin-top: rem(110);
+}
+
+.p-pillar__layout.has-toc {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) rem(300);
+  gap: rem(32);
+  align-items: start;
+
+  > .p-pillar__aside {
+    grid-column: 2;
+    grid-row: 1;
+    align-self: stretch;
+  }
+
+  > .p-single__box {
+    grid-column: 1;
+    grid-row: 1;
+  }
+
+  .fh-toc.is-sticky {
+    position: sticky;
+    top: rem(110);
+    max-height: calc(100vh - #{rem(130)});
+    margin-top: 0;
+    overflow-y: auto;
+  }
+
+  @include mq('tablet-wide') {
+    display: block;
+
+    .fh-toc.is-sticky {
+      position: static;
+      max-height: none;
+      margin-bottom: rem(20);
+    }
+  }
+}

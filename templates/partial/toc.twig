@@ -1,0 +1,10 @@
+<nav class="fh-toc{% if sticky %} is-sticky{% endif %}" aria-label="{{ label|e('html_attr') }}">
+	<details class="fh-toc__details" open>
+		<summary class="fh-toc__title">{{ label|e }}</summary>
+		<ol class="fh-toc__list">
+			{% for item in items %}
+				<li class="fh-toc__item"><a href="#{{ item.id|e('html_attr') }}">{{ item.text|e }}</a></li>
+			{% endfor %}
+		</ol>
+	</details>
+</nav>

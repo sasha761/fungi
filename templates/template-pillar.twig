@@ -5,7 +5,13 @@
 		<div class="u-container">
 			{{ breadcrumbs }}
 
-			<div class="p-single__flex">
+			<div class="p-single__flex p-pillar__layout{% if pillar.toc %} has-toc{% endif %}">
+				{% if pillar.toc %}
+					<aside class="p-pillar__aside">
+						{{ pillar.toc|raw }}
+					</aside>
+				{% endif %}
+
 				<article class="p-single__box">
 					<h1 class="u-h1">{{ pillar.title|e }}</h1>
 					<div class="p-single__content p-pillar__content">
