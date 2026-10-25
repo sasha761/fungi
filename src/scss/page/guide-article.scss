@@ -1,0 +1,25 @@
+// Article and guide elements: trust line, guide navigation, author box,
+// formatted content blocks and the table of contents.
+
+.c-trust-line {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: rem(4) rem(8);
+  margin: rem(-8) 0 rem(20);
+  color: #666;
+  font-size: rem(15);
+  line-height: 1.5;
+
+  a {
+    color: #323232;
+    font-weight: 600;
+    text-decoration: underline;
+    text-decoration-color: $primary;
+    text-underline-offset: 3px;
+  }
+
+  &__separator {
+    color: #9b9b9b;
+  }
+}

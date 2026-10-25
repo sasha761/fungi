@@ -1,0 +1,20 @@
+<p class="c-trust-line">
+	{% if trust.author_name %}
+		<span class="c-trust-line__item">
+			{{ trust.author_label|e }}
+			{% if trust.author_url %}
+				<a href="{{ trust.author_url|e('html_attr') }}" rel="author">{{ trust.author_name|e }}</a>
+			{% else %}
+				{{ trust.author_name|e }}
+			{% endif %}
+		</span>
+	{% endif %}
+	{% if trust.author_name and trust.updated %}
+		<span class="c-trust-line__separator" aria-hidden="true">·</span>
+	{% endif %}
+	{% if trust.updated %}
+		<span class="c-trust-line__item">
+			{{ trust.updated_label|e }} <time datetime="{{ trust.updated_iso|e('html_attr') }}">{{ trust.updated|e }}</time>
+		</span>
+	{% endif %}
+</p>
