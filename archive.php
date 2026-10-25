@@ -12,13 +12,13 @@ $templates = array( 'archive.twig', 'index.twig' );
 $context = Timber::context();
 
 
-$context['title'] = 'Archive';
+$context['title'] = __( 'Archive', 'news' );
 if ( is_day() ) {
-	$context['title'] = 'Archive: ' . get_the_date( 'D M Y' );
+	$context['title'] = __( 'Archive:', 'news' ) . ' ' . get_the_date( 'D M Y' );
 } else if ( is_month() ) {
-	$context['title'] = 'Archive: ' . get_the_date( 'M Y' );
+	$context['title'] = __( 'Archive:', 'news' ) . ' ' . get_the_date( 'M Y' );
 } else if ( is_year() ) {
-	$context['title'] = 'Archive: ' . get_the_date( 'Y' );
+	$context['title'] = __( 'Archive:', 'news' ) . ' ' . get_the_date( 'Y' );
 } else if ( is_tag() ) {
 	$context['title'] = single_tag_title( '', false );
 } else if ( is_category() ) {

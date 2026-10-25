@@ -63,6 +63,7 @@ class BrandedSite extends Site {
       'labels' => array(
         'quantity'       => news_translate_string( 'Quantity', 'Cart - Quantity' ),
         'ratingRequired' => news_translate_string( 'Please select a rating!', 'Comments - Rating required' ),
+        'summaryError'   => __( 'Could not get the summary. Please try again later.', 'news' ),
       ),
     ));
 
@@ -88,6 +89,7 @@ class BrandedSite extends Site {
     $context['options']            = news_translate_theme_options( get_fields('option') );
     $context['current_lang']       = news_get_current_language();
     $context['html_lang']          = news_get_html_language();
+    $context['ui']                 = news_ui_labels();
     $context['ajax_url']           = add_query_arg( 'lang', $context['current_lang'], admin_url( 'admin-ajax.php' ) );
     
     if ( function_exists( 'icl_get_languages' ) ) {

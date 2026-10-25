@@ -58,7 +58,7 @@
 
             <div class="p-single__info">
               <div class="p-single__info-left">
-                <span class="p-single__views" aria-label="Article views">
+                <span class="p-single__views" aria-label="{{ ui.article_views|e('html_attr') }}">
                   <svg class="h-4 w-4 text-orange-500" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
                     <path d="M2.25 12s3.5-6.5 9.75-6.5S21.75 12 21.75 12 18.25 18.5 12 18.5 2.25 12 2.25 12Z" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
                     <path d="M12 15.25a3.25 3.25 0 1 0 0-6.5 3.25 3.25 0 0 0 0 6.5Z" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
@@ -74,13 +74,13 @@
                 data-endpoint="{{ reaction_endpoint }}"
                 data-nonce="{{ reaction_nonce }}"
                 data-selected-reaction="{{ selectedReaction }}"
-                aria-label="Post reactions"
+                aria-label="{{ ui.post_reactions|e('html_attr') }}"
               >
-                <button class="c-likes__item c-likes__like {{ selectedReaction == 'like' ? 'selected is-selected' : '' }}" type="button" data-like-type="like" aria-label="Like" aria-pressed="{{ selectedReaction == 'like' ? 'true' : 'false' }}">👍 <span data-reaction-count>{{ data.post_likes.like | default(0) }}</span></button>
-                <button class="c-likes__item c-likes__fire {{ selectedReaction == 'fire' ? 'selected is-selected' : '' }}" type="button" data-like-type="fire" aria-label="Fire" aria-pressed="{{ selectedReaction == 'fire' ? 'true' : 'false' }}">🔥 <span data-reaction-count>{{ data.post_likes.fire | default(0) }}</span></button>
-                <button class="c-likes__item c-likes__hart {{ selectedReaction == 'heart' ? 'selected is-selected' : '' }}" type="button" data-like-type="heart" aria-label="Love" aria-pressed="{{ selectedReaction == 'heart' ? 'true' : 'false' }}">❤️ <span data-reaction-count>{{ data.post_likes.heart | default(0) }}</span></button>
-                <button class="c-likes__item c-likes__swearing {{ selectedReaction == 'swearing' ? 'selected is-selected' : '' }}" type="button" data-like-type="swearing" aria-label="Angry" aria-pressed="{{ selectedReaction == 'swearing' ? 'true' : 'false' }}">🤬 <span data-reaction-count>{{ data.post_likes.swearing | default(0) }}</span></button>
-                <button class="c-likes__item c-likes__clown {{ selectedReaction == 'clown' ? 'selected is-selected' : '' }}" type="button" data-like-type="clown" aria-label="Clown" aria-pressed="{{ selectedReaction == 'clown' ? 'true' : 'false' }}">🤡 <span data-reaction-count>{{ data.post_likes.clown | default(0) }}</span></button>
+                <button class="c-likes__item c-likes__like {{ selectedReaction == 'like' ? 'selected is-selected' : '' }}" type="button" data-like-type="like" aria-label="{{ ui.reaction_like|e('html_attr') }}" aria-pressed="{{ selectedReaction == 'like' ? 'true' : 'false' }}">👍 <span data-reaction-count>{{ data.post_likes.like | default(0) }}</span></button>
+                <button class="c-likes__item c-likes__fire {{ selectedReaction == 'fire' ? 'selected is-selected' : '' }}" type="button" data-like-type="fire" aria-label="{{ ui.reaction_fire|e('html_attr') }}" aria-pressed="{{ selectedReaction == 'fire' ? 'true' : 'false' }}">🔥 <span data-reaction-count>{{ data.post_likes.fire | default(0) }}</span></button>
+                <button class="c-likes__item c-likes__hart {{ selectedReaction == 'heart' ? 'selected is-selected' : '' }}" type="button" data-like-type="heart" aria-label="{{ ui.reaction_love|e('html_attr') }}" aria-pressed="{{ selectedReaction == 'heart' ? 'true' : 'false' }}">❤️ <span data-reaction-count>{{ data.post_likes.heart | default(0) }}</span></button>
+                <button class="c-likes__item c-likes__swearing {{ selectedReaction == 'swearing' ? 'selected is-selected' : '' }}" type="button" data-like-type="swearing" aria-label="{{ ui.reaction_angry|e('html_attr') }}" aria-pressed="{{ selectedReaction == 'swearing' ? 'true' : 'false' }}">🤬 <span data-reaction-count>{{ data.post_likes.swearing | default(0) }}</span></button>
+                <button class="c-likes__item c-likes__clown {{ selectedReaction == 'clown' ? 'selected is-selected' : '' }}" type="button" data-like-type="clown" aria-label="{{ ui.reaction_clown|e('html_attr') }}" aria-pressed="{{ selectedReaction == 'clown' ? 'true' : 'false' }}">🤡 <span data-reaction-count>{{ data.post_likes.clown | default(0) }}</span></button>
               </div>
             </div>
             <div class="p-single__content-controller js-buttons-container">
@@ -97,9 +97,9 @@
                 </svg>
                 <p>{{ 'For a quicker read, use AI tool to summarize it to your preferred size' | translateString('Strings - AI tool to summarize') }}</p>
               </div>
-              <button class="u-btn is-orange is-small d-none" data-summary="original">Original</button>
-              <button class="u-btn is-orange is-small" data-summary="short">Short</button>
-              <button class="u-btn is-orange is-small" data-summary="medium">Medium</button>
+              <button class="u-btn is-orange is-small d-none" data-summary="original">{{ ui.summary_original|e }}</button>
+              <button class="u-btn is-orange is-small" data-summary="short">{{ ui.summary_short|e }}</button>
+              <button class="u-btn is-orange is-small" data-summary="medium">{{ ui.summary_medium|e }}</button>
             </div>
             
             <div class="p-single__content js-article-content">

@@ -970,6 +970,32 @@ function news_translate_theme_options( $options ) {
 }
 
 /**
+ * Return interface labels for Twig templates (text domain "news").
+ *
+ * Each label is a literal __() call so the WPML theme scan finds it;
+ * templates print the prepared values from the "ui" context variable.
+ *
+ * @return array
+ */
+function news_ui_labels() {
+	return array(
+		'summary_original' => __( 'Original', 'news' ),
+		'summary_short'    => __( 'Short', 'news' ),
+		'summary_medium'   => __( 'Medium', 'news' ),
+		'article_views'    => __( 'Article views', 'news' ),
+		'post_reactions'   => __( 'Post reactions', 'news' ),
+		'reaction_like'    => __( 'Like', 'news' ),
+		'reaction_fire'    => __( 'Fire', 'news' ),
+		'reaction_love'    => __( 'Love', 'news' ),
+		'reaction_angry'   => __( 'Angry', 'news' ),
+		'reaction_clown'   => __( 'Clown', 'news' ),
+		'share_tweet'      => __( 'Share on X', 'news' ),
+		'health_goal'      => __( 'Health goal:', 'news' ),
+		'category'         => __( 'Category:', 'news' ),
+	);
+}
+
+/**
  * Return the exact HTML language code required by the localized page.
  *
  * @return string
@@ -994,6 +1020,10 @@ function news_translate_menu_title( $title ) {
 		'privacy policy'                 => array( 'Privacy Policy', 'Menu - Privacy Policy' ),
 		'политика конфиденциальности'    => array( 'Privacy Policy', 'Menu - Privacy Policy' ),
 		'політика конфіденційності'      => array( 'Privacy Policy', 'Menu - Privacy Policy' ),
+		// RU/UK "Reviews" pages are WPML duplicates and get the English title back on every sync.
+		'reviews'                        => array( 'Reviews', 'Mobile menu - Reviews' ),
+		'отзывы'                         => array( 'Reviews', 'Mobile menu - Reviews' ),
+		'відгуки'                        => array( 'Reviews', 'Mobile menu - Reviews' ),
 	);
 
 	if ( ! isset( $known_items[ $normalized ] ) ) {

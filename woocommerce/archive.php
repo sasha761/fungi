@@ -95,44 +95,8 @@ $title = woocommerce_page_title($echo = false);
 // }
 
 
-if ( is_product_category() || is_shop() || is_tax() ) {
-  $query_url = $_SERVER['QUERY_STRING'];
-  // $term_id = get_queried_object()->term_id;
-
-
-  if ($query_url == '') {
-    // $context['description'] = term_description( $term_id );
-    $context['title'] = $title;
-  } else {
-    $url = $_SERVER['HTTP_REFERER'];
-    parse_str($query_url, $output);
-
-    $title_variable = '';
-
-    switch(!empty($output['orderby'])){
-      case 'default':
-          break;
-      case 'popularity':  
-          $title_variable .= '| Популярные';
-          break;
-      case 'price':
-          $title_variable .= '| Цены по возрастанию';
-          break;
-      case 'price-desc':
-          $title_variable .= '| Цены по убыванию';
-          break;
-      case 'date':
-          $title_variable .= '| Новые';
-          break;
-      case 'rating':
-          $title_variable .= '| Рейтинговые';
-          break;
-      default:   
-    }
-
-    $context['title'] = $title . '. ' . $title_variable;
-  }
-}
+// The H1 is the archive title only: any query string (utm, fbclid, orderby) used to add ". " to it.
+$context['title'] = $title;
 
 
 Timber::render( 'templates/woo/archive.twig', $context );

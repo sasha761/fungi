@@ -48,7 +48,7 @@ async function handleSummaryButtonClick(button, contentBox, contentContainer, or
     updateButtonVisibility(buttonContainer, button);
   } catch (error) {
     console.error(error);
-    alert('Ошибка при получении сводки');
+    alert(window.ajax?.labels?.summaryError || 'Could not get the summary.');
   } finally {
     button.disabled = false;
     contentContainer.classList.remove('is-loading');
