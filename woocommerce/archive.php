@@ -52,13 +52,27 @@ if (!empty($query_params['orderby'])) {
 
 $paged = get_query_var('paged') ? get_query_var('paged') : 1;
 
-$context['products'] = get_products([
+$product_args = [
   'paged' => $paged, 
   'orderby' => $orderby, 
   'order' => $order, 
   'meta_key' => $meta_key, 
   'posts_per_page' => 21
-]);
+];
+
+if (is_product_category()) {
+  $term_id = get_queried_object_id();
+  $product_args['tax_query'] = [
+    [
+      'taxonomy' => 'product_cat',
+      'field' => 'term_id',
+      'terms' => [$term_id],
+    ],
+  ];
+  $context['description'] = wp_kses_post(term_description($term_id, 'product_cat'));
+}
+
+$context['products'] = get_products($product_args);
 $context['product_tags'] = get_taxonomy_data([
 	'taxonomy'   => 'product_tag',
   'hide_empty' => false, 

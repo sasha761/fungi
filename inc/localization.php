@@ -1107,3 +1107,117 @@ function fh_add_parent_pillar_breadcrumb( $links ) {
 	return $links;
 }
 add_filter( 'wpseo_breadcrumb_links', 'fh_add_parent_pillar_breadcrumb', 20 );
+
+/**
+ * Proposed staging-only addition to the News theme.
+ * Append the contents AFTER this opening PHP tag to inc/localization.php.
+ * Does not change accounts, roles, passwords, email addresses or plugins.
+ */
+
+function fh_trust_author_ids() {
+	return array( 1, 2, 3 );
+}
+
+function fh_trust_author_fields( $user ) {
+	if ( ! in_array( (int) $user->ID, fh_trust_author_ids(), true ) || ! current_user_can( 'edit_user', $user->ID ) ) {
+		return;
+	}
+	echo '<h2>Public author profile</h2><table class="form-table">';
+	echo '<tr><th><label for="fh_author_slug">Public author URL slug</label></th><td><input name="fh_author_slug" id="fh_author_slug" type="text" class="regular-text" value="' . esc_attr( $user->user_nicename ) . '"><p class="description">Public profile address only. The account login remains unchanged.</p></td></tr>';
+	foreach ( array( 'ru' => 'Russian biography', 'uk' => 'Ukrainian biography' ) as $language => $label ) {
+		$key = 'fh_author_bio_' . $language;
+		echo '<tr><th><label for="' . esc_attr( $key ) . '">' . esc_html( $label ) . '</label></th><td><textarea class="large-text" rows="5" id="' . esc_attr( $key ) . '" name="' . esc_attr( $key ) . '">' . esc_textarea( get_user_meta( $user->ID, $key, true ) ) . '</textarea></td></tr>';
+	}
+	echo '</table>';
+}
+add_action( 'show_user_profile', 'fh_trust_author_fields' );
+add_action( 'edit_user_profile', 'fh_trust_author_fields' );
+
+function fh_trust_save_author_fields( $user_id ) {
+	if ( ! in_array( (int) $user_id, fh_trust_author_ids(), true ) || ! current_user_can( 'edit_user', $user_id ) ) {
+		return;
+	}
+	if ( empty( $_POST['_wpnonce'] ) || ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['_wpnonce'] ) ), 'update-user_' . $user_id ) ) {
+		return;
+	}
+	foreach ( array( 'ru', 'uk' ) as $language ) {
+		$key = 'fh_author_bio_' . $language;
+		if ( isset( $_POST[ $key ] ) ) {
+			update_user_meta( $user_id, $key, sanitize_textarea_field( wp_unslash( $_POST[ $key ] ) ) );
+		}
+	}
+	if ( isset( $_POST['fh_author_slug'] ) ) {
+		$slug = sanitize_title( wp_unslash( $_POST['fh_author_slug'] ) );
+		$user = get_userdata( $user_id );
+		if ( $slug && $user && $slug !== $user->user_nicename ) {
+			wp_update_user( array( 'ID' => $user_id, 'user_nicename' => $slug ) );
+		}
+	}
+}
+add_action( 'personal_options_update', 'fh_trust_save_author_fields' );
+add_action( 'edit_user_profile_update', 'fh_trust_save_author_fields' );
+
+function fh_trust_author_language() {
+	$language = apply_filters( 'wpml_current_language', null );
+	return in_array( $language, array( 'en', 'ru', 'uk' ), true ) ? $language : 'en';
+}
+
+function fh_trust_localized_author_meta( $value, $user_id, $meta_key, $single ) {
+	if ( is_admin() || ! in_array( (int) $user_id, fh_trust_author_ids(), true ) || ! in_array( $meta_key, array( 'description', 'user_description' ), true ) ) {
+		return $value;
+	}
+	$language = fh_trust_author_language();
+	if ( 'en' === $language ) {
+		return $value;
+	}
+	$bio = get_user_meta( $user_id, 'fh_author_bio_' . $language, true );
+	return '' !== $bio ? ( $single ? $bio : array( $bio ) ) : $value;
+}
+add_filter( 'get_user_metadata', 'fh_trust_localized_author_meta', 20, 4 );
+
+function fh_trust_author_seo_title( $title ) {
+	if ( ! is_author() || ! in_array( (int) get_queried_object_id(), fh_trust_author_ids(), true ) ) {
+		return $title;
+	}
+	$language = fh_trust_author_language();
+	$labels = array( 'en' => 'Fungi Harmony Author', 'ru' => 'Автор Fungi Harmony', 'uk' => 'Автор Fungi Harmony' );
+	return get_the_author_meta( 'display_name', get_queried_object_id() ) . ' | ' . $labels[ $language ];
+}
+add_filter( 'wpseo_title', 'fh_trust_author_seo_title', 20 );
+
+function fh_trust_author_seo_description( $description ) {
+	if ( ! is_author() || ! in_array( (int) get_queried_object_id(), fh_trust_author_ids(), true ) ) {
+		return $description;
+	}
+	$name = get_the_author_meta( 'display_name', get_queried_object_id() );
+	$texts = array(
+		'en' => 'Publications by %s at Fungi Harmony about mushrooms and mushroom products, with information for readers.',
+		'ru' => 'Публикации %s на Fungi Harmony о грибах и грибной продукции: информационные материалы для читателей.',
+		'uk' => 'Публікації %s на Fungi Harmony про гриби та грибну продукцію: інформаційні матеріали для читачів.',
+	);
+	return sprintf( $texts[ fh_trust_author_language() ], $name );
+}
+add_filter( 'wpseo_metadesc', 'fh_trust_author_seo_description', 20 );
+
+function fh_trust_pillar_breadcrumbs( $links ) {
+	if ( ! is_array( $links ) || count( $links ) < 2 || ! is_singular( 'post' ) || ! function_exists( 'get_field' ) ) {
+		return $links;
+	}
+	$pillar = get_field( 'parent_pillar', get_queried_object_id() );
+	$pillar_id = $pillar instanceof WP_Post ? $pillar->ID : absint( $pillar );
+	$pillar_id = fh_translated_id( $pillar_id, 'page' );
+	$guides = get_page_by_path( 'guide', OBJECT, 'page' );
+	$guides_id = $guides ? fh_translated_id( $guides->ID, 'page' ) : 0;
+	if ( ! $pillar_id || ! $guides_id || 'page' !== get_post_type( $pillar_id ) || 'publish' !== get_post_status( $pillar_id ) || 'publish' !== get_post_status( $guides_id ) ) {
+		return $links;
+	}
+	$last = end( $links );
+	return array(
+		reset( $links ),
+		array( 'text' => get_the_title( $guides_id ), 'url' => get_permalink( $guides_id ) ),
+		array( 'text' => get_the_title( $pillar_id ), 'url' => get_permalink( $pillar_id ) ),
+		$last,
+	);
+}
+remove_filter( 'wpseo_breadcrumb_links', 'fh_add_parent_pillar_breadcrumb', 20 );
+add_filter( 'wpseo_breadcrumb_links', 'fh_trust_pillar_breadcrumbs', 20 );

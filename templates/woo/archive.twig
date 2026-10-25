@@ -24,15 +24,6 @@
               </div>
             {% endif %} #}
 
-            {# {% if description %}
-              <div class="l-shop__text js-read-more">
-                <div class="js-read-more-text">
-                  {{ description }}
-                </div>
-                <a class="u-read-more js-read-more-btn">{{ 'Read completely' | translateString('buttons - Read completely') }}</a>
-              </div>
-            {% endif %} #}
-
             {# <div class="l-shop__result">
               <div class="l-shop__result-count">{{ function('woocommerce_result_count') }}</div>
               <div class="c-sort js-filter-sort">
@@ -76,6 +67,12 @@
             </div>
 
             {% include 'partial/pagination.twig' with { pagination: posts.pagination({show_all: false, mid_size: 4, end_size: 1}) } %}
+
+            {% if description %}
+              <div class="l-shop__text p-single__content" style="max-width: 72ch; margin-top: 2rem; overflow-wrap: anywhere;">
+                {{ description|raw }}
+              </div>
+            {% endif %}
 
           </section>
         </div> 
