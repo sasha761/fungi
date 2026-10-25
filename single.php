@@ -92,20 +92,8 @@ $comments = get_comments(
 
 $nested_comments = nest_comments( $comments );
 
-$parent_pillar      = function_exists( 'get_field' ) ? get_field( 'parent_pillar', $post_id ) : false;
-$parent_pillar_link = null;
-
-if ( $parent_pillar ) {
-  $parent_pillar_id = $parent_pillar instanceof WP_Post ? $parent_pillar->ID : absint( $parent_pillar );
-  $parent_pillar_id = fh_translated_id( $parent_pillar_id, 'page' );
-
-  if ( $parent_pillar_id && 'page' === get_post_type( $parent_pillar_id ) ) {
-    $parent_pillar_link = [
-      'title' => get_the_title( $parent_pillar_id ),
-      'url'   => get_permalink( $parent_pillar_id ),
-    ];
-  }
-}
+$guide              = fh_guide_for_post( $post_id );
+$parent_pillar_link = $guide ? $guide['pillar'] : null;
 
 $data = [
     'ID'             => $post_id,
