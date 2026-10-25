@@ -114,6 +114,10 @@
               {% include 'templates/partial/social.twig' with {'share': true} %}
             </div>
 
+            {% if data.author_box %}
+              {% include 'templates/partial/author-box.twig' with { 'author': data.author_box } %}
+            {% endif %}
+
             {% if data.guide_nav %}
               {% include 'templates/partial/guide-nav.twig' with { 'items': data.guide_nav } %}
             {% endif %}

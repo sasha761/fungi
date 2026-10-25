@@ -153,3 +153,84 @@
     }
   }
 }
+
+.c-author-box {
+  display: flex;
+  gap: rem(20);
+  align-items: flex-start;
+  margin: rem(32) 0;
+  padding: rem(20);
+  border: 1px solid #e2e2e2;
+  border-radius: 5px;
+  background-color: #fff;
+
+  &__photo {
+    flex: 0 0 rem(88);
+
+    img {
+      display: block;
+      width: rem(88);
+      height: rem(88);
+      margin: 0;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+  }
+
+  &__body {
+    min-width: 0;
+
+    p {
+      margin: 0;
+    }
+  }
+
+  &__heading {
+    color: #9b9b9b;
+    font-size: rem(13);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+
+  &__name {
+    margin-top: rem(4) !important;
+    font-size: rem(18);
+    font-weight: 600;
+
+    a {
+      color: #323232;
+      text-decoration: none;
+    }
+  }
+
+  &__bio {
+    display: -webkit-box;
+    overflow: hidden;
+    margin-top: rem(8) !important;
+    color: #666;
+    font-size: rem(15);
+    line-height: 1.6;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+  }
+
+  &__links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: rem(8) rem(20);
+    margin-top: rem(12) !important;
+    font-size: rem(15);
+
+    a {
+      color: #323232;
+      font-weight: 600;
+      text-decoration: underline;
+      text-decoration-color: $primary;
+      text-underline-offset: 3px;
+    }
+  }
+
+  @include mq('phone-wide') {
+    flex-direction: column;
+  }
+}
