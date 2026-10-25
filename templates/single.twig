@@ -77,10 +77,6 @@
                 aria-label="{{ ui.post_reactions|e('html_attr') }}"
               >
                 <button class="c-likes__item c-likes__like {{ selectedReaction == 'like' ? 'selected is-selected' : '' }}" type="button" data-like-type="like" aria-label="{{ ui.reaction_like|e('html_attr') }}" aria-pressed="{{ selectedReaction == 'like' ? 'true' : 'false' }}">👍 <span data-reaction-count>{{ data.post_likes.like | default(0) }}</span></button>
-                <button class="c-likes__item c-likes__fire {{ selectedReaction == 'fire' ? 'selected is-selected' : '' }}" type="button" data-like-type="fire" aria-label="{{ ui.reaction_fire|e('html_attr') }}" aria-pressed="{{ selectedReaction == 'fire' ? 'true' : 'false' }}">🔥 <span data-reaction-count>{{ data.post_likes.fire | default(0) }}</span></button>
-                <button class="c-likes__item c-likes__hart {{ selectedReaction == 'heart' ? 'selected is-selected' : '' }}" type="button" data-like-type="heart" aria-label="{{ ui.reaction_love|e('html_attr') }}" aria-pressed="{{ selectedReaction == 'heart' ? 'true' : 'false' }}">❤️ <span data-reaction-count>{{ data.post_likes.heart | default(0) }}</span></button>
-                <button class="c-likes__item c-likes__swearing {{ selectedReaction == 'swearing' ? 'selected is-selected' : '' }}" type="button" data-like-type="swearing" aria-label="{{ ui.reaction_angry|e('html_attr') }}" aria-pressed="{{ selectedReaction == 'swearing' ? 'true' : 'false' }}">🤬 <span data-reaction-count>{{ data.post_likes.swearing | default(0) }}</span></button>
-                <button class="c-likes__item c-likes__clown {{ selectedReaction == 'clown' ? 'selected is-selected' : '' }}" type="button" data-like-type="clown" aria-label="{{ ui.reaction_clown|e('html_attr') }}" aria-pressed="{{ selectedReaction == 'clown' ? 'true' : 'false' }}">🤡 <span data-reaction-count>{{ data.post_likes.clown | default(0) }}</span></button>
               </div>
             </div>
             <div class="p-single__content-controller js-buttons-container">

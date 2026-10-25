@@ -36,10 +36,6 @@
 			{% if likes == 'top' and data.post_likes %}
 				<div class="c-likes">
 					<div class="c-likes__item c-likes__like">👍 <span>{{ data.post_likes.like | default(0) }}</span></div>
-					<div class="c-likes__item c-likes__fire">🔥 <span>{{ data.post_likes.fire | default(0) }}</span></div>
-					<div class="c-likes__item c-likes__hart">❤️ <span>{{ data.post_likes.heart | default(0) }}</span></div>
-					<div class="c-likes__item c-likes__swearing" data-like-type="swearing">🤬 <span>{{ data.post_likes.swearing | default(0) }}</span></div>
-					{# <div class="c-likes__item c-likes__clown" data-like-type="clown">🤡 <span>{{ post_likes.clown | default(0) }}</span></div> #}
 				</div>
 			{% endif %}
 		</div>
@@ -52,10 +48,6 @@
 	{% if likes == 'bottom' and data.post_likes %}
 		<div class="c-likes">
 			<div class="c-likes__item c-likes__like">👍 <span>{{ data.post_likes.like | default(0) }}</span></div>
-			<div class="c-likes__item c-likes__fire">🔥 <span>{{ data.post_likes.fire | default(0) }}</span></div>
-			<div class="c-likes__item c-likes__hart">❤️ <span>{{ data.post_likes.heart | default(0) }}</span></div>
-			<div class="c-likes__item c-likes__swearing" data-like-type="swearing">🤬 <span>{{ data.post_likes.swearing | default(0) }}</span></div>
-			{# <div class="c-likes__item c-likes__clown" data-like-type="clown">🤡 <span>{{ post_likes.clown | default(0) }}</span></div> #}
 		</div>
 	{% endif %}
 
