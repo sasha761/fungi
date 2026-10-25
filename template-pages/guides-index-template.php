@@ -9,11 +9,40 @@
 $context         = Timber::context();
 $guides_index_id = get_queried_object_id();
 $pillar_pages    = array();
-$pillars_query   = new WP_Query(
+$listed          = array();
+$start_label     = __( 'Start here:', 'news' );
+
+// The five guides in their fixed order, each with the first posts of the guide.
+foreach ( fh_guide_map() as $guide_key => $guide ) {
+	$pillar_id = fh_translated_id( $guide['page'], 'page' );
+
+	if ( 'publish' !== get_post_status( $pillar_id ) ) {
+		continue;
+	}
+
+	$card                = fh_guide_card( $pillar_id );
+	$card['links_label'] = $start_label;
+	$card['links']       = array_map(
+		static function ( $post_id ) {
+			return array(
+				'url'   => get_permalink( $post_id ),
+				'title' => wp_specialchars_decode( get_the_title( $post_id ), ENT_QUOTES ),
+			);
+		},
+		array_slice( fh_guide_posts( $guide_key ), 0, 3 )
+	);
+
+	$pillar_pages[]       = $card;
+	$listed[ $pillar_id ] = true;
+}
+
+// Other pages on the pillar template follow, as before.
+$pillars_query = new WP_Query(
 	array(
 		'post_type'              => 'page',
 		'post_status'            => 'publish',
 		'posts_per_page'         => -1,
+		'fields'                 => 'ids',
 		'orderby'                => array(
 			'menu_order' => 'ASC',
 			'title'      => 'ASC',
@@ -26,17 +55,10 @@ $pillars_query   = new WP_Query(
 	)
 );
 
-foreach ( $pillars_query->posts as $pillar_page ) {
-	$pillar_id    = $pillar_page->ID;
-	$thumbnail_id = get_post_thumbnail_id( $pillar_id );
-
-	$pillar_pages[] = array(
-		'ID'        => $pillar_id,
-		'permalink' => get_permalink( $pillar_id ),
-		'title'     => get_the_title( $pillar_id ),
-		'excerpt'   => get_the_excerpt( $pillar_id ),
-		'thumbnail' => get_image_data( $thumbnail_id, 'archive_post' ),
-	);
+foreach ( $pillars_query->posts as $pillar_id ) {
+	if ( ! isset( $listed[ $pillar_id ] ) ) {
+		$pillar_pages[] = fh_guide_card( $pillar_id );
+	}
 }
 
 $context['guides_index'] = array(

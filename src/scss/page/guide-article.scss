@@ -474,3 +474,36 @@
     }
   }
 }
+
+.c-guide-card__links {
+  margin: 0 rem(20) rem(20);
+  padding-top: rem(14);
+  border-top: 1px solid #eee;
+
+  .c-guide-card__links-label {
+    margin-bottom: rem(8);
+    color: #9b9b9b;
+    font-size: rem(13);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+
+  ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  li {
+    margin-bottom: rem(8);
+    font-size: rem(15);
+    line-height: 1.45;
+  }
+
+  a {
+    color: #323232;
+    text-decoration: underline;
+    text-decoration-color: $primary;
+    text-underline-offset: 3px;
+  }
+}

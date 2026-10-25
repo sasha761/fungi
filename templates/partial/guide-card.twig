@@ -29,4 +29,15 @@
 	{% if guide_item.excerpt %}
 		<p class="c-guide-card__excerpt">{{ guide_item.excerpt|e }}</p>
 	{% endif %}
+
+	{% if guide_item.links %}
+		<div class="c-guide-card__links">
+			<p class="c-guide-card__links-label">{{ guide_item.links_label|e }}</p>
+			<ul>
+				{% for link in guide_item.links %}
+					<li><a href="{{ link.url|e('html_attr') }}">{{ link.title|e }}</a></li>
+				{% endfor %}
+			</ul>
+		</div>
+	{% endif %}
 </article>
