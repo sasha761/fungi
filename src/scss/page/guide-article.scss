@@ -456,3 +456,21 @@
     }
   }
 }
+
+.p-pillar__header {
+  margin-bottom: rem(28);
+
+  .p-pillar__image {
+    display: block;
+    margin-top: rem(8);
+    overflow: hidden;
+    border-radius: 5px;
+
+    img {
+      display: block;
+      width: 100%;
+      height: auto;
+      margin: 0;
+    }
+  }
+}

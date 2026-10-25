@@ -5,6 +5,29 @@
 		<div class="u-container">
 			{{ breadcrumbs }}
 
+			<header class="p-pillar__header">
+				<h1 class="u-h1">{{ pillar.title|e }}</h1>
+				{% include 'templates/partial/trust-line.twig' with { 'trust': pillar.trust } %}
+
+				{% if pillar.thumbnail_xl or pillar.thumbnail_md %}
+					<picture class="p-single__image p-pillar__image">
+						{% if pillar.thumbnail_xl.webp %}
+							<source srcset="{{ pillar.thumbnail_xl.webp|e('html_attr') }}" media="(min-width: 520px)" type="image/webp">
+						{% endif %}
+						{% if pillar.thumbnail_md.webp %}
+							<source srcset="{{ pillar.thumbnail_md.webp|e('html_attr') }}" media="(max-width: 519px)" type="image/webp">
+						{% endif %}
+						<img
+							src="{{ (pillar.thumbnail_xl ?: pillar.thumbnail_md).url|e('html_attr') }}"
+							alt="{{ pillar.title|e('html_attr') }}"
+							width="{{ (pillar.thumbnail_xl ?: pillar.thumbnail_md).width|e('html_attr') }}"
+							height="{{ (pillar.thumbnail_xl ?: pillar.thumbnail_md).height|e('html_attr') }}"
+							fetchpriority="high"
+						>
+					</picture>
+				{% endif %}
+			</header>
+
 			<div class="p-single__flex p-pillar__layout{% if pillar.toc %} has-toc{% endif %}">
 				{% if pillar.toc %}
 					<aside class="p-pillar__aside">
@@ -13,7 +36,6 @@
 				{% endif %}
 
 				<article class="p-single__box">
-					<h1 class="u-h1">{{ pillar.title|e }}</h1>
 					<div class="p-single__content p-pillar__content">
 						{{ pillar.content|raw }}
 					</div>
