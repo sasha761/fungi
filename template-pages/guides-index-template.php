@@ -26,7 +26,7 @@ foreach ( fh_guide_map() as $guide_key => $guide ) {
 		static function ( $post_id ) {
 			return array(
 				'url'   => get_permalink( $post_id ),
-				'title' => wp_specialchars_decode( get_the_title( $post_id ), ENT_QUOTES ),
+				'title' => fh_plain_title( $post_id ),
 			);
 		},
 		array_slice( fh_guide_posts( $guide_key ), 0, 3 )
@@ -62,7 +62,7 @@ foreach ( $pillars_query->posts as $pillar_id ) {
 }
 
 $context['guides_index'] = array(
-	'title'   => get_the_title( $guides_index_id ),
+	'title'   => fh_plain_title( $guides_index_id ),
 	'content' => wp_kses_post( apply_filters( 'the_content', get_post_field( 'post_content', $guides_index_id ) ) ),
 );
 $context['pillar_pages'] = $pillar_pages;

@@ -39,7 +39,7 @@ foreach ( (array) $selected_posts as $selected_post ) {
 	$guide_items[] = array(
 		'ID'        => $selected_post_id,
 		'permalink' => get_permalink( $selected_post_id ),
-		'title'     => get_the_title( $selected_post_id ),
+		'title'     => fh_plain_title( $selected_post_id ),
 		'excerpt'   => $show_excerpt ? get_the_excerpt( $selected_post_id ) : '',
 		'thumbnail' => $thumbnail,
 	);

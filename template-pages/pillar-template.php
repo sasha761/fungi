@@ -29,7 +29,7 @@ if ( $guide_key ) {
 $pillar_content = wp_kses_post( apply_filters( 'the_content', get_post_field( 'post_content', $pillar_id ) ) );
 
 $context['pillar']          = array(
-	'title'        => get_the_title( $pillar_id ),
+	'title'        => fh_plain_title( $pillar_id ),
 	'trust'        => fh_article_trust( $pillar_id ),
 	'thumbnail_xl' => get_image_data( $thumbnail_id, 'single_post_desktop' ),
 	'thumbnail_md' => get_image_data( $thumbnail_id, 'single_post_phone' ),

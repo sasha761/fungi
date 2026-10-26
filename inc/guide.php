@@ -130,7 +130,22 @@ function fh_guide_key_by_post_categories( $post_id ) {
 }
 
 /**
+ * Return a post title as plain text for Twig, which escapes it with |e.
+ *
+ * get_the_title() is texturized HTML ("Lion&#8217;s"); printing it with |e would
+ * show the entity itself, and wp_specialchars_decode() leaves numeric entities.
+ *
+ * @param int|WP_Post $post Post ID or object.
+ * @return string
+ */
+function fh_plain_title( $post ) {
+	return html_entity_decode( get_the_title( $post ), ENT_QUOTES | ENT_HTML5, 'UTF-8' );
+}
+
+/**
  * Describe a published page for links and breadcrumbs.
+ *
+ * 'title' is plain text for Twig; 'crumb' stays HTML because Yoast prints breadcrumb text as is.
  *
  * @param int $page_id Page ID.
  * @return array|null
@@ -140,13 +155,12 @@ function fh_guide_page_link( $page_id ) {
 		return null;
 	}
 
-	$title       = get_the_title( $page_id );
 	$crumb_title = trim( (string) get_post_meta( $page_id, '_yoast_wpseo_bctitle', true ) );
 
 	return array(
 		'id'    => $page_id,
-		'title' => $title,
-		'crumb' => '' !== $crumb_title ? $crumb_title : $title,
+		'title' => fh_plain_title( $page_id ),
+		'crumb' => '' !== $crumb_title ? esc_html( $crumb_title ) : get_the_title( $page_id ),
 		'url'   => get_permalink( $page_id ),
 	);
 }
@@ -425,7 +439,7 @@ function fh_guide_card( $post_id ) {
 	return array(
 		'ID'        => $post_id,
 		'permalink' => get_permalink( $post_id ),
-		'title'     => wp_specialchars_decode( get_the_title( $post_id ), ENT_QUOTES ),
+		'title'     => fh_plain_title( $post_id ),
 		'excerpt'   => fh_guide_card_description( $post_id ),
 		'thumbnail' => get_image_data( get_post_thumbnail_id( $post_id ), 'archive_post' ),
 	);
@@ -534,7 +548,7 @@ function fh_guide_translated_link( $post_id, $type ) {
 	return array(
 		'id'    => $post_id,
 		'url'   => get_permalink( $post_id ),
-		'title' => wp_specialchars_decode( get_the_title( $post_id ), ENT_QUOTES ),
+		'title' => fh_plain_title( $post_id ),
 	);
 }
 
@@ -575,7 +589,7 @@ function fh_shop_category_guide( $term_id ) {
 		if ( $species_term instanceof WP_Term && $species_term->count ) {
 			$neighbours[] = array(
 				'url'   => get_term_link( $species_term ),
-				'title' => $species_term->name,
+				'title' => html_entity_decode( $species_term->name, ENT_QUOTES | ENT_HTML5, 'UTF-8' ),
 			);
 		}
 	}
