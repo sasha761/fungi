@@ -4,9 +4,36 @@ add_action('rest_api_init', function () {
   register_rest_route('custom/v1', '/summarize', [
     'methods' => 'POST',
     'callback' => 'generate_summary',
-    'permission_callback' => '__return_true', // Добавьте проверку безопасности при необходимости
+    // Only the site's own pages may call it, with a per-IP limit: each call is paid (OpenAI).
+    'permission_callback' => 'news_summarize_permission',
   ]);
 });
+
+/**
+ * The request must come from this site (Origin, or Referer when the browser sends no Origin),
+ * at most 10 summaries per hour per IP, and the text at most 100 000 characters.
+ */
+function news_summarize_permission(WP_REST_Request $request) {
+  $source = $request->get_header('origin') ?: $request->get_header('referer');
+  $host   = strtolower((string) wp_parse_url((string) $source, PHP_URL_HOST));
+  if ($host === '' || $host !== strtolower((string) wp_parse_url(home_url(), PHP_URL_HOST))) {
+    return new WP_Error('rest_forbidden', 'Forbidden', ['status' => 403]);
+  }
+
+  if (strlen((string) $request->get_param('text')) > 100000) {
+    return new WP_Error('rest_invalid_param', 'Text is too long', ['status' => 413]);
+  }
+
+  $ip    = isset($_SERVER['REMOTE_ADDR']) ? sanitize_text_field(wp_unslash($_SERVER['REMOTE_ADDR'])) : '';
+  $key   = 'news_summarize_' . md5($ip);
+  $count = (int) get_transient($key);
+  if ($count >= 10) {
+    return new WP_Error('rest_rate_limited', 'Too many requests, please try again later.', ['status' => 429]);
+  }
+  set_transient($key, $count + 1, HOUR_IN_SECONDS);
+
+  return true;
+}
 
 function generate_summary(WP_REST_Request $request) {
   $api_key = GPT_TOKEN; 

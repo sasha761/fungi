@@ -17,18 +17,13 @@
       <div class="u-col is-fourth">
         <h4 class="u-h4">{{ 'Join Our Newsletter' | translateString('Footer - Join Our Newsletter') }}</h4>
         <form class="c-subscribe">
-          <input type="text" placeholder="Enter Your Email">
+          <input type="email" placeholder="{{ 'Enter Your Email' | translateString('Footer - email placeholder') }}" aria-label="{{ 'Email' | translateString('Input - Email') }}">
           <button type="submit" class="u-btn is-black">{{ 'Subscribe now' | translateString('Button - Subscribe now') }}</button>
         </form>
         <p>*{{ 'You may withdraw your consent at any time!' | translateString('Footer - noties under subscribe') }}</p>
         <div class="c-attention">
-          {% if current_lang == 'ru' %}
-            <span class="is-red">Внимание!</span>  Мы не продаем и не продвигаем наркотики или незаконные вещества. Вся продукция, представленная на сайте, не содержит наркотических веществ, не вызывает зависимости и не является лекарственным средством.
-          {% elseif current_lang == 'uk' %}
-            <span class="is-red">Увага!</span>  Ми не продаємо і не просуваємо наркотики чи незаконні речовини. Уся продукція, представлена на сайті, не містить наркотичних речовин, не викликає залежності та не є лікарським засобом.
-          {% else %}
-            <span class="is-red">Attention!</span> We do not sell or promote drugs or illegal substances. All products presented on the website do not contain narcotic substances, do not cause addiction, and are not medicinal products.
-          {% endif %}
+          <span class="is-red">{{ 'Attention!' | translateString('Footer - Attention') }}</span>
+          {{ 'We do not sell or promote drugs or illegal substances. All products presented on the website do not contain narcotic substances, do not cause addiction, and are not medicinal products.' | translateString('Footer - legal notice') }}
         </div>
 
       </div>  
@@ -37,4 +32,4 @@
       <p class="c-copyright">Copyright © {{ 'now' | date('Y') }}  <span class="is-yellow">Fungi Harmony.</span></p>
     </div>
   </div>
-</footer> 
+</footer>

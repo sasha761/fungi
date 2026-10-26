@@ -13,13 +13,21 @@
       <div class="u-container">
         {{ breadcrumbs }}
         <h1 class="u-h1">{{ data.title }}</h1>
+        {% include 'templates/partial/trust-line.twig' with { 'trust': data.trust } %}
+
+        {% if data.parent_pillar %}
+          <div class="c-guide-link">
+            <span>{{ data.part_of_guide_label }}</span>
+            <a href="{{ data.parent_pillar.url|e('html_attr') }}">{{ data.parent_pillar.title|e }}</a>
+          </div>
+        {% endif %}
 
         {% if data.if_attention %}
           <div class="c-inform is-red">
             {% if current_lang == 'ru' %}
-              <span class="is-red">Внимание!</span>  Эта статья предоставлена исключительно в информационных целях. Мы не продаем и не продвигаем наркотики или незаконные вещества.</div>
+              <span class="is-red">Внимание!</span>  Эта статья предоставлена исключительно в информационных целях. Мы не продаем и не продвигаем наркотики или незаконные вещества.
             {% elseif current_lang == 'uk' %}
-              <span class="is-red">Увага!</span>  Ця стаття надана виключно в інформаційних цілях. Ми не продаємо і не просуваємо наркотики чи незаконні речовини.</div>
+              <span class="is-red">Увага!</span>  Ця стаття надана виключно в інформаційних цілях. Ми не продаємо і не просуваємо наркотики чи незаконні речовини.
             {% else %}
               <span class="is-red">Attention!</span> This article is provided for informational purposes only. We do not sell or promote drugs or illegal substances.
           {% endif %}
@@ -50,16 +58,25 @@
 
             <div class="p-single__info">
               <div class="p-single__info-left">
-                <span class="c-date">{{ data.date }}</span>
-                <a href="{{data.author_link}}" class="c-author">{{data.author_name}}</a>
+                <span class="p-single__views" aria-label="{{ ui.article_views|e('html_attr') }}">
+                  <svg class="h-4 w-4 text-orange-500" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                    <path d="M2.25 12s3.5-6.5 9.75-6.5S21.75 12 21.75 12 18.25 18.5 12 18.5 2.25 12 2.25 12Z" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+                    <path d="M12 15.25a3.25 3.25 0 1 0 0-6.5 3.25 3.25 0 0 0 0 6.5Z" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+                  </svg>
+                  <span>{{ data.views | default(0) }}</span>
+                </span>
               </div>
               
-              <div class="c-likes" data-post-id="{{ data.ID }}">
-                <div class="c-likes__item c-likes__like" data-like-type="like">👍 <span>{{ data.post_likes.like | default(0) }}</span></div>
-                <div class="c-likes__item c-likes__fire" data-like-type="fire">🔥 <span>{{ data.post_likes.fire | default(0) }}</span></div>
-                <div class="c-likes__item c-likes__hart" data-like-type="heart">❤️ <span>{{ data.post_likes.heart | default(0) }}</span></div>
-                <div class="c-likes__item c-likes__swearing" data-like-type="swearing">🤬 <span>{{ data.post_likes.swearing | default(0) }}</span></div>
-                <div class="c-likes__item c-likes__clown" data-like-type="clown">🤡 <span>{{ data.post_likes.clown | default(0) }}</span></div>
+              {% set selectedReaction = data.selected_reaction | default('') %}
+              <div
+                class="c-likes js-post-reactions"
+                data-post-id="{{ data.ID }}"
+                data-endpoint="{{ reaction_endpoint }}"
+                data-nonce="{{ reaction_nonce }}"
+                data-selected-reaction="{{ selectedReaction }}"
+                aria-label="{{ ui.post_reactions|e('html_attr') }}"
+              >
+                <button class="c-likes__item c-likes__like {{ selectedReaction == 'like' ? 'selected is-selected' : '' }}" type="button" data-like-type="like" aria-label="{{ ui.reaction_like|e('html_attr') }}" aria-pressed="{{ selectedReaction == 'like' ? 'true' : 'false' }}">👍 <span data-reaction-count>{{ data.post_likes.like | default(0) }}</span></button>
               </div>
             </div>
             <div class="p-single__content-controller js-buttons-container">
@@ -76,9 +93,9 @@
                 </svg>
                 <p>{{ 'For a quicker read, use AI tool to summarize it to your preferred size' | translateString('Strings - AI tool to summarize') }}</p>
               </div>
-              <button class="u-btn is-orange is-small d-none" data-summary="original">Original</button>
-              <button class="u-btn is-orange is-small" data-summary="short">Short</button>
-              <button class="u-btn is-orange is-small" data-summary="medium">Medium</button>
+              <button class="u-btn is-orange is-small d-none" data-summary="original">{{ ui.summary_original|e }}</button>
+              <button class="u-btn is-orange is-small" data-summary="short">{{ ui.summary_short|e }}</button>
+              <button class="u-btn is-orange is-small" data-summary="medium">{{ ui.summary_medium|e }}</button>
             </div>
             
             <div class="p-single__content js-article-content">
@@ -93,11 +110,19 @@
               {% include 'templates/partial/social.twig' with {'share': true} %}
             </div>
 
+            {% if data.author_box %}
+              {% include 'templates/partial/author-box.twig' with { 'author': data.author_box } %}
+            {% endif %}
+
+            {% if data.guide_nav %}
+              {% include 'templates/partial/guide-nav.twig' with { 'items': data.guide_nav } %}
+            {% endif %}
+
             {% include 'templates/partial/comments.twig' with {
               'comments': data.comments,
               'total_comments': data.total_comments,
               'stars': false,
-              'post_id': data.main_post_id
+              'post_id': data.ID
             } %}
             
           </div>
@@ -106,6 +131,21 @@
       </div>
     </section>  
 
+    {% if guide_more %}
+    <section class="l-related c-guide-more" aria-labelledby="guide-more-heading">
+      <div class="u-container">
+        <h2 id="guide-more-heading" class="u-h2">{{ ui.guide_more|e }}</h2>
+        <div class="c-guide-more__grid">
+          {% for guide_item in guide_more %}
+            {% include 'templates/partial/guide-card.twig' with { 'guide_item': guide_item, 'heading_level': 3 } %}
+          {% endfor %}
+        </div>
+        <p class="c-guide-more__all">
+          {{ ui.guide_all|e }} <a href="{{ data.parent_pillar.url|e('html_attr') }}">{{ data.parent_pillar.title|e }}</a>
+        </p>
+      </div>
+    </section>
+    {% else %}
     <section class="l-related js-slider-container">
       <div class="u-container">
         <h2 class="u-h2">{{ 'Related Posts' | translateString('Strings - related Posts') }}</h2>
@@ -131,8 +171,9 @@
         </div> 
         {% if related|length > 3 %}
           {% include 'templates/partial/arrow.twig' %}
-        {% endif %} 
+        {% endif %}
       </div>
     </section>
+    {% endif %}
   </main>
 {% endblock %}

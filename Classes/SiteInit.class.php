@@ -49,19 +49,22 @@ class BrandedSite extends Site {
   }
 
   public function enqueue_scripts() {
-    $current_lang = 'en';
-    if ( defined('ICL_LANGUAGE_CODE') && ICL_LANGUAGE_CODE ) {
-      $current_lang = sanitize_text_field( ICL_LANGUAGE_CODE );
-    }
-
+    $current_lang = news_get_current_language();
     $ajax_url_with_lang = add_query_arg('lang', $current_lang, admin_url('admin-ajax.php'));
 
 
     wp_enqueue_script( 'pure-js', get_template_directory_uri() . '/dist/js/main.js', array(), _S_VERSION, true );
     wp_localize_script( 'pure-js', 'ajax', array(
       'url' => $ajax_url_with_lang,
+      'restUrl' => esc_url_raw( rest_url( 'custom/v1/handle_like' ) ),
+      'restNonce' => wp_create_nonce( 'wp_rest' ),
       'cartCount' => WC()->cart->get_cart_contents_count(),
       'lang' => $current_lang,
+      'labels' => array(
+        'quantity'       => news_translate_string( 'Quantity', 'Cart - Quantity' ),
+        'ratingRequired' => news_translate_string( 'Please select a rating!', 'Comments - Rating required' ),
+        'summaryError'   => __( 'Could not get the summary. Please try again later.', 'news' ),
+      ),
     ));
 
     add_filter("script_loader_tag", "add_module_to_my_script", 10, 3);
@@ -83,10 +86,13 @@ class BrandedSite extends Site {
     $context['is_mobile']          = wp_is_mobile();
     $context['shop_url']           = wc_get_page_permalink( 'shop' );
     $context['minicart']           = get_cart_info();
-    $context['options']            = get_fields('option');
+    $context['options']            = news_translate_theme_options( get_fields('option') );
+    $context['current_lang']       = news_get_current_language();
+    $context['html_lang']          = news_get_html_language();
+    $context['ui']                 = news_ui_labels();
+    $context['ajax_url']           = add_query_arg( 'lang', $context['current_lang'], admin_url( 'admin-ajax.php' ) );
     
     if ( function_exists( 'icl_get_languages' ) ) {
-      $context['current_lang']      = ICL_LANGUAGE_CODE;
       $context['language_code']     = icl_get_languages();
     }
     
@@ -119,7 +125,7 @@ class BrandedSite extends Site {
   }
   
   public function translateString( $string, $name ) {
-    return apply_filters( 'wpml_translate_single_string', $string, 'fungi', $name );
+    return news_translate_string( $string, $name );
   }
 }
 

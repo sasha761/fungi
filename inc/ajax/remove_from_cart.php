@@ -1,11 +1,11 @@
 <?php
 function remove_from_cart_handler() {
   if (!isset($_POST['cart_item_key'])) {
-    wp_send_json_error('Invalid cart item key');
+    wp_send_json_error(news_translate_string('Invalid cart item.', 'AJAX - Invalid cart item'));
     return;
   }
 
-  $cart_item_key = sanitize_text_field($_POST['cart_item_key']);
+  $cart_item_key = sanitize_text_field(wp_unslash($_POST['cart_item_key']));
 
   if (WC()->cart->get_cart_item($cart_item_key)) {
     WC()->cart->remove_cart_item($cart_item_key);
@@ -18,7 +18,7 @@ function remove_from_cart_handler() {
       'total' => $cart_info['total'], 
     ]);
   } else {
-    wp_send_json_error('Failed to remove product from cart');
+    wp_send_json_error(news_translate_string('Could not remove the product from the cart.', 'AJAX - Remove from cart failed'));
   }
 }
 

@@ -1,7 +1,7 @@
 <?php
 function add_to_cart_handler() {
   if (!isset($_POST['product_id'])) {
-    wp_send_json_error('Invalid product ID');
+    wp_send_json_error(news_translate_string('Invalid product.', 'AJAX - Invalid product'));
     return;
   }
 
@@ -19,7 +19,7 @@ function add_to_cart_handler() {
       'total' => $cart_info['total'], 
     ]);
   } else {
-    wp_send_json_error('Failed to add product to cart');
+    wp_send_json_error(news_translate_string('Could not add the product to the cart.', 'AJAX - Add to cart failed'));
   }
 }
 

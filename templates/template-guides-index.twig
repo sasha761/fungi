@@ -1,0 +1,34 @@
+{% extends "base.twig" %}
+
+{% block content %}
+	<main class="p-single p-guides-index">
+		<div class="u-container">
+			{{ breadcrumbs }}
+
+			<div class="p-single__flex">
+				<article class="p-single__box">
+					<h1 id="guides-index-title" class="u-h1">{{ guides_index.title|e }}</h1>
+
+					{% if guides_index.content %}
+						<div class="p-single__content p-guides-index__intro">
+							{{ guides_index.content|raw }}
+						</div>
+					{% endif %}
+
+					{% if pillar_pages %}
+						<section class="p-guides-index__list" aria-labelledby="guides-index-title">
+							<div class="p-guides-index__grid">
+								{% for pillar_page in pillar_pages %}
+									{% include 'templates/partial/guide-card.twig' with {
+										'guide_item': pillar_page,
+										'heading_level': 2
+									} %}
+								{% endfor %}
+							</div>
+						</section>
+					{% endif %}
+				</article>
+			</div>
+		</div>
+	</main>
+{% endblock %}

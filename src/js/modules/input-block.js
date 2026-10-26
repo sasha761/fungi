@@ -2,7 +2,7 @@ export default () => {
   const inputBlocks = document.querySelectorAll('.js-input-block');
 
   inputBlocks.forEach(block => {
-    const input = block.querySelector('input'); 
+    const input = block.querySelector('input:not([type="hidden"]), textarea');
     const label = block.querySelector('label');
 
     if (input) {
@@ -26,7 +26,7 @@ export default () => {
 
   document.addEventListener('click', (event) => {
     inputBlocks.forEach(block => {
-      const input = block.querySelector('input');
+      const input = block.querySelector('input:not([type="hidden"]), textarea');
       if (input && !block.contains(event.target) && !input.value.trim()) {
         block.classList.remove('is-active');
       }

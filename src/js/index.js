@@ -98,27 +98,16 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 async function singlePage() {
-  const formSelector = document.querySelector('.c-comment-form');
+  const formSelector = document.querySelector('.js-comment-form');
   const swiperModule = await import('./modules/swiper.js');
 
-  const formValidator = await initValidation({
-    formSelector: ".c-comment-form",
+  await initValidation({
+    formSelector: formSelector,
     validateFields: {
       'name': '.c-comment-form [name="author"]',
       'email': '.c-comment-form [name="email"]',
+      'text': '.c-comment-form [name="comment"]',
       'submit': '.c-comment-form button[name="comment_submit"]',
-    }
-  });
-
-  submitFormData({
-    formElement: formSelector,
-    formValidation: formValidator,
-    onSuccess: () => { 
-      document.querySelector('[data-modal="#successful"]').click();
-      formSelector.reset();
-    },
-    onError: () => {
-      document.querySelector('[data-modal="#error"]').click();
     }
   });
 
@@ -136,7 +125,7 @@ async function contactUsPage() {
   
   // contact us form
   const contactUsFormValidator = await initValidation({
-    formSelector: ".js-contact-us-form",
+    formSelector: contactUsFormSelector,
     itiPhone: itiPhone,
     validateFields: {
       'name': '.js-contact-us-form input[name="name"]',
@@ -177,7 +166,7 @@ async function contactUsPage() {
 
   // callback form
   const callbackFormValidator = await initValidation({
-    formSelector: ".js-callback-form",
+    formSelector: callbackFormSelector,
     itiPhone: itiPhoneCallback,
     validateFields: {
       'phone': '.js-callback-form input[name="phone"]',
@@ -203,28 +192,30 @@ async function productPage() {
     swiperModule, 
     lightboxModule,
     ratingModule,
-    validation
   ] = await Promise.all([
     import('./modules/swiper.js'),
     import('./modules/lightbox.js'),
     import('./modules/rating-stars.js'),
-    import('./modules/validation.js')
   ]);
   swiperModule.initProductRowSlider();
   swiperModule.initProductGallerySlider();
   ratingModule.initRatingModule({
     reviewRatingRequired: true,
-    requiredRatingText: 'Не забудьте выбрать оценку!',
+    requiredRatingText: window.ajax?.labels?.ratingRequired || 'Please select a rating!',
   });
 
-  const formValidator = new validation.default();
+  const formSelector = document.querySelector('.js-comment-form');
 
-  if (document.querySelector(".c-comment-form")) {
-    formValidator.validate('firstName', '.c-comment-form [name="author"]');
-    formValidator.validate('email', '.c-comment-form [name="email"]');
-    // formValidator.validate('text', '.c-comment-form [name="comment"]');
-    formValidator.validate('submit', '.c-comment-form button[name="comment_submit"]');
-  }
+  await initValidation({
+    formSelector: formSelector,
+    validateFields: {
+      'name': '.c-comment-form [name="author"]',
+      'email': '.c-comment-form [name="email"]',
+      'text': '.c-comment-form [name="comment"]',
+      'submit': '.c-comment-form button[name="comment_submit"]',
+    }
+  });
+
 
   new lightboxModule.default('.js-lightbox', '.js-lightbox-modal');
 }
@@ -242,19 +233,20 @@ async function initCartScripts() {
   new niceSelect('select[name="contacts_client_messenger"]');
 
   const itiPhone = await initPhone('.js-quick-buy-form input[name="phone"]');
+
+  const formSelector = document.querySelector('.js-quick-buy-form');
   const validationCart = await initValidation({
-    formSelector: ".js-quick-buy-form",
+    formSelector: formSelector,
     itiPhone: itiPhone,
     validateFields: {
       'name': '.js-quick-buy-form [name="name"]',
       'email': '.js-quick-buy-form [name="email"]',
       'phone': '.js-quick-buy-form input[name="phone"]',
-      'text': '.js-quick-buy-form [name="contactInfo"]',
+      // 'text': '.js-quick-buy-form [name="contactInfo"]',
       'submit': '.js-quick-buy-form .js-submit-btn',
     }
   });
 
-  const formSelector = document.querySelector('.js-quick-buy-form');
   submitFormData({
     formElement: formSelector,
     formValidation: validationCart,
@@ -312,7 +304,7 @@ async function initPhone(phoneSelector) {
 }
 
 async function initValidation({ formSelector, itiPhone = null, validateFields }) {
-  const form = document.querySelector(formSelector);
+  const form = formSelector;
   if (!form) return;
 
   const { default: Validation } = await import('./modules/validation.js');
@@ -324,7 +316,6 @@ async function initValidation({ formSelector, itiPhone = null, validateFields })
     } else {
       formValidator.validate(fieldType, selector);
     }
-    
   }
 
   return formValidator.getResults();

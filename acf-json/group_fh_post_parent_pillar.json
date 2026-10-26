@@ -1,0 +1,55 @@
+{
+    "key": "group_fh_post_parent_pillar",
+    "title": "Post: parent pillar guide",
+    "fields": [
+        {
+            "key": "field_fh_parent_pillar",
+            "label": "Parent pillar",
+            "name": "parent_pillar",
+            "aria-label": "",
+            "type": "post_object",
+            "instructions": "Select the pillar guide this post belongs to.",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "wpml_cf_preferences": 1,
+            "post_type": [
+                "page"
+            ],
+            "post_status": "",
+            "taxonomy": "",
+            "return_format": "object",
+            "multiple": 0,
+            "allow_null": 1,
+            "bidirectional": 1,
+            "bidirectional_target": [
+                "field_fh_cluster_posts"
+            ],
+            "ui": 1
+        }
+    ],
+    "location": [
+        [
+            {
+                "param": "post_type",
+                "operator": "==",
+                "value": "post"
+            }
+        ]
+    ],
+    "menu_order": 0,
+    "position": "normal",
+    "style": "default",
+    "label_placement": "top",
+    "instruction_placement": "label",
+    "hide_on_screen": "",
+    "active": true,
+    "description": "Pillar guide assigned to a blog post.",
+    "show_in_rest": 0,
+    "acfml_field_group_mode": "advanced",
+    "modified": 1786828486
+}

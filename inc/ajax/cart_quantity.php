@@ -4,7 +4,7 @@ function update_cart_quantity() {
   if (isset($_POST['product_id']) && isset($_POST['quantity'])) {
     $product_id = intval($_POST['product_id']);
     $quantity   = intval($_POST['quantity']);
-    $lang = sanitize_text_field($_POST['lang']);
+    $lang = isset($_POST['lang']) ? sanitize_key(wp_unslash($_POST['lang'])) : news_get_current_language();
 
     if ($quantity > 0) {
       $cart = WC()->cart;

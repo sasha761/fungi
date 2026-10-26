@@ -1,0 +1,116 @@
+{
+  "key": "group_fh_pillar_posts_grid_block",
+  "title": "Block: Pillar Posts Grid",
+  "fields": [
+    {
+      "key": "field_fh_pillar_posts_grid_section_title",
+      "label": "Section title",
+      "name": "section_title",
+      "aria-label": "",
+      "type": "text",
+      "instructions": "Optional heading displayed above the selected posts.",
+      "required": 0,
+      "conditional_logic": 0,
+      "wrapper": {
+        "width": "",
+        "class": "",
+        "id": ""
+      },
+      "default_value": "",
+      "maxlength": "",
+      "placeholder": "",
+      "prepend": "",
+      "append": ""
+    },
+    {
+      "key": "field_fh_pillar_posts_grid_selected_posts",
+      "label": "Selected posts",
+      "name": "selected_posts",
+      "aria-label": "",
+      "type": "relationship",
+      "instructions": "Select up to 12 posts or pages, then drag the selected items into the required order.",
+      "required": 1,
+      "conditional_logic": 0,
+      "wrapper": {
+        "width": "",
+        "class": "",
+        "id": ""
+      },
+      "post_type": [
+        "post",
+        "page"
+      ],
+      "post_status": "",
+      "taxonomy": "",
+      "filters": [
+        "search",
+        "post_type"
+      ],
+      "return_format": "object",
+      "min": "",
+      "max": 12,
+      "elements": "",
+      "bidirectional": 0,
+      "bidirectional_target": []
+    },
+    {
+      "key": "field_fh_pillar_posts_grid_show_image",
+      "label": "Show featured image",
+      "name": "show_image",
+      "aria-label": "",
+      "type": "true_false",
+      "instructions": "",
+      "required": 0,
+      "conditional_logic": 0,
+      "wrapper": {
+        "width": "50",
+        "class": "",
+        "id": ""
+      },
+      "message": "",
+      "default_value": 1,
+      "ui": 1,
+      "ui_on_text": "",
+      "ui_off_text": ""
+    },
+    {
+      "key": "field_fh_pillar_posts_grid_show_excerpt",
+      "label": "Show excerpt",
+      "name": "show_excerpt",
+      "aria-label": "",
+      "type": "true_false",
+      "instructions": "",
+      "required": 0,
+      "conditional_logic": 0,
+      "wrapper": {
+        "width": "50",
+        "class": "",
+        "id": ""
+      },
+      "message": "",
+      "default_value": 1,
+      "ui": 1,
+      "ui_on_text": "",
+      "ui_off_text": ""
+    }
+  ],
+  "location": [
+    [
+      {
+        "param": "block",
+        "operator": "==",
+        "value": "acf/pillar-posts-grid"
+      }
+    ]
+  ],
+  "menu_order": 0,
+  "position": "normal",
+  "style": "default",
+  "label_placement": "top",
+  "instruction_placement": "label",
+  "hide_on_screen": "",
+  "active": true,
+  "description": "Fields for the Pillar Posts Grid Gutenberg block.",
+  "show_in_rest": 0,
+  "modified": 1788220800
+}

@@ -1,5 +1,6 @@
 <?php
-function get_cart_info($lang = 'en'): array {
+function get_cart_info($lang = ''): array {
+  $lang = in_array($lang, ['en', 'ru', 'uk'], true) ? $lang : news_get_current_language();
   
   if (!WC()->cart) {
     return [

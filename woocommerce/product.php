@@ -5,7 +5,6 @@ $context = Timber::context();
 $post = get_post();
 $product = wc_get_product($post->ID);
 $product_id = $product->get_id();
-$main_product_id       = get_main_post_id( $product_id, $main_language_code );
 
 
 $thumbnail_id = get_post_thumbnail_id($product_id);
@@ -14,7 +13,12 @@ $images = [];
 
 
 
-$comments = get_all_language_comments( $main_product_id );
+$comments = get_comments(
+  [
+    'post_id' => $product_id,
+    'status'  => 'approve',
+  ]
+);
 $nested_comments = nest_comments( $comments );
 
 foreach ($images_ids as $image_id) {
@@ -26,7 +30,7 @@ foreach ($images_ids as $image_id) {
 
 $data = [
   'id' => $product_id,
-  'main_post_id'   => $main_product_id,
+  'main_post_id'   => $product_id,
   'product' => $product,
   'stock_status' => $product->get_stock_status(),
   'tags' => get_the_terms($product_id, 'product_tag'),

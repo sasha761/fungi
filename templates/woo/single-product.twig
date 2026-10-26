@@ -117,7 +117,7 @@
 
 									{% if data.tags %}
 										<div class="is-tags">
-											<b>Health goal:</b>
+											<b>{{ ui.health_goal|e }}</b>
 											{% for tag in data.tags %}
 												<a href="{{ function('get_term_link', tag) }}">{{ tag.name }}</a>
 												{% if not loop.last %},
@@ -128,7 +128,7 @@
 
 									{% if data.categories %}
 										<div class="is-categories">
-											<b>Category:</b>
+											<b>{{ ui.category|e }}</b>
 											{% for category in data.categories %}
 												<a href="{{ function('get_term_link', category) }}">{{ category.name }}</a>
 												{% if not loop.last %},
@@ -193,7 +193,7 @@
 										'comments': data.comments,
 										'total_comments': data.total_comments,
 										'stars': true,
-										'post_id': data.main_post_id
+										'post_id': data.id
 									} %}
 								</div>
 							</div>

@@ -4,6 +4,10 @@
   border-radius: 5px;
   border: 1px solid #E2E2E2;
 
+  &.invalid {
+    border: 1px solid #dc143c;
+  }
+
   &.is-half {
     max-width: 50%;
   }
@@ -81,6 +85,10 @@
     }
   }
 
+  .u-btn {
+    border-radius: 5px;
+  }
+
   label {
     position: absolute;
     top: 50%;
@@ -93,7 +101,8 @@
     background: white;
     transition: all 0.4s ease;
     cursor: text;
-    font-family: 'Inter';
+    font-family: 'Golos Text', sans-serif;
+    // font-family: 'Inter';
   }
 
   span {
@@ -111,7 +120,8 @@
     padding: rem(12) rem(12);
     box-sizing: border-box;
     font-size: rem(16);
-    font-family: 'Inter';
+    font-family: 'Golos Text', sans-serif;
+    // font-family: 'Inter';
     border-radius: 5px;
     border: none;
     outline: none;
@@ -130,16 +140,18 @@
     }
   }
 
-  input.invalid {
-    border: 1px solid crimson;
-  }
+  // input.invalid {
+  //   border: 1px solid crimson;
+  // }
 
   .error-msg {
     font-size: rem(11);
-    margin-top: 3px;
+    // margin-top: 3px;
     color: #dc143c;
     text-align: left;
     position: absolute;
+    margin: 0;
+    bottom: rem(-12);
   }
 
   @include mq('phone-large') {
@@ -147,4 +159,11 @@
       position: relative;
     }
   }
+}
+
+.error-msg {
+  font-size: rem(11);
+  margin-top: 3px;
+  color: #dc143c;
+  text-align: left;
 }

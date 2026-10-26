@@ -1,0 +1,582 @@
+// Article and guide elements: trust line, guide navigation, author box,
+// formatted content blocks and the table of contents.
+
+.c-trust-line {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: rem(4) rem(8);
+  margin: rem(-8) 0 rem(20);
+  color: #666;
+  font-size: rem(15);
+  line-height: 1.5;
+
+  a {
+    color: #323232;
+    font-weight: 600;
+    text-decoration: underline;
+    text-decoration-color: $primary;
+    text-underline-offset: 3px;
+  }
+
+  &__separator {
+    color: #9b9b9b;
+  }
+}
+
+.c-guide-nav {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: rem(16);
+  margin: rem(32) 0;
+
+  &__card {
+    display: flex;
+    gap: rem(14);
+    align-items: flex-start;
+    padding: rem(14);
+    border: 1px solid #e2e2e2;
+    border-radius: 5px;
+    background-color: #fff;
+    color: #323232;
+    text-decoration: none;
+    transition: border-color 0.2s ease;
+
+    &:hover,
+    &:focus-visible {
+      border-color: $primary;
+    }
+
+    &.is-next {
+      flex-direction: row-reverse;
+      text-align: right;
+    }
+  }
+
+  &__image {
+    flex: 0 0 rem(96);
+    aspect-ratio: 4 / 3;
+    overflow: hidden;
+    border-radius: 4px;
+
+    img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      margin: 0;
+      object-fit: cover;
+    }
+  }
+
+  &__body {
+    display: flex;
+    flex-direction: column;
+    gap: rem(4);
+    min-width: 0;
+  }
+
+  &__label {
+    color: #9b9b9b;
+    font-size: rem(13);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+
+  &__title {
+    font-size: rem(16);
+    font-weight: 600;
+    line-height: 1.35;
+  }
+
+  &__text {
+    display: -webkit-box;
+    overflow: hidden;
+    color: #666;
+    font-size: rem(14);
+    line-height: 1.5;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+  }
+
+  @include mq('tablet') {
+    grid-template-columns: 1fr;
+
+    &__card.is-next {
+      flex-direction: row;
+      text-align: left;
+    }
+
+    &__image {
+      flex-basis: rem(80);
+    }
+  }
+}
+
+.c-guide-more {
+  &__grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: rem(24);
+    margin-top: rem(24);
+  }
+
+  &__all {
+    margin-top: rem(24);
+    color: #666;
+    font-size: rem(16);
+
+    a {
+      color: #323232;
+      font-weight: 600;
+      text-decoration: underline;
+      text-decoration-color: $primary;
+      text-underline-offset: 3px;
+    }
+  }
+
+  .c-guide-card__excerpt {
+    display: -webkit-box;
+    overflow: hidden;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+  }
+
+  @include mq('tablet-medium') {
+    &__grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @include mq('tablet') {
+    &__grid {
+      grid-template-columns: 1fr;
+    }
+  }
+}
+
+.c-author-box {
+  display: flex;
+  gap: rem(20);
+  align-items: flex-start;
+  margin: rem(32) 0;
+  padding: rem(20);
+  border: 1px solid #e2e2e2;
+  border-radius: 5px;
+  background-color: #fff;
+
+  &__photo {
+    flex: 0 0 rem(88);
+
+    img {
+      display: block;
+      width: rem(88);
+      height: rem(88);
+      margin: 0;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+  }
+
+  &__body {
+    min-width: 0;
+
+    p {
+      margin: 0;
+    }
+  }
+
+  &__heading {
+    color: #9b9b9b;
+    font-size: rem(13);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+
+  &__name {
+    margin-top: rem(4) !important;
+    font-size: rem(18);
+    font-weight: 600;
+
+    a {
+      color: #323232;
+      text-decoration: none;
+    }
+  }
+
+  &__bio {
+    display: -webkit-box;
+    overflow: hidden;
+    margin-top: rem(8) !important;
+    color: #666;
+    font-size: rem(15);
+    line-height: 1.6;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+  }
+
+  &__links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: rem(8) rem(20);
+    margin-top: rem(12) !important;
+    font-size: rem(15);
+
+    a {
+      color: #323232;
+      font-weight: 600;
+      text-decoration: underline;
+      text-decoration-color: $primary;
+      text-underline-offset: 3px;
+    }
+  }
+
+  @include mq('phone-wide') {
+    flex-direction: column;
+  }
+}
+
+// Formatted content blocks (inc/content.php).
+.p-single__content {
+  .fh-keypoints {
+    margin: rem(8) 0 rem(28);
+    padding: rem(18) rem(22) rem(8);
+    border: 1px solid #f3d3a3;
+    border-left: 4px solid $primary;
+    border-radius: 5px;
+    background-color: #fff7ef;
+
+    .fh-keypoints__title {
+      margin-bottom: rem(8);
+      color: #323232;
+      font-size: rem(16);
+    }
+
+    ul,
+    ol {
+      color: #4a4a4a;
+    }
+  }
+
+  .fh-sources {
+    margin-top: rem(32);
+    padding-top: rem(20);
+    border-top: 1px solid #e2e2e2;
+
+    h2 {
+      font-size: rem(18);
+    }
+
+    ol,
+    ul {
+      padding-left: rem(4);
+      font-size: rem(13);
+      line-height: 1.6;
+      overflow-wrap: anywhere;
+    }
+
+    ol {
+      list-style: decimal;
+      list-style-position: inside;
+    }
+
+    li {
+      margin-bottom: rem(6);
+    }
+  }
+
+  .fh-disclaimer {
+    margin-top: rem(24);
+    padding-top: rem(16);
+    border-top: 1px solid #e2e2e2;
+    color: #8a8a8a;
+    font-size: rem(13);
+    font-style: italic;
+    line-height: 1.6;
+
+    em {
+      font-style: italic;
+    }
+  }
+
+  // Existing table styles (header, zebra) stay; the wrapper adds horizontal scrolling,
+  // also for tables that are not inside figure.wp-block-table.
+  .fh-table-scroll {
+    max-width: 100%;
+    margin: rem(30) 0;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+
+    > table,
+    > figure.wp-block-table {
+      margin: 0;
+    }
+
+    @include mq('tablet') {
+      table {
+        min-width: rem(560);
+      }
+    }
+  }
+
+  .fh-quote {
+    cite {
+      display: block;
+      margin-top: rem(12);
+      color: #666;
+      font-family: inherit;
+      font-size: rem(14);
+      font-style: normal;
+      font-weight: 400;
+      line-height: 1.5;
+    }
+  }
+
+  .fh-safety {
+    margin: rem(28) 0;
+    padding: rem(20) rem(22) rem(6);
+    border: 1px solid #f2c4bd;
+    border-left: 4px solid #d6453d;
+    border-radius: 5px;
+    background-color: #fff4f2;
+
+    h2 {
+      color: #9f2a23;
+    }
+  }
+
+  @include mq('tablet') {
+    .fh-keypoints,
+    .fh-safety {
+      padding-right: rem(14);
+      padding-left: rem(14);
+    }
+  }
+}
+
+// Table of contents (inc/content.php, partial/toc.twig).
+.fh-toc {
+  margin: rem(8) 0 rem(28);
+  border: 1px solid #e2e2e2;
+  border-radius: 5px;
+  background-color: #fff;
+
+  &__title {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: rem(14) rem(18);
+    color: #323232;
+    font-size: rem(16);
+    font-weight: 600;
+    list-style: none;
+    cursor: pointer;
+
+    &::-webkit-details-marker {
+      display: none;
+    }
+
+    &::after {
+      content: '';
+      width: rem(8);
+      height: rem(8);
+      margin-left: rem(12);
+      border-right: 2px solid $primary;
+      border-bottom: 2px solid $primary;
+      transform: rotate(45deg) translateY(-2px);
+      transition: transform 0.2s ease;
+    }
+  }
+
+  &__details[open] &__title::after {
+    transform: rotate(-135deg) translateY(-2px);
+  }
+
+  &__list {
+    margin: 0 !important;
+    padding: 0 rem(18) rem(14) rem(36) !important;
+    list-style: decimal !important;
+    list-style-position: outside !important;
+    font-size: rem(15) !important;
+  }
+
+  &__item {
+    margin-bottom: rem(6) !important;
+    line-height: 1.45;
+
+    a {
+      color: #4a4a4a;
+      text-decoration: none;
+
+      &:hover,
+      &:focus-visible {
+        color: #000;
+        text-decoration: underline;
+        text-decoration-color: $primary;
+      }
+    }
+  }
+}
+
+.p-single__content h2[id] {
+  scroll-margin-top: rem(110);
+}
+
+.p-pillar__layout.has-toc {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) rem(300);
+  gap: rem(32);
+  align-items: start;
+
+  > .p-pillar__aside {
+    grid-column: 2;
+    grid-row: 1;
+    align-self: stretch;
+  }
+
+  > .p-single__box {
+    grid-column: 1;
+    grid-row: 1;
+  }
+
+  .fh-toc.is-sticky {
+    position: sticky;
+    top: rem(110);
+    max-height: calc(100vh - #{rem(130)});
+    margin-top: 0;
+    overflow-y: auto;
+  }
+
+  @include mq('tablet-wide') {
+    display: block;
+
+    .fh-toc.is-sticky {
+      position: static;
+      max-height: none;
+      margin-bottom: rem(20);
+    }
+  }
+}
+
+.p-pillar__header {
+  margin-bottom: rem(28);
+
+  .p-pillar__image {
+    display: block;
+    margin-top: rem(8);
+    overflow: hidden;
+    border-radius: 5px;
+
+    img {
+      display: block;
+      width: 100%;
+      height: auto;
+      margin: 0;
+    }
+  }
+}
+
+.c-guide-card__links {
+  margin: 0 rem(20) rem(20);
+  padding-top: rem(14);
+  border-top: 1px solid #eee;
+
+  .c-guide-card__links-label {
+    margin-bottom: rem(8);
+    color: #9b9b9b;
+    font-size: rem(13);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+
+  ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  li {
+    margin-bottom: rem(8);
+    font-size: rem(15);
+    line-height: 1.45;
+  }
+
+  a {
+    color: #323232;
+    text-decoration: underline;
+    text-decoration-color: $primary;
+    text-underline-offset: 3px;
+  }
+}
+
+.c-guide-card__label {
+  margin: rem(18) rem(20) 0;
+  color: #9b9b9b;
+  font-size: rem(13);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+
+  + .c-guide-card__title {
+    margin-top: rem(6);
+  }
+}
+
+// Product category: intro above the products, guide blocks under the grid.
+.l-shop {
+  &__intro {
+    max-width: 72ch;
+    margin: rem(-8) 0 rem(24);
+
+    p {
+      margin-bottom: 0;
+    }
+  }
+
+  &__guides {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: rem(24);
+    margin-top: rem(32);
+
+    @include mq('tablet') {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  &__safety {
+    margin-top: rem(32);
+    padding: rem(18) rem(22);
+    border: 1px solid #f2c4bd;
+    border-left: 4px solid #d6453d;
+    border-radius: 5px;
+    background-color: #fff4f2;
+    color: #4a4a4a;
+    font-size: rem(15);
+    line-height: 1.7;
+
+    p {
+      margin: 0 0 rem(10);
+    }
+  }
+
+  &__safety-title {
+    color: #9f2a23;
+    font-size: rem(18);
+    font-weight: 600;
+  }
+
+  &__safety-links a,
+  &__neighbours a {
+    color: #323232;
+    font-weight: 600;
+    text-decoration: underline;
+    text-decoration-color: $primary;
+    text-underline-offset: 3px;
+  }
+
+  &__neighbours {
+    margin-top: rem(28);
+    color: #666;
+    font-size: rem(15);
+    line-height: 1.8;
+  }
+}

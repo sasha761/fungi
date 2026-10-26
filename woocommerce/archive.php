@@ -52,13 +52,36 @@ if (!empty($query_params['orderby'])) {
 
 $paged = get_query_var('paged') ? get_query_var('paged') : 1;
 
-$context['products'] = get_products([
+$product_args = [
   'paged' => $paged, 
   'orderby' => $orderby, 
   'order' => $order, 
   'meta_key' => $meta_key, 
   'posts_per_page' => 21
-]);
+];
+
+if (is_product_category()) {
+  $term_id = get_queried_object_id();
+  $product_args['tax_query'] = [
+    [
+      'taxonomy' => 'product_cat',
+      'field' => 'term_id',
+      'terms' => [$term_id],
+    ],
+  ];
+  $description = wp_kses_post(term_description($term_id, 'product_cat'));
+
+  // The first paragraph of the category text is the intro above the products; the rest stays under the grid.
+  if (preg_match('~^\s*(<p\b[^>]*>.*?</p>)~s', $description, $intro)) {
+    $context['intro'] = $intro[1];
+    $description      = substr($description, strlen($intro[0]));
+  }
+
+  $context['description']    = trim($description) !== '' ? $description : '';
+  $context['category_guide'] = fh_shop_category_guide($term_id);
+}
+
+$context['products'] = get_products($product_args);
 $context['product_tags'] = get_taxonomy_data([
 	'taxonomy'   => 'product_tag',
   'hide_empty' => false, 
@@ -81,44 +104,8 @@ $title = woocommerce_page_title($echo = false);
 // }
 
 
-if ( is_product_category() || is_shop() || is_tax() ) {
-  $query_url = $_SERVER['QUERY_STRING'];
-  // $term_id = get_queried_object()->term_id;
-
-
-  if ($query_url == '') {
-    // $context['description'] = term_description( $term_id );
-    $context['title'] = $title;
-  } else {
-    $url = $_SERVER['HTTP_REFERER'];
-    parse_str($query_url, $output);
-
-    $title_variable = '';
-
-    switch(!empty($output['orderby'])){
-      case 'default':
-          break;
-      case 'popularity':  
-          $title_variable .= '| Популярные';
-          break;
-      case 'price':
-          $title_variable .= '| Цены по возрастанию';
-          break;
-      case 'price-desc':
-          $title_variable .= '| Цены по убыванию';
-          break;
-      case 'date':
-          $title_variable .= '| Новые';
-          break;
-      case 'rating':
-          $title_variable .= '| Рейтинговые';
-          break;
-      default:   
-    }
-
-    $context['title'] = $title . '. ' . $title_variable;
-  }
-}
+// The H1 is the archive title only: any query string (utm, fbclid, orderby) used to add ". " to it.
+$context['title'] = $title;
 
 
 Timber::render( 'templates/woo/archive.twig', $context );

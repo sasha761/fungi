@@ -1,0 +1,31 @@
+<aside class="c-author-box" aria-labelledby="author-box-heading">
+	{% if author.photo %}
+		<picture class="c-author-box__photo">
+			{% if author.photo.webp %}
+				<source srcset="{{ author.photo.webp|e('html_attr') }}" type="image/webp">
+			{% endif %}
+			<img
+				src="{{ author.photo.url|e('html_attr') }}"
+				alt="{{ author.name|e('html_attr') }}"
+				width="{{ author.photo.width|e('html_attr') }}"
+				height="{{ author.photo.height|e('html_attr') }}"
+				loading="lazy"
+			>
+		</picture>
+	{% endif %}
+	<div class="c-author-box__body">
+		<p id="author-box-heading" class="c-author-box__heading">{{ author.heading|e }}</p>
+		<p class="c-author-box__name">
+			<a href="{{ author.profile_url|e('html_attr') }}" rel="author">{{ author.name|e }}</a>
+		</p>
+		{% if author.bio %}
+			<p class="c-author-box__bio">{{ author.bio|e }}</p>
+		{% endif %}
+		<p class="c-author-box__links">
+			<a href="{{ author.profile_url|e('html_attr') }}">{{ author.profile_text|e }}</a>
+			{% if author.policy_url %}
+				<a href="{{ author.policy_url|e('html_attr') }}">{{ author.policy_text|e }}</a>
+			{% endif %}
+		</p>
+	</div>
+</aside>

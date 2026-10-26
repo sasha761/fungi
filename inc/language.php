@@ -126,6 +126,8 @@ do_action( $action_tag, $domain, 'Page 404 - Use the search', 'Use the search' )
 
 // Comments
 do_action( $action_tag, $domain, 'Comments - Write a review', 'Write a review' );
+do_action( $action_tag, $domain, 'Comments - Write a comment', 'Write a comment' );
+do_action( $action_tag, $domain, 'Comments - Comments', 'Comments' );
 do_action( $action_tag, $domain, 'Comments - Notification', 'Your email will not be published. * Marker for mandatory fields' );
 do_action( $action_tag, $domain, 'Comments - Name', 'Name' );
 do_action( $action_tag, $domain, 'Comments - Evaluation', 'Evaluation' );

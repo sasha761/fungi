@@ -1,81 +1,140 @@
-export default () => {
-  document.querySelectorAll('.c-likes__item').forEach(function(item) {
-    item.addEventListener('click', function() {
-      
-    // Получаем текущее значение лайков
-    let currentCount = parseInt(this.querySelector('span').textContent);
-    let selectedItem = this;
-    
-    // Проверка предыдущего выбора
-    let previouslySelected = document.querySelector('.c-likes__item.selected');
-    
-    if (previouslySelected) {
-      let previousCount = parseInt(previouslySelected.querySelector('span').textContent);
-      if (previouslySelected === selectedItem) {
-        // Убираем лайк, если кликнули повторно на ту же иконку
-        selectedItem.querySelector('span').textContent = currentCount - 1;
-        selectedItem.classList.remove('selected');
-      } else {
-        // Убираем лайк с предыдущей иконки
-        previouslySelected.querySelector('span').textContent = previousCount - 1;
-        previouslySelected.classList.remove('selected');
-        // Добавляем лайк на текущую иконку
-        selectedItem.querySelector('span').textContent = currentCount + 1;
-        selectedItem.classList.add('selected');
-      }
-    } else {
-      // Добавляем лайк, если ранее не было выбора
-      selectedItem.querySelector('span').textContent = currentCount + 1;
-      selectedItem.classList.add('selected');
+const countFormatter = new Intl.NumberFormat(document.documentElement.lang || undefined);
+
+const parseCount = (value) => {
+  const parsed = Number.parseInt(String(value).replace(/[^\d]/g, ''), 10);
+
+  return Number.isNaN(parsed) ? 0 : parsed;
+};
+
+const getCountElement = (button) =>
+  button.querySelector('[data-reaction-count]') || button.querySelector('span');
+
+const setButtonSelected = (button, isSelected) => {
+  button.classList.toggle('selected', isSelected);
+  button.classList.toggle('is-selected', isSelected);
+  button.setAttribute('aria-pressed', isSelected ? 'true' : 'false');
+};
+
+const setCount = (button, count) => {
+  const countElement = getCountElement(button);
+
+  if (!countElement) {
+    return;
+  }
+
+  countElement.textContent = countFormatter.format(Math.max(0, count));
+};
+
+const getCounts = (buttons) =>
+  buttons.reduce((counts, button) => {
+    const likeType = button.getAttribute('data-like-type');
+    const countElement = getCountElement(button);
+
+    if (likeType && countElement) {
+      counts[likeType] = parseCount(countElement.textContent);
     }
 
-      const postId = document.querySelector('.c-likes').getAttribute('data-post-id');
-      const likeType = this.getAttribute('data-like-type');
-      // const nonce = ajax.nonce;
-      // const data = new URLSearchParams();
-      // data.append('post_id', postId);
-      // data.append('like_type', likeType);
-      // data.append('nonce', nonce);
+    return counts;
+  }, {});
 
-      fetch('/wp-json/custom/v1/handle_like', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          'post_id': postId,
-          'like_type': likeType,
-          // 'nonce': nonce,
-        }),
-      })
-      .then(response => response.json())
-      .then(data => {
-        console.log(data);
-          if (data.success) {
-            // const likeCount = item.innerText + 1;
-            // item.innerText = parseInt(item.innerText) + 1;
-              // item.innerHTML = item.innerHTML.replace(/\d+$/, data.data.new_likes);
-          } else {
-            console.log(data.data);
+const applyState = (container, buttons, selectedReaction, counts) => {
+  buttons.forEach((button) => {
+    const likeType = button.getAttribute('data-like-type');
 
-            if (previouslySelected) {
-              let previousCount = parseInt(previouslySelected.querySelector('span').textContent);
-              previouslySelected.querySelector('span').textContent = previousCount + 1;
-              previouslySelected.classList.add('selected');
-            }
-            selectedItem.querySelector('span').textContent = currentCount;
-            selectedItem.classList.remove('selected');
-          }
-      })
-      .catch(error => {
-        console.error('Error:', error)
-        // Восстановление предыдущего состояния в случае ошибки
-        if (previouslySelected) {
-          let previousCount = parseInt(previouslySelected.querySelector('span').textContent);
-          previouslySelected.querySelector('span').textContent = previousCount + 1;
-          previouslySelected.classList.add('selected');
+    if (!likeType) {
+      return;
+    }
+
+    setButtonSelected(button, likeType === selectedReaction);
+
+    if (Object.prototype.hasOwnProperty.call(counts, likeType)) {
+      setCount(button, counts[likeType]);
+    }
+  });
+
+  container.dataset.selectedReaction = selectedReaction || '';
+};
+
+const getOptimisticCounts = (buttons, previousReaction, nextReaction) => {
+  const counts = getCounts(buttons);
+
+  if (previousReaction && Object.prototype.hasOwnProperty.call(counts, previousReaction)) {
+    counts[previousReaction] = Math.max(0, counts[previousReaction] - 1);
+  }
+
+  if (nextReaction && Object.prototype.hasOwnProperty.call(counts, nextReaction)) {
+    counts[nextReaction] += 1;
+  }
+
+  return counts;
+};
+
+export default () => {
+  document.querySelectorAll('.c-likes[data-post-id]').forEach((container) => {
+    const buttons = Array.from(container.querySelectorAll('.c-likes__item[data-like-type]'));
+    const endpoint = container.getAttribute('data-endpoint') || window.ajax?.restUrl;
+    const nonce = container.getAttribute('data-nonce') || window.ajax?.restNonce;
+    const postId = container.getAttribute('data-post-id');
+
+    if (!buttons.length || !endpoint || !nonce || !postId) {
+      return;
+    }
+
+    let isPending = false;
+
+    buttons.forEach((button) => {
+      button.addEventListener('click', async () => {
+        if (isPending) {
+          return;
         }
-        selectedItem.querySelector('span').textContent = currentCount;
-        selectedItem.classList.remove('selected');
+
+        const likeType = button.getAttribute('data-like-type');
+
+        if (!likeType) {
+          return;
+        }
+
+        const previousReaction = container.dataset.selectedReaction || '';
+        const nextReaction = previousReaction === likeType ? '' : likeType;
+        const previousCounts = getCounts(buttons);
+
+        isPending = true;
+        container.classList.add('is-loading');
+        applyState(
+          container,
+          buttons,
+          nextReaction,
+          getOptimisticCounts(buttons, previousReaction, nextReaction),
+        );
+
+        try {
+          const response = await fetch(endpoint, {
+            method: 'POST',
+            credentials: 'same-origin',
+            headers: {
+              'Content-Type': 'application/json',
+              'X-WP-Nonce': nonce,
+            },
+            body: JSON.stringify({
+              post_id: postId,
+              like_type: likeType,
+            }),
+          });
+
+          const data = await response.json();
+
+          if (!response.ok || !data.success || !data.counts) {
+            throw new Error(data.message || 'Reaction request failed.');
+          }
+
+          applyState(container, buttons, data.selected_reaction || '', data.counts);
+        } catch (error) {
+          applyState(container, buttons, previousReaction, previousCounts);
+        } finally {
+          isPending = false;
+          container.classList.remove('is-loading');
+        }
       });
     });
   });
-}
+};

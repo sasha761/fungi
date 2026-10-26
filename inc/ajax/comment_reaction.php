@@ -13,7 +13,7 @@ function my_comment_reaction_ajax() {
   $action_type = isset( $_POST['action_type'] ) ? sanitize_text_field( $_POST['action_type'] ) : '';
 
   if ( ! $comment_id || ! in_array( $action_type, array( 'like', 'dislike' ) ) ) {
-      wp_send_json_error( 'Некорректные данные' );
+      wp_send_json_error( news_translate_string( 'Invalid data.', 'AJAX - Invalid data' ) );
   }
   
   /* 
@@ -21,7 +21,7 @@ function my_comment_reaction_ajax() {
   */
   $cookie_name = 'comment_voted_' . $comment_id;
   if ( isset( $_COOKIE[ $cookie_name ] ) ) {
-       wp_send_json_error( 'Вы уже проголосовали за этот отзыв' );
+       wp_send_json_error( news_translate_string( 'You have already voted on this review.', 'AJAX - Already voted' ) );
   }
 
   // Определяем ключ мета-данных для реакции

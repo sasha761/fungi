@@ -39,13 +39,13 @@
 {% endif %}
 {% if share == true %}
 <div class="c-social">
-  <span class="c-social__title">Share :</span>
-  <a class="c-social__item" href="https://www.facebook.com/sharer/sharer.php?u={{ post.link|e('url') }}&t={{ post.title|e('url') }}" title="Share on Facebook" target="_blank" rel="nofollow">
+  <span class="c-social__title">{{ 'Share' | translateString('Social - Share') }}:</span>
+  <a class="c-social__item" href="https://www.facebook.com/sharer/sharer.php?u={{ post.link|e('url') }}&t={{ post.title|e('url') }}" title="{{ 'Share on Facebook' | translateString('Social - Share on Facebook') }}" target="_blank" rel="nofollow">
     <svg width="14px" height="15px" class="is-facebook">
       <use xlink:href="#icon-facebook"></use>
     </svg>
   </a>
-  <a class="c-social__item" href="https://t.me/share/url?url={{ post.link|e('url') }}&text={{ post.title|e('url') }}" title="Share on Telegram" target="_blank" rel="nofollow">
+  <a class="c-social__item" href="https://t.me/share/url?url={{ post.link|e('url') }}&text={{ post.title|e('url') }}" title="{{ 'Share on Telegram' | translateString('Social - Share on Telegram') }}" target="_blank" rel="nofollow">
     <svg width="14px" height="15px" class="is-telegram">
       <use xlink:href="#icon-telegram"></use>
     </svg>
@@ -55,12 +55,12 @@
       <use xlink:href="#icon-whatsapp"></use>
     </svg>
   </a> #}
-  <a class="c-social__item" href="https://twitter.com/intent/tweet?text={{ post.title|e('url') }}&url={{ post.link|e('url') }}" target="_blank" title="Tweet" rel="nofollow">
+  <a class="c-social__item" href="https://twitter.com/intent/tweet?text={{ post.title|e('url') }}&url={{ post.link|e('url') }}" target="_blank" title="{{ ui.share_tweet|e('html_attr') }}" rel="nofollow">
     <svg width="14px" height="15px" class="is-twitter">
       <use xlink:href="#icon-twitter"></use>
     </svg>
   </a>
-  <a class="c-social__item" href="https://www.instagram.com/?url={{ post.link|e('url') }}" title="Share on Instagram" target="_blank" rel="nofollow">
+  <a class="c-social__item" href="https://www.instagram.com/?url={{ post.link|e('url') }}" title="{{ 'Share on Instagram' | translateString('Social - Share on Instagram') }}" target="_blank" rel="nofollow">
     <svg width="14px" height="15px" class="is-instagram">
       <use xlink:href="#icon-instagram"></use>
     </svg>

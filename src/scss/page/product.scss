@@ -7,20 +7,24 @@
 
   .l-comments {
     // margin-top: rem(60);
+    // .c-subscribe {
+    //   .c-input {
+    //     width: 100%;
+    //   }
+    // }
+    // .c-input {
+    //   width: 30%;
+    //   margin-right: rem(20);
+    //   // border: 0;
 
-    .c-input {
-      width: 30%;
-      margin-right: rem(20);
-      border: 0;
+    //   &:last-child {
+    //     margin-right: 0;
+    //   }
 
-      &:last-child {
-        margin-right: 0;
-      }
-
-      label {
-        background: #fff;
-      }
-    }
+    //   label {
+    //     background: #fff;
+    //   }
+    // }
   }
 
   .c-tab {
@@ -113,20 +117,5 @@
 
   @include mq('phone-large') {
     margin-top: 20px;
-
-    .l-comments {
-      // margin-top: rem(60);
-  
-      .c-input {
-        width: 100%;
-        margin-right: 0;
-        margin-bottom: 20px;
-        border: 0;
-  
-        &:last-child {
-          margin-bottom: 0;
-        }
-      }
-    }
   }
 }
